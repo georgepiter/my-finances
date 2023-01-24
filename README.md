@@ -1,21 +1,33 @@
-# My Finances
+# My Finances :moneybag: :handbag:
 
 Link [API](https://github.com/georgepiter/controlz).
 
-Este repositório contém o código desenvolvido na parte da UI.
+Project Frontend.
 
-## Requisitos
+## Technologies
+
+- [Node.js](https://nodejs.org/en/)
+- [React](https://pt-br.reactjs.org/)
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+
+## Requirements
 - [Nodejs](https://nodejs.org/en/download/).
 
-### Rodando
-> Entrar na pasta do projeto e executar: 
+## Run
 
-```sh 
-//instalando dependências 
-npm i 
+> using Git
 
+```sh
 
-// executando UI
+# Clone this repository
+git clone <https://github.com/karenyov/my-finances.git>
+
+# cmd in project file
+# install all dependencies
+npm install
+
+# run aplication
 npm run dev
 ```
 
