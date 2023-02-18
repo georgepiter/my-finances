@@ -8,6 +8,7 @@ import { getAllRegisterByUserId } from "@/services/register";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import Register from "./register";
 import { useToast } from "@chakra-ui/react";
+import Spinner from "@/components/Spinner";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -15,8 +16,10 @@ export default function Home() {
   const toast = useToast();
 
   const [isRegister, setIsRegister] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function loadRegister(userId: number) {
+    setIsLoading(true);
     try {
       const res = await getAllRegisterByUserId(userId);
 
@@ -35,6 +38,8 @@ export default function Home() {
         status: "error",
         isClosable: true,
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -54,12 +59,15 @@ export default function Home() {
   if (session)
     return (
       <>
-        {
-          session.user.role === "ROLE_ADMIN"?
-            <User />
-            :
-            (isRegister? <Dashboard/>: <Register/> )
-        }
+        {session.user.role === "ROLE_ADMIN" ? (
+          <User />
+        ) : isLoading ? (
+          <Spinner />
+        ) : isRegister ? (
+          <Dashboard />
+        ) : (
+          <Dashboard />
+        )}
       </>
     );
 };

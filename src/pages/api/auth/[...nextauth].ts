@@ -42,6 +42,7 @@ export default NextAuth({
   secret: process.env.JWT_SECRET,
   session: {
     strategy: "jwt",
+    redirects: true, // adicionado
   },
   jwt: {
     encode: ({ secret, token }) => {
@@ -62,19 +63,30 @@ export default NextAuth({
       if (!account?.providerAccountId) return false;
       return true;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token }) {
       if (token.sub) {
         return token;
       } else {
         throw new Error("Usuário inválido.");
       }
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       if (!token.sub) {
         throw new Error("Sessão inválida.");
       }
 
-      const decoded = jwt.decode(token.sub, "HS512");
+       const decoded = jwt.decode(token.sub, "HS512");
+      // const dateExp = new Date(decoded.exp);
+      // const dateNow = new Date();
+      // if (dateNow < dateExp) {
+      //   return { ...session, error: "TokenExpiredError" };
+      // }
+
+      // Redirecionar para a página de login se o token expirar
+      if (!token || (token as any).error === "TokenExpiredError") {
+        return { ...session, error: "TokenExpiredError" };
+      }
+
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
       session.user.role = decoded.role;
