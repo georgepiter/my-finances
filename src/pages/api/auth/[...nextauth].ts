@@ -81,14 +81,6 @@ export default NextAuth({
       //   return { ...session, error: "TokenExpiredError" };
       // }
 
-      // Verifica se o token expirou
-      if (dateNow <= dateExp) {
-        return {
-          error: "token_expired",
-          redirect: "/signIn",
-        };
-      }
-
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
       session.user.role = decoded.role;
@@ -98,9 +90,9 @@ export default NextAuth({
       session.expires = decoded.exp;
       return { ...session, accessToken: token.sub };
     },
-    async redirect({ url, req }) {
+    async redirect({ url }) {
       if (url.includes("/signIn")) return "/";
-      if (!req) return "/signIn";
+      if (!url.includes("/")) return "/signIn";
       return url;
     },
   },
