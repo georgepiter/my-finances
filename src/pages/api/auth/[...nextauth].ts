@@ -42,7 +42,6 @@ export default NextAuth({
   secret: process.env.JWT_SECRET,
   session: {
     strategy: "jwt",
-    redirects: true, // adicionado
   },
   jwt: {
     encode: ({ secret, token }) => {
@@ -93,7 +92,7 @@ export default NextAuth({
       session.user.email = decoded.email;
       session.token = token.sub;
       session.nameApp = decoded.nameApp;
-      session.expiration = decoded.exp;
+      session.expires = decoded.exp;
       return { ...session, accessToken: token.sub };
     },
     async redirect({ url }) {

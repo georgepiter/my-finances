@@ -14,7 +14,7 @@ declare module "next-auth" {
   interface Session {
     user: UserSession;
     nameApp: string;
-    expiration: number;
+    expires: number;
     token: string;
   }
 }
