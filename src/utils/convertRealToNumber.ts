@@ -1,3 +1,3 @@
-export function convertRealToNumber(value) {
+export function convertRealToNumber(value: string) {
   return Number(value.replace(".", "").replace(",", ".").replace("R$ ", ""));
 }
