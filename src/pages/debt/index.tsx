@@ -137,7 +137,7 @@ export default function Debt() {
   const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
   const [fileRegister, setFileRegister] = useState<FileProps>({} as FileProps);
 
-  const cancelRef = useRef();
+  const cancelRef = useRef<HTMLInputElement>(null);
   const {
     control,
     handleSubmit,
@@ -282,7 +282,7 @@ export default function Debt() {
   }
 
   function renameSelect(data: any) {
-    data = data.map(function (obj) {
+    data = data.map(function (obj: any) {
       obj["value"] = obj["categoryId"]; // Assign new key
       delete obj["categoryId"]; // Delete old key
       return obj;

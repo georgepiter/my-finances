@@ -1,5 +1,5 @@
 export interface HistoryDTO {
-  financialHistoryId?: number;
+  financialHistoryId: number;
   registerId: number;
   totalCredit: number;
   totalDebt: number;

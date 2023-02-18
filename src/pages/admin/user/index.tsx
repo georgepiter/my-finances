@@ -125,7 +125,7 @@ export default function User() {
     onClose: onCloseConfirm,
   } = useDisclosure();
 
-  const cancelRef = useRef();
+  const cancelRef = useRef<HTMLInputElement>(null);
 
   function handleInsertUser() {
     onOpenFormModal();

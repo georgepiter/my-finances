@@ -98,7 +98,7 @@ export default function Category() {
     onClose: onCloseConfirm,
   } = useDisclosure();
 
-  const cancelRef = useRef();
+  const cancelRef = useRef<HTMLInputElement>(null);
 
   function handleInsertCategory() {
     setIsEdit(false);

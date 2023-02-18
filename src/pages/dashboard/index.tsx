@@ -48,7 +48,7 @@ export default function Dashboard() {
   const { colorMode } = useColorMode();
   const toast = useToast();
   const theme = useTheme();
-  const cancelRef = useRef();
+  const cancelRef = useRef<HTMLInputElement>(null);
 
   const [history, setHistory] = useState<HistoryDTO[]>([]);
   const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
