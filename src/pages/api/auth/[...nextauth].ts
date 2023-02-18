@@ -82,14 +82,14 @@ export default NextAuth({
       // }
 
       // Verifica se o token expirou
-      // if (dateNow <= dateExp) {
-      //   return {
-      //     redirect: {
-      //       destination: "/signIn",
-      //       permanent: false,
-      //     },
-      //   };
-      // }
+      if (dateNow <= dateExp) {
+        return {
+          redirect: {
+            destination: "/signIn",
+            permanent: false,
+          },
+        };
+      }
 
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
