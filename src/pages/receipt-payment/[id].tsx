@@ -24,12 +24,10 @@ export default function ReceiptPayment() {
   
   function detectMimeType(b64: string) {
     const signatures = {
-      JVBERi0: "application/pdf",
-      // R0lGODdh: "image/gif",
-      // R0lGODlh: "image/gif",
-      iVBORw0KGgo: "image/png",
+      "JVBERi0": "application/pdf",
+      "iVBORw0KGgo": "image/png",
       "/9j/": "image/jpg",
-    };
+    } as any;
 
     for (var s in signatures) {
       if (b64.indexOf(s) === 0) {
