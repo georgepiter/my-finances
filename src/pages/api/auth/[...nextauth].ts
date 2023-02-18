@@ -74,17 +74,22 @@ export default NextAuth({
         throw new Error("Sessão inválida.");
       }
 
-       const decoded = jwt.decode(token.sub, "HS512");
-      // const dateExp = new Date(decoded.exp);
-      // const dateNow = new Date();
+      const decoded = jwt.decode(token.sub, "HS512");
+      const dateExp = new Date(decoded.exp);
+      const dateNow = new Date();
       // if (dateNow < dateExp) {
       //   return { ...session, error: "TokenExpiredError" };
       // }
 
-      // Redirecionar para a página de login se o token expirar
-      if (!token || (token as any).error === "TokenExpiredError") {
-        return { ...session, error: "TokenExpiredError" };
-      }
+      // Verifica se o token expirou
+      // if (dateNow <= dateExp) {
+      //   return {
+      //     redirect: {
+      //       destination: "/signIn",
+      //       permanent: false,
+      //     },
+      //   };
+      // }
 
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
