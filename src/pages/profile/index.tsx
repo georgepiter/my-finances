@@ -107,7 +107,7 @@ export default function Profile() {
 
   useEffect(() => {
     loadRegister();
-  }, [session.user.id]);
+  }, [session]);
 
 
   return (
