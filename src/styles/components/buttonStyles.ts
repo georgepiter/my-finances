@@ -1,4 +1,5 @@
 import { defineStyleConfig } from "@chakra-ui/react";
+import { mode } from "@chakra-ui/theme-tools";
 
 export const ButtonStyles = defineStyleConfig({
   // The styles all button have in common
@@ -8,25 +9,22 @@ export const ButtonStyles = defineStyleConfig({
 
   // Two variants: outline and solid
   variants: {
-    primary: {
-      bg: "primary.500",
-      color: "white",
+    primary: (props) => ({
+      color: mode("white", "white")(props),
+      bg: mode("primary.500", "primary.600")(props),
       _hover: {
-        bg: "primary.300",
+        bg: "primary.400",
       },
+    }),
 
-      // _dark: {
-      //   bg: "primary.200",
-      // },
-    },
-    secondary: {
-      bg: "secondary.500",
-      color: "white",
+    secondary: (props) => ({
+      bg: mode("secondary.600", "secondary.600")(props),
+      color: mode("white", "white")(props),
       _hover: {
-        bg: "secondary.300",
+        bg: "secondary.400",
       },
-    },
+    }),
+  
   },
-  // The default size and variant values
   defaultProps: {},
 });

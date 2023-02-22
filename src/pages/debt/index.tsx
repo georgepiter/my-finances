@@ -48,11 +48,10 @@ import {
   StatHelpText,
   StatArrow,
   Center,
+  useColorMode,
 } from "@chakra-ui/react";
 import { GiPayMoney } from "react-icons/gi";
 import FileBase64 from "react-file-base64";
-
-import { IconButton } from "@chakra-ui/react";
 
 import {
   FiEdit2,
@@ -87,6 +86,7 @@ import { useSession } from "next-auth/react";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import IconButton from "@/components/IconButton";
 
 
 const insertFormSchema = z.object({
@@ -474,6 +474,8 @@ export default function Debt() {
                   rounded={20}
                   boxShadow="md"
                   colorScheme="blue"
+                  bgColor="primary.600"
+                  color="white"
                   aria-label="Insert Debt"
                   onClick={handleUpdateRegister}
                   icon={<FiEdit2 />}
@@ -513,21 +515,20 @@ export default function Debt() {
                       rounded={20}
                       boxShadow="md"
                       colorScheme="blue"
-                      aria-label="Insert Debt"
+                      aria-label="Update Others"
                       onClick={handleFormEditOthers}
                       icon={<FiPlus />}
                     />
                   </HStack>
                 ) : (
                   <HStack>
-                    <ButtonBase
+                    <Button
                       size="sm"
                       rightIcon={<FiPlus />}
                       colorScheme="blue"
                       onClick={handleUpdateEditOthers}
-                    >
-                      Adicionar Outros Valores
-                    </ButtonBase>
+                      title="Adicionar Outros Valores"
+                    />
                   </HStack>
                 )}
               </HStack>
