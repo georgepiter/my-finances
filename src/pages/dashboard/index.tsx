@@ -42,6 +42,7 @@ import { HistoryDTO } from "@/dto/http/HistoryDTO";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { getDebtDash } from "@/services/debt";
 import { DashDTO } from "@/dto/http/DashDTO";
+import Spinner from "@/components/Spinner";
 
 export default function Dashboard() {
   const { data: session } = useSession();

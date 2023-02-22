@@ -1,4 +1,5 @@
 import { api } from "@/data/api";
+import { UserRoleDTO } from "@/dto/http/UserRoleDTO";
 import { UserStatusDTO } from "@/dto/http/UserStatusDTO";
 import { UserModel } from "@/models/user";
 
@@ -25,4 +26,10 @@ export const deleteUser = async (userId: number) => {
 
 export const updateStatusUser = async (data: UserStatusDTO) => {
   return await api.put(`${process.env.BASE_URL_AUTH}/user/status/`, data);
+};
+
+export const updateRole = async (user: UserRoleDTO) => {
+  return await api.put(
+    `${process.env.BASE_URL_AUTH}/user/role/${user.userId}/${user.roleId}`
+  );
 };

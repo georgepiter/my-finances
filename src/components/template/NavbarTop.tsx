@@ -17,7 +17,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 
-import { FiMenu, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiMenu, FiSettings, FiLogOut, FiLock } from "react-icons/fi";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -164,13 +164,16 @@ export default function NavbarTop() {
                     />
                   )}
                 </MenuItem>
-                <MenuItem justifyContent="center" onClick={handleProfile}>
+                <MenuItem justifyContent="center">
                   <Text fontSize="xl" as="b">
                     Olá, {session?.user.name}
                   </Text>
                 </MenuItem>
                 <MenuItem icon={<FiSettings />} onClick={handleSettings}>
                   Configurações
+                </MenuItem>
+                <MenuItem icon={<FiLock />} onClick={handleProfile}>
+                  Alterar Senha
                 </MenuItem>
                 <MenuItem onClick={handleSignOut} icon={<FiLogOut />}>
                   Sair

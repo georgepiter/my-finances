@@ -14,7 +14,6 @@ const api = axios.create({
   },
 });
 
-
 /**
  * Interceptor Headers:
  * - Authorization
@@ -30,7 +29,7 @@ api.interceptors.request.use(
 
     if (session?.token) {
       config.headers["Authorization"] = "Bearer " + session.token;
-    } 
+    }
     return Promise.resolve(config);
   },
   (error) => {

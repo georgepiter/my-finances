@@ -59,6 +59,7 @@ import {
   FiPlus,
   FiTrash2,
   FiDownload,
+  FiEdit,
 } from "react-icons/fi";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
@@ -81,7 +82,7 @@ import {
   updateDebtPay,
 } from "@/services/debt";
 import { DebtModel, DebtPayModel } from "@/models/debt";
-import { getAllRegisterByUserId } from "@/services/register";
+import { addOthersByRegisterId, getAllRegisterByUserId } from "@/services/register";
 import { useSession } from "next-auth/react";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { useRouter } from "next/router";
@@ -136,6 +137,10 @@ export default function Debt() {
   const [categories, setCategories] = useState<SelectProps[]>([]);
   const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
   const [fileRegister, setFileRegister] = useState<FileProps>({} as FileProps);
+
+  const [isEditOthers, setIsEditOthers] = useState(false);
+  const [editOthers, setEditOthers] = useState("");
+
 
   const cancelRef = useRef<HTMLInputElement>(null);
   const {
@@ -401,6 +406,46 @@ export default function Debt() {
       });
     }
   }
+
+  function handleUpdateEditOthers() {
+    setIsEditOthers(true);
+  }
+
+  async function handleFormEditOthers() {
+    setIsEditOthers(false);
+
+    if (editOthers && session) {
+      try {
+        const others = Number(
+          editOthers.replace("R$", "").replace(".", "").replace(",", ".")
+        );
+
+        const res = await addOthersByRegisterId(session.user.id, others);
+        if (res.status === 200) {
+          toast({
+            title: "Valor adicionado com sucesso.",
+            status: "success",
+            isClosable: true,
+          });
+          loadRegister(session.user.id);
+        }
+      } catch (error: any) {
+        toast({
+          title: error.message,
+          status: "error",
+          isClosable: true,
+        });
+      } finally  {
+        setEditOthers("");
+      }
+    } 
+  }
+
+
+  function handleEditOthers(e: React.ChangeEvent<HTMLInputElement>) {
+    setEditOthers(e.target.value);
+  }
+
   useEffect(() => {
     loadCategories();
 
@@ -448,14 +493,43 @@ export default function Debt() {
                     }).format(Number(register.salary))}
                 </Text>
 
-                <Text as="b" fontSize="lg">
-                  Outros:{"  "}
-                  {register.others &&
-                    new Intl.NumberFormat("pt-br", {
-                      style: "currency",
-                      currency: "BRL",
-                    }).format(Number(register.others))}
-                </Text>
+                {isEditOthers ? (
+                  <HStack>
+                    <Text as="b" fontSize="lg">
+                      Outros valores:{"  "}
+                    </Text>
+                    <form>
+                      <Input
+                        size="sm"
+                        placeholder="Outros Valores"
+                        as={MaskedInput}
+                        mask={realMask}
+                        onChange={handleEditOthers}
+                      />
+                    </form>
+
+                    <IconButton
+                      size="sm"
+                      rounded={20}
+                      boxShadow="md"
+                      colorScheme="blue"
+                      aria-label="Insert Debt"
+                      onClick={handleFormEditOthers}
+                      icon={<FiPlus />}
+                    />
+                  </HStack>
+                ) : (
+                  <HStack>
+                    <ButtonBase
+                      size="sm"
+                      rightIcon={<FiPlus />}
+                      colorScheme="blue"
+                      onClick={handleUpdateEditOthers}
+                    >
+                      Adicionar Outros Valores
+                    </ButtonBase>
+                  </HStack>
+                )}
               </HStack>
 
               <StatGroup>
@@ -500,6 +574,19 @@ export default function Debt() {
                       }).format(Number(debtValue.currentTotalValue))}
                   </StatNumber>
                   <StatHelpText>Saldo Atual</StatHelpText>
+                </Stat>
+
+                <Stat>
+                  <StatLabel>Total outros valores</StatLabel>
+                  <StatNumber>
+                    {" "}
+                    {debtValue.currentTotalValue &&
+                      new Intl.NumberFormat("pt-br", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(Number(register.others))}
+                  </StatNumber>
+                  <StatHelpText>Total outros valores</StatHelpText>
                 </Stat>
               </StatGroup>
             </Stack>

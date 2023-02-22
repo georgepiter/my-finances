@@ -11,6 +11,8 @@ import {
   Stack,
   useColorMode,
   useToast,
+  VStack,
+  Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import FileBase64 from "react-file-base64";
@@ -170,7 +172,6 @@ export default function Register() {
           <CardBody>
             <form onSubmit={handleSubmit(handleForm)}>
               <Stack spacing={4} w="100%">
-
                 <Center>
                   {fileRegister.base64 ? (
                     <ImageBase
@@ -197,15 +198,18 @@ export default function Register() {
                     control={control}
                     name="cell"
                     render={({ field: { onChange, value } }) => (
-                      <Input
-                        size="md"
-                        placeholder="Celular"
-                        errorMessage={errors.cell?.message}
-                        onChange={onChange}
-                        as={InputMask}
-                        mask="(**) *****-****"
-                        value={value || ""}
-                      />
+                      <VStack w="100%" alignItems="left">
+                        <Text as="b">Celular</Text>
+                        <Input
+                          size="md"
+                          placeholder="Celular"
+                          errorMessage={errors.cell?.message}
+                          onChange={onChange}
+                          as={InputMask}
+                          mask="(**) *****-****"
+                          value={value || ""}
+                        />
+                      </VStack>
                     )}
                   />
                 </HStack>
@@ -214,15 +218,18 @@ export default function Register() {
                     control={control}
                     name="others"
                     render={({ field: { onChange, value } }) => (
-                      <Input
-                        size="md"
-                        placeholder="Outros"
-                        errorMessage={errors.others?.message}
-                        onChange={onChange}
-                        as={MaskedInput}
-                        mask={realMask}
-                        value={value || ""}
-                      />
+                      <VStack w="100%" alignItems="left">
+                        <Text as="b">Outros Valores</Text>
+                        <Input
+                          size="md"
+                          placeholder="Outros Valores"
+                          errorMessage={errors.others?.message}
+                          onChange={onChange}
+                          as={MaskedInput}
+                          mask={realMask}
+                          value={value || ""}
+                        />
+                      </VStack>
                     )}
                   />
 
@@ -230,15 +237,18 @@ export default function Register() {
                     control={control}
                     name="salary"
                     render={({ field: { onChange, value } }) => (
-                      <Input
-                        size="md"
-                        placeholder="Salário"
-                        errorMessage={errors.salary?.message}
-                        onChange={onChange}
-                        as={MaskedInput}
-                        mask={realMask}
-                        value={value || ""}
-                      />
+                      <VStack w="100%" alignItems="left">
+                        <Text as="b">Salário</Text>
+                        <Input
+                          size="md"
+                          placeholder="Salário"
+                          errorMessage={errors.salary?.message}
+                          onChange={onChange}
+                          as={MaskedInput}
+                          mask={realMask}
+                          value={value || ""}
+                        />
+                      </VStack>
                     )}
                   />
                 </HStack>

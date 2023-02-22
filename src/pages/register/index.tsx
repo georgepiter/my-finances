@@ -73,9 +73,9 @@ export default function Register() {
         salary: Number(
           data.salary.replace("R$", "").replace(".", "").replace(",", ".")
         ),
-        photo: fileRegister.base64
+        photo: fileRegister.base64? fileRegister.base64
           .replace("data:image/jpeg;base64,", "")
-          .replace("data:image/png;base64,", ""),
+          .replace("data:image/png;base64,", "") : "",
       } as RegisterModel;
 
       const res = await createRegister(register);

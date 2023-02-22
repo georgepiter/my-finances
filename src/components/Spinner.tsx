@@ -15,6 +15,7 @@ export default function Spinner({ color = "blue.500", size="lg", ...rest }: Prop
           emptyColor="gray.200"
           color={color}
           size={size}
+          {...rest}
         />
       </Center>
     </>

@@ -62,11 +62,11 @@ export default function Home() {
         {session.user.role === "ROLE_ADMIN" ? (
           <User />
         ) : isLoading ? (
-          <Spinner />
+          <Spinner mt={50}/>
         ) : isRegister ? (
           <Dashboard />
         ) : (
-          <Dashboard />
+          <Register />
         )}
       </>
     );

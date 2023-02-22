@@ -34,6 +34,8 @@ import {
   AlertDialogBody,
   AlertDialogHeader,
   AlertDialogFooter,
+  Tag,
+  Badge,
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -45,7 +47,7 @@ import { z } from "zod";
 import MaskedInput from "react-text-mask";
 import emailMask from "text-mask-addons/dist/emailMask";
 
-import { FiEdit2, FiPlus, FiTrash2, FiEyeOff, FiEye } from "react-icons/fi";
+import { FiEdit2, FiPlus, FiTrash2, FiEyeOff, FiEye, FiFileText } from "react-icons/fi";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -58,8 +60,9 @@ import Box from "@/components/Box";
 
 import { UserDTO } from "@/dto/http/UserDTO";
 
-import { createUser, listAllUser, deleteUser, updateStatusUser } from "@/services/user";
+import { createUser, listAllUser, deleteUser, updateStatusUser, updateRole } from "@/services/user";
 import { UserStatusDTO } from "@/dto/http/UserStatusDTO";
+import { UserRoleDTO } from "@/dto/http/UserRoleDTO";
 
 const insertFormSchema = z
   .object({
@@ -102,7 +105,7 @@ export default function User() {
 
   const [functionConfirm, setFunctionConfirm] = useState("");
 
-  const [statusUser, setStatusUser] = useState("");
+  const [userChange, setUserChange] = useState<UserDTO>();
 
   const {
     control,
@@ -149,24 +152,30 @@ export default function User() {
     }
   }
 
-  function handleConfirmUser(userId: number, del: boolean = false, status?: string) {
-    if (del) {
+  function handleConfirmUser(userId: number, action: "ALTERAR" | "DELETAR" | "STATUS", user?: UserDTO) {    
+    if (action == "DELETAR") {
       setTitleConfirm("Deletar Usuário");
       setDescriptionConfirm(
         "Você tem certeza que deseja excluir esse usuário?"
       );
 
       setFunctionConfirm("delete");
+    } else if (action == "STATUS") {
+      setTitleConfirm("Alterar Role");
+      setDescriptionConfirm(
+        "Você tem certeza que deseja alterar a role desse usuário?"
+      );
+      setFunctionConfirm("role");
+
     } else {
       setTitleConfirm("Ativar/Inativar Usuário");
       setDescriptionConfirm(
         "Você tem certeza que deseja alterar o status desse usuário?"
       );
       setFunctionConfirm("status");
-
-      if (status)
-        setStatusUser(status);
     }
+
+    if (user) setUserChange(user);
 
     setUserId(userId);
 
@@ -197,20 +206,49 @@ export default function User() {
      }
   }
 
+  async function handleRoleUser() {
+    try {
+      if (!userChange) return null;
+
+        const userRole: UserRoleDTO = {
+          userId: userChange.userId,
+          roleId: userChange.perfil == "ROLE_ADMIN" ? 2: 1,
+        };
+
+       const res = await updateRole(userRole);
+
+      if (res.status === 200) {
+        toast({
+          title: `Perfil alterado com sucesso.`,
+          status: "success",
+          isClosable: true,
+        });
+        onCloseConfirm();
+        loadUsers();
+      }
+    } catch (error: any) {
+      toast({
+        title: error.message,
+        status: "error",
+        isClosable: true,
+      });
+    }
+  }
+
   async function handleStatusUser() {
     try {
       const userStatus: UserStatusDTO = {
         userId: userId,
-        status: statusUser == "ACTIVE" ? "INACTIVE" : "ACTIVE",
+        status: userChange?.status == "ACTIVE" ? "INACTIVE" : "ACTIVE",
       };
 
       const res = await updateStatusUser(userStatus);
       if (res.status === 200) {
         toast({
           title: `Usuário ${
-            statusUser === "ACTIVE" ? "inativado" : "ativado"
+            userChange?.status === "ACTIVE" ? "inativado" : "ativado"
           } com sucesso.`,
-          status: statusUser === "ACTIVE" ? "warning" : "success",
+          status: userChange?.status === "ACTIVE" ? "warning" : "success",
           isClosable: true,
         });
 
@@ -305,6 +343,7 @@ export default function User() {
                     <Th>Nome</Th>
                     <Th>Email</Th>
                     <Th>Perfil</Th>
+                    <Th>Status</Th>
                     <Th>Ações</Th>
                   </Tr>
                 </Thead>
@@ -313,7 +352,25 @@ export default function User() {
                     <Tr key={user.userId}>
                       <Td>{user.name}</Td>
                       <Td>{user.email}</Td>
-                      <Td>{user.perfil}</Td>
+                      <Td>
+                        <Tag
+                          variant="solid"
+                          colorScheme={
+                            user.perfil == "ROLE_MANAGER" ? "blue" : "green"
+                          }
+                        >
+                          {user.perfil}
+                        </Tag>
+                      </Td>
+                      <Td>
+                        <Badge
+                          colorScheme={
+                            user.status === "ACTIVE" ? "green" : "red"
+                          }
+                        >
+                          {user.status === "ACTIVE" ? "ATIVO" : "INATIVO"}
+                        </Badge>
+                      </Td>
                       <Td>
                         <Menu>
                           <MenuButton
@@ -334,7 +391,7 @@ export default function User() {
                             </MenuItem> */}
                             <MenuItem
                               onClick={() =>
-                                handleConfirmUser(user.userId, true)
+                                handleConfirmUser(user.userId, "DELETAR")
                               }
                             >
                               <HStack flex={1} justifyContent="space-between">
@@ -342,13 +399,23 @@ export default function User() {
                                 <FiTrash2 />
                               </HStack>
                             </MenuItem>
+
+                            {user.name !== "admin" && (
+                              <MenuItem
+                                onClick={() =>
+                                  handleConfirmUser(user.userId, "STATUS", user)
+                                }
+                              >
+                                <HStack flex={1} justifyContent="space-between">
+                                  <Text>Alterar Perfil</Text>
+                                  <FiFileText />
+                                </HStack>
+                              </MenuItem>
+                            )}
+
                             <MenuItem
                               onClick={() =>
-                                handleConfirmUser(
-                                  user.userId,
-                                  false,
-                                  user.status
-                                )
+                                handleConfirmUser(user.userId, "ALTERAR", user)
                               }
                             >
                               <HStack flex={1} justifyContent="space-between">
@@ -490,6 +557,10 @@ export default function User() {
               {functionConfirm == "delete" ? (
                 <ButtonBase colorScheme="red" onClick={handleDeleteUser} ml={3}>
                   Delete
+                </ButtonBase>
+              ) : functionConfirm == "role" ? (
+                <ButtonBase colorScheme="red" onClick={handleRoleUser} ml={3}>
+                  Alterar
                 </ButtonBase>
               ) : (
                 <ButtonBase colorScheme="red" onClick={handleStatusUser} ml={3}>
