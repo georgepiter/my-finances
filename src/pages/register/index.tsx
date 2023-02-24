@@ -4,6 +4,8 @@ import { Image as ImageBase, Card, CardBody, Container, Divider, Flex, HStack, S
 import Image from "next/image";
 import FileBase64 from "react-file-base64";
 
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,14 +17,16 @@ import { Input } from "@/components/Input";
 import { realMask } from "@/utils/mask/realMask";
 import Button from "@/components/Button";
 
+
+import useAuth from "@/hooks/useAuth";
+
+
 import bgImage from "../../assets/bg-top.png";
 import avatarDarkImage from "../../assets/_dark/avatar.png";
 import avatarlightImage from "../../assets/_light/avatar.png";
 
 import { createRegister } from "@/services/register";
 import { RegisterModel } from "@/models/register";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 interface FileProps {
   name: string;
@@ -52,6 +56,8 @@ export default function Register() {
   const router = useRouter();
 
   const [fileRegister, setFileRegister] = useState<FileProps>({} as FileProps);
+
+  useAuth(true);
 
   const {
     control,

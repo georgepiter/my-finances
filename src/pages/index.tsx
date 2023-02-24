@@ -26,8 +26,6 @@ export default function Home() {
        if (res.status === 200) {
         const register = res.data as RegisterDTO;
 
-        console.log("register", register);
-
         if (register.registerId) {
           setIsRegister(true);
         } else {

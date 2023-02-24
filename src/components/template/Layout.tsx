@@ -1,3 +1,4 @@
+import useAuth from "@/hooks/useAuth";
 import Footer from "./Footer";
 import NavbarTop from "./NavbarTop";
 
@@ -6,6 +7,8 @@ interface Props {
 }
 
 export default function Layout({ children }: Props) {
+  useAuth(true);
+
   return (
     <>
       <NavbarTop />

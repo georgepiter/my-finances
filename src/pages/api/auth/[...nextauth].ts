@@ -75,11 +75,12 @@ export default NextAuth({
       }
 
       const decoded = jwt.decode(token.sub, "HS512");
-      const dateExp = new Date(decoded.exp);
+      const dateExp = new Date(decoded.exp * 1000);
       const dateNow = new Date();
-      // if (dateNow < dateExp) {
-      //   return { ...session, error: "TokenExpiredError" };
-      // }
+
+      if (dateNow > dateExp) {
+        return { ...session, error: "TokenExpiredError" };
+      }
 
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
