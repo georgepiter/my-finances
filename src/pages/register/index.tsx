@@ -57,8 +57,6 @@ export default function Register() {
 
   const [fileRegister, setFileRegister] = useState<FileProps>({} as FileProps);
 
-  useAuth(true);
-
   const {
     control,
     handleSubmit,
