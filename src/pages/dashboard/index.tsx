@@ -15,7 +15,6 @@ import {
   Th,
   Tbody,
   Td,
-  IconButton,
   useDisclosure,
   AlertDialog,
   AlertDialogOverlay,
@@ -43,6 +42,7 @@ import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { getDebtDash } from "@/services/debt";
 import { DashDTO } from "@/dto/http/DashDTO";
 import Spinner from "@/components/Spinner";
+import IconButton from "@/components/IconButton";
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -189,7 +189,7 @@ export default function Dashboard() {
                   <Tbody>
                     {history.map((h) => (
                       <Tr key={h.financialHistoryId}>
-                        <Td>{new Date(h.period).toLocaleDateString()}</Td>
+                        <Td>{h.period}</Td>
                         <Td>
                           {new Intl.NumberFormat("pt-br", {
                             style: "currency",

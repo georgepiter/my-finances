@@ -26,6 +26,8 @@ export default function Home() {
        if (res.status === 200) {
         const register = res.data as RegisterDTO;
 
+        console.log("register", register);
+
         if (register.registerId) {
           setIsRegister(true);
         } else {
@@ -63,11 +65,14 @@ export default function Home() {
           <User />
         ) : isLoading ? (
           <Spinner mt={50}/>
-        ) : isRegister ? (
+        ) : 
+        (isRegister ? (
           <Dashboard />
         ) : (
           <Register />
-        )}
+        ))
+        
+        }
       </>
     );
 };

@@ -6,10 +6,21 @@ import {
 
 interface Props extends IconButtonProps {
   icon: React.ReactElement;
+  colorScheme: string;
 }
 
-export default function IconButton({ icon, ...rest }: Props) {
+export default function IconButton({ icon, colorScheme, ...rest }: Props) {
   const { colorMode } = useColorMode();
+
+  let bgColor = "";
+  let colorHover = "";
+  if (colorScheme === "blue") {
+    bgColor = colorMode == "dark" ? "primary.600" : "primary.500";
+    colorHover = colorMode == "dark" ? "primary.500" : "primary.400";
+  } else if (colorScheme === "red") {
+    bgColor = colorMode == "dark" ? "red.600" : "red.500";
+    colorHover = colorMode == "dark" ? "red.500" : "red.400";
+  }
 
   return (
     <>
@@ -18,9 +29,8 @@ export default function IconButton({ icon, ...rest }: Props) {
         size="md"
         rounded={20}
         boxShadow="md"
-        colorScheme="blue"
-        bgColor={colorMode == "dark" ? "primary.600" : "primary.500"}
-        _hover={{ bg: "primary.400" }}
+        bgColor={bgColor}
+        _hover={{ bg: colorHover }}
         color="white"
         aria-label="Insert Debt"
         icon={icon}
