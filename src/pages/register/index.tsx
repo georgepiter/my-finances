@@ -17,10 +17,6 @@ import { Input } from "@/components/Input";
 import { realMask } from "@/utils/mask/realMask";
 import Button from "@/components/Button";
 
-
-import useAuth from "@/hooks/useAuth";
-
-
 import bgImage from "../../assets/bg-top.png";
 import avatarDarkImage from "../../assets/_dark/avatar.png";
 import avatarlightImage from "../../assets/_light/avatar.png";
@@ -105,7 +101,7 @@ export default function Register() {
   }
 
   function handleFile(files: any) {
-    if (files[0].file.size > 200000) {
+    if (files[0].file.size > 3000000) {
       toast({
         title: "O tamanho da imagem é muito grande.",
         status: "warning",

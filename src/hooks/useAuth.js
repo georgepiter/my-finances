@@ -8,9 +8,20 @@ export default function useAuth(shouldRedirect) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    
+    
     if (session?.error === "TokenExpiredError") {
-      signOut({ callbackUrl: "/signIn", redirect: shouldRedirect });
+        signOut({
+            callbackUrl: `${window.location.origin}/signIn`,
+           redirect: shouldRedirect,
+        });
+
     }
+
+
+    // if (!session) {
+    //   signOut({ callbackUrl: "/signIn", redirect: shouldRedirect });
+    // }
 
     if (session === null) {
       if (router.route !== "/signIn") {

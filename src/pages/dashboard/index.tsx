@@ -41,8 +41,8 @@ import { HistoryDTO } from "@/dto/http/HistoryDTO";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { getDebtDash } from "@/services/debt";
 import { DashDTO } from "@/dto/http/DashDTO";
-import Spinner from "@/components/Spinner";
 import IconButton from "@/components/IconButton";
+import useAuth from "@/hooks/useAuth";
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -50,6 +50,8 @@ export default function Dashboard() {
   const toast = useToast();
   const theme = useTheme();
   const cancelRef = useRef<HTMLInputElement>(null);
+
+  const auth = useAuth(true);
 
   const [history, setHistory] = useState<HistoryDTO[]>([]);
   const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);

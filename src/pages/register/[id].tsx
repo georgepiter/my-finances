@@ -121,7 +121,7 @@ export default function Register() {
   }
 
   function handleFile(files: any) {
-    if (files[0].file.size > 200000) {
+    if ((files[0].file.size > 3000000)) {
       toast({
         title: "O tamanho da imagem é muito grande.",
         status: "warning",

@@ -378,7 +378,7 @@ export default function User() {
                             as={ButtonBase}
                             rightIcon={<ChevronDownIcon />}
                           >
-                            Ações
+                            <Text color="gray.700">Ações</Text>
                           </MenuButton>
                           <MenuList>
                             {/* <MenuItem

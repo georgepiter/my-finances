@@ -177,6 +177,15 @@ export default function Debt() {
   }
 
   function handleFile(files: any) {
+    if (files[0].file.size > 3000000) {
+      toast({
+        title: "O tamanho da imagem é muito grande.",
+        status: "warning",
+        isClosable: true,
+      });
+      return null;
+    }
+    
     const file = files[0] as FileProps;
     setFileRegister(file);
   }
