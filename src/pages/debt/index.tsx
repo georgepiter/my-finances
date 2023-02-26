@@ -141,6 +141,7 @@ export default function Debt() {
   const [isEditOthers, setIsEditOthers] = useState(false);
   const [editOthers, setEditOthers] = useState("");
 
+  const [isSubmittingEditOthers, setIsSubmittingEditOthers] = useState(false);
 
   const cancelRef = useRef<HTMLInputElement>(null);
   const {
@@ -421,9 +422,12 @@ export default function Debt() {
   }
 
   async function handleFormEditOthers() {
-    setIsEditOthers(false);
+
+    setIsSubmittingEditOthers(true);
 
     if (editOthers && session) {
+      setIsEditOthers(false);
+
       try {
         const others = Number(
           editOthers.replace("R$", "").replace(".", "").replace(",", ".")
@@ -446,8 +450,16 @@ export default function Debt() {
         });
       } finally  {
         setEditOthers("");
+         setIsSubmittingEditOthers(false);
       }
-    } 
+    } else {
+      toast({
+        title: "O campo Outros valores é obrigatório",
+        status: "warning",
+        isClosable: true,
+      });
+      setIsSubmittingEditOthers(false);
+    }
   }
 
 
@@ -537,6 +549,7 @@ export default function Debt() {
                       colorScheme="blue"
                       onClick={handleUpdateEditOthers}
                       title="Adicionar Outros Valores"
+                      isLoading={isSubmittingEditOthers}
                     />
                   </HStack>
                 )}
