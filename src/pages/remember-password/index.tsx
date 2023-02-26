@@ -1,4 +1,4 @@
-import { Container, Stack, Text, useToast } from "@chakra-ui/react";
+import { Container, Show, Stack, Text, useToast } from "@chakra-ui/react";
 
 import { FiMail } from "react-icons/fi";
 
@@ -67,8 +67,13 @@ export default function RememberPassword() {
     <>
       <PanelRightBrand>
         <Container p={15}>
-          <Stack spacing={4} alignItems="center" mt={150}>
-            <Text as="b" fontSize="4xl" mb={10}>
+          <Stack spacing={4} alignItems="center" mt={100}>
+            <Show below="md">
+              <Text as="b" fontSize="4xl" mb={5}>
+                Finances
+              </Text>
+            </Show>
+            <Text as="b" fontSize="3xl" mb={10}>
               Esqueceu a senha?
             </Text>
 

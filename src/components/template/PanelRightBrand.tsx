@@ -18,7 +18,7 @@ export default function PanelRightBrand({ children }: Props) {
         <Hide below="md">
           <Box bg="primary.500" h="calc(100vh)">
             <Container p={20}>
-              <Stack spacing={4} alignItems="center" mt={100}>
+              <Stack spacing={4} alignItems="center" mt={90}>
                 <Text as="b" fontSize="4xl" mb={10} color="white">
                   Finances
                 </Text>

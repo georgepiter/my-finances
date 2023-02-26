@@ -7,6 +7,7 @@ import {
   Spacer,
   Stack,
   Text,
+  Show,
 } from "@chakra-ui/react";
 
 import { useForm, Controller } from "react-hook-form";
@@ -98,8 +99,13 @@ export default function SignUp() {
     <>
       <PanelLeftBrand>
         <Container p={15}>
-          <Stack spacing={4} alignItems="center" mt={150}>
-            <Text as="b" fontSize="4xl" mb={10}>
+          <Stack spacing={4} alignItems="center" mt={100}>
+            <Show below="md">
+              <Text as="b" fontSize="4xl" mb={5}>
+                Finances
+              </Text>
+            </Show>
+            <Text as="b" fontSize="3xl" mb={10}>
               Cadastro
             </Text>
 

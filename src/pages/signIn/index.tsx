@@ -9,6 +9,7 @@ import {
   Checkbox,
   VStack,
   useToast,
+  Show,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
@@ -106,7 +107,13 @@ export default function SignIn() {
       <PanelLeftBrand>
         <Container p={20}>
           <Stack spacing={4} alignItems="center" mt={100}>
-            <Text as="b" fontSize="4xl" mb={10}>
+            <Show below="md">
+              <Text as="b" fontSize="4xl" mb={5}>
+                Finances
+              </Text>
+            </Show>
+
+            <Text as="b" fontSize="3xl" mb={10}>
               Fazer Login
             </Text>
 
@@ -150,7 +157,10 @@ export default function SignIn() {
                     <Checkbox colorScheme="primary" defaultChecked>
                       Lembrar-me
                     </Checkbox>
-                    <Link onClick={handleRememberPassword} title="Esqueci minha senha"></Link>
+                    <Link
+                      onClick={handleRememberPassword}
+                      title="Esqueci minha senha"
+                    ></Link>
                   </Flex>
                 </HStack>
 
