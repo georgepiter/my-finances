@@ -105,7 +105,7 @@ export default function SignIn() {
     <>
       <PanelLeftBrand>
         <Container p={20}>
-          <Stack spacing={4} alignItems="center" mt={150}>
+          <Stack spacing={4} alignItems="center" mt={100}>
             <Text as="b" fontSize="4xl" mb={10}>
               Fazer Login
             </Text>
