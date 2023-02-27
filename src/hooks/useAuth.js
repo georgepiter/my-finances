@@ -10,13 +10,11 @@ export default function useAuth(shouldRedirect) {
   useEffect(() => {
     
     if (session?.error === "TokenExpiredError") {
-
       console.log("session expirou ");
         signOut({
             callbackUrl: `${window.location.origin}/signIn`,
            redirect: shouldRedirect,
         });
-
     }
 
     if (session === null) {

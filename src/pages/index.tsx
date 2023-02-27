@@ -7,7 +7,7 @@ import User from "./admin/user";
 import { getAllRegisterByUserId } from "@/services/register";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import Register from "./register";
-import { useToast } from "@chakra-ui/react";
+import { Center, useToast } from "@chakra-ui/react";
 import Spinner from "@/components/Spinner";
 import { UserSession } from "next-auth";
 import { useProfile } from "@/hooks/useProfile";
@@ -20,10 +20,10 @@ export default function Home() {
   const { setProfile } = useProfile();
   const [user, setUser] = useState<UserSession>({} as UserSession);
 
-  const [isRegister, setIsRegister] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function loadRegister(userId: number) {
+ 
     setIsLoading(true);
     try {
       const res = await getAllRegisterByUserId(userId);
@@ -37,11 +37,11 @@ export default function Home() {
           },
         });
 
-        if (register.registerId) {
-          setIsRegister(true);
-        } else {
-          setIsRegister(false);
-        }
+        if (!register.registerId) {
+          router.push({
+            pathname: "/signIn",
+          });
+        } 
       }
     } catch (error: any) {
       toast({
@@ -56,13 +56,9 @@ export default function Home() {
 
   async function loadSession() {
     const session = await getSession();
-    if (session?.user) {
+    if (session?.user.id) {
       setUser(session.user);
-    } else {
-       router.push({
-         pathname: "/signIn",
-       });
-    }
+    } 
   }
 
   useEffect(() => {
@@ -70,20 +66,28 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (user.id)
-      loadRegister(user.id);
+    if (user.id) {
+    console.log("user.id", user.id);
+    loadRegister(user.id);
+    }
+     
   }, [user.id]);
 
     return (
       <>
         {isLoading ? (
-          <Spinner mt={50} />
+          <Spinner
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
         ) : user.role === "ROLE_ADMIN" ? (
           <User />
-        ) : isRegister ? (
-          <Dashboard />
         ) : (
-          <Register />
+          <Dashboard />
         )}
       </>
     );

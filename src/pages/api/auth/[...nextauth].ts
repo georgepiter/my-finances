@@ -39,20 +39,20 @@ export default NextAuth({
     }),
     // ...add more providers
   ],
-  secret: process.env.JWT_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
   jwt: {
     encode: ({ secret, token }) => {
       const encodedToken = jwt.sign(token!, secret, {
-        algorithm: process.env.JWT_SECRET,
+        algorithm: process.env.NEXTAUTH_SECRET,
       });
       return encodedToken;
     },
     decode: async ({ secret, token }) => {
       const decodedToken = jwt.verify(token!, secret, {
-        algorithms: [process.env.JWT_SECRET],
+        algorithms: [process.env.NEXTAUTH_SECRET],
       });
       return decodedToken as JWT;
     },
@@ -74,7 +74,7 @@ export default NextAuth({
         throw new Error("Sessão inválida.");
       }
 
-      const decoded = jwt.decode(token.sub, "HS512");
+      const decoded = jwt.decode(token.sub, process.env.NEXTAUTH_SECRET);
       const dateExp = new Date(decoded.exp * 1000);
       const dateNow = new Date();
 
@@ -101,11 +101,11 @@ export default NextAuth({
       session.expires = decoded.exp;
       return { ...session, accessToken: token.sub };
     },
-    async redirect({ url }) {
-      if (url.includes("/signIn")) return "/";
-      if (!url.includes("/")) return "/signIn";
-      return url;
-    },
+    // async redirect({ url }) {
+    //   if (url.includes("/signIn")) return "/";
+    //   if (!url.includes("/")) return "/signIn";
+    //   return url;
+    // },
   },
   debug: process.env.NODE_ENV === "development",
   pages: {
