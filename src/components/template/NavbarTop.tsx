@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import Image from "next/image";
 
 import {
@@ -18,20 +20,15 @@ import {
 } from "@chakra-ui/react";
 
 import { FiMenu, FiSettings, FiLogOut, FiLock } from "react-icons/fi";
+
 import { signOut } from "next-auth/react";
-
 import { getSession } from "next-auth/react";
-
+import { UserSession } from "next-auth";
 import { useRouter } from "next/router";
 
 import avatarDarkImage from "../../assets/_dark/avatar.png";
 import avatarlightImage from "../../assets/_light/avatar.png";
-
 import brandImage from "../../assets/brand.png";
-
-import { useEffect, useState } from "react";
-import { getRegisterByUserId } from "@/services/register";
-import { UserSession } from "next-auth";
 
 import { useProfile } from "@/hooks/useProfile";
 
