@@ -53,6 +53,8 @@ import {
 import { GiPayMoney } from "react-icons/gi";
 import FileBase64 from "react-file-base64";
 
+import { getSession } from "next-auth/react";
+
 import {
   FiEdit2,
   FiPlus,
@@ -62,16 +64,21 @@ import {
 } from "react-icons/fi";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
+import { useRouter } from "next/router";
+import Link from "next/link";
+
 import MaskedInput from "react-text-mask";
 import { realMask } from "@/utils/mask/realMask";
 
+import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+
 import { Input } from "@/components/Input";
 import Button from "@/components/Button";
-import { listAllCategory } from "@/services/category";
 import Select from "@/components/Select";
+import IconButton from "@/components/IconButton";
+
 import {
   createDebt,
   deleteDebt,
@@ -80,14 +87,14 @@ import {
   updateDebt,
   updateDebtPay,
 } from "@/services/debt";
-import { DebtModel, DebtPayModel } from "@/models/debt";
-import { addOthersByRegisterId, getAllRegisterByUserId } from "@/services/register";
-import { useSession } from "next-auth/react";
-import { RegisterDTO } from "@/dto/http/RegisterDTO";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import IconButton from "@/components/IconButton";
+import { listAllCategory } from "@/services/category";
+import {
+  addOthersByRegisterId,
+  getAllRegisterByUserId,
+} from "@/services/register";
 
+import { DebtModel, DebtPayModel } from "@/models/debt";
+import { RegisterDTO } from "@/dto/http/RegisterDTO";
 
 const insertFormSchema = z.object({
   debtDescription: z.string({
@@ -119,12 +126,13 @@ interface FileProps {
 }
 
 export default function Debt() {
-  const { data: session } = useSession();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [debts, setDebts] = useState<DebtDTO[]>([]);
   const toast = useToast();
+
+  const [userId, setUserId] = useState(Number);
 
   const [isEdit, setIsEdit] = useState(false);
   const [debtId, setDebtId] = useState<number>(0);
@@ -197,7 +205,7 @@ export default function Debt() {
 
        if (isEdit) {
         const dataDebt = {
-          userId: session?.user.id,
+          userId: userId,
           dueDate: data.dueDate,
           registerId: register.registerId,
           value: Number(
@@ -218,7 +226,7 @@ export default function Debt() {
         res = await updateDebt(dataDebt);
        } else {
         const dataDebt = {
-          userId: session?.user.id,
+          userId: userId,
           dueDate: data.dueDate,
           registerId: register.registerId,
           value: Number(
@@ -240,7 +248,7 @@ export default function Debt() {
 
         onCloseFormModal();
 
-        if (session?.user.id) loadDebts(register.registerId, session?.user.id);
+        loadDebts(register.registerId, userId);
       }
 
     } catch (error: any) {
@@ -270,8 +278,7 @@ export default function Debt() {
         });
 
         onClosePay();
-        if (session?.user.id)
-          loadDebts(register.registerId, session?.user.id);
+        loadDebts(register.registerId, userId);
 
       }
     } catch (error: any) {
@@ -406,7 +413,7 @@ export default function Debt() {
           isClosable: true,
         });         
         onCloseConfirm();
-        if (session?.user.id) loadDebts(register.registerId, session?.user.id);
+        loadDebts(register.registerId, userId);
       }
     } catch (error: any) {
       toast({
@@ -425,7 +432,7 @@ export default function Debt() {
 
     setIsSubmittingEditOthers(true);
 
-    if (editOthers && session) {
+    if (editOthers) {
       setIsEditOthers(false);
 
       try {
@@ -433,14 +440,14 @@ export default function Debt() {
           editOthers.replace("R$", "").replace(".", "").replace(",", ".")
         );
 
-        const res = await addOthersByRegisterId(session.user.id, others);
+        const res = await addOthersByRegisterId(userId, others);
         if (res.status === 200) {
           toast({
             title: "Valor adicionado com sucesso.",
             status: "success",
             isClosable: true,
           });
-          loadRegister(session.user.id);
+          loadRegister(userId);
         }
       } catch (error: any) {
         toast({
@@ -467,11 +474,21 @@ export default function Debt() {
     setEditOthers(e.target.value);
   }
 
-  useEffect(() => {
-    loadCategories();
+  async function loadSession() {
+    const session = await getSession();
+    if (session?.user.id) {
+      setUserId(session.user.id);
+    }
+  }
 
-    if (session) loadRegister(session?.user.id);
-  }, [session]);
+  useEffect(() => {
+    loadSession();
+    loadCategories();
+  }, []);
+
+  useEffect(() => {
+    if (userId) loadRegister(userId);
+  }, [userId]);
 
   useEffect(() => {
     debt.value = debt.value != undefined ? debt.value.toString() : undefined;
@@ -481,7 +498,6 @@ export default function Debt() {
     reset(debt);
   }, [debt]);
 
-
   return (
     <Layout>
       <Container maxW="6xl">
@@ -490,17 +506,20 @@ export default function Debt() {
             <Heading size="md">
               <Flex justifyContent="space-between">
                 Registro
-                <IconButton
-                  size="md"
-                  rounded={20}
-                  boxShadow="md"
-                  colorScheme="blue"
-                  bgColor="primary.600"
-                  color="white"
-                  aria-label="Insert Debt"
-                  onClick={handleUpdateRegister}
-                  icon={<FiEdit2 />}
-                />
+
+                {register.registerId && 
+                  <IconButton
+                    size="md"
+                    rounded={20}
+                    boxShadow="md"
+                    colorScheme="blue"
+                    bgColor="primary.600"
+                    color="white"
+                    aria-label="Insert Debt"
+                    onClick={handleUpdateRegister}
+                    icon={<FiEdit2 />}
+                  />
+                }
               </Flex>
             </Heading>
           </CardHeader>

@@ -29,29 +29,30 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { MdAttachMoney } from "react-icons/md";
 import { FiArrowDownCircle, FiCreditCard, FiTrash2 } from "react-icons/fi";
 
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 import Box from "@/components/Box";
 import Layout from "@/components/template/Layout";
+import IconButton from "@/components/IconButton";
 
 import { getAllRegisterByUserId } from "@/services/register";
 import { deleteHistory, getAllHistoryByRegister } from "@/services/history";
+import { getDebtDash } from "@/services/debt";
 
 import { HistoryDTO } from "@/dto/http/HistoryDTO";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
-import { getDebtDash } from "@/services/debt";
 import { DashDTO } from "@/dto/http/DashDTO";
-import IconButton from "@/components/IconButton";
 import useAuth from "@/hooks/useAuth";
 
 export default function Dashboard() {
-  const { data: session } = useSession();
   const { colorMode } = useColorMode();
   const toast = useToast();
   const theme = useTheme();
   const cancelRef = useRef<HTMLInputElement>(null);
 
-  const auth = useAuth(true);
+ // const auth = useAuth(true);
+
+  const [userId, setUserId] = useState(Number);
 
   const [history, setHistory] = useState<HistoryDTO[]>([]);
   const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
@@ -76,6 +77,13 @@ export default function Dashboard() {
      }).format(Number(value));
    };
 
+
+  async function loadSession() {
+     const session = await getSession();
+     if (session?.user.id) {
+       setUserId(session.user.id);
+     }
+  }
 
   async function loadRegister(userId: number) {
     try {
@@ -143,8 +151,12 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    if (session) loadRegister(session?.user.id);
+    loadSession();
   }, []);
+
+  useEffect(() => {
+    if (userId) loadRegister(userId);
+  }, [userId]);
 
   return (
     <Layout>

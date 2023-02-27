@@ -78,14 +78,14 @@ export default NextAuth({
       const dateExp = new Date(decoded.exp * 1000);
       const dateNow = new Date();
 
-     // const dateNow = Date.now();
+      // const dateNow = Date.now();
 
       console.log("decoded.exp", decoded.exp);
 
-      console.log("dateExp", dateExp);
-      console.log("dateNow", dateNow);
+      console.log("dateExp", dateExp.toLocaleString());
+      console.log("dateNow", dateNow.toLocaleString());
 
-      if (dateNow > dateExp) {
+      if (dateNow.toLocaleString() > dateExp.toLocaleString()) {
         console.log("expirou");
         return { ...session, error: "TokenExpiredError" };
       } else {
@@ -101,11 +101,11 @@ export default NextAuth({
       session.expires = decoded.exp;
       return { ...session, accessToken: token.sub };
     },
-    async redirect({ url }) {
-      if (url.includes("/signIn")) return "/";
-      if (!url.includes("/")) return "/signIn";
-      return url;
-    },
+    // async redirect({ url }) {
+    //   if (url.includes("/signIn")) return "/";
+    //   if (!url.includes("/")) return "/signIn";
+    //   return url;
+    // },
   },
   debug: process.env.NODE_ENV === "development",
   pages: {

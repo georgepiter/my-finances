@@ -25,6 +25,7 @@ import Image from "next/image";
 import InputMask from "react-input-mask";
 import MaskedInput from "react-text-mask";
 import { realMask } from "@/utils/mask/realMask";
+import { useSession } from "next-auth/react";
 
 import avatarDarkImage from "../../assets/_dark/avatar.png";
 import avatarlightImage from "../../assets/_light/avatar.png";
@@ -36,7 +37,8 @@ import { useEffect, useState } from "react";
 import { getRegisterById, updateRegister } from "@/services/register";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { RegisterModel } from "@/models/register";
-import { useSession } from "next-auth/react";
+import Spinner from "@/components/Spinner";
+import { useProfile } from "@/hooks/useProfile";
 
 interface FileProps {
   name?: string;
@@ -68,6 +70,10 @@ export default function Register() {
 
   const { colorMode } = useColorMode();
   const { data: session } = useSession();
+
+  const { setProfile } = useProfile();
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const [fileRegister, setFileRegister] = useState<FileProps>(
     {} as FileProps
@@ -104,6 +110,14 @@ export default function Register() {
 
       const res = await updateRegister(register);
       if (res.status === 200) {
+        setProfile({
+          user: {
+            photo: fileRegister.base64
+              .replace("data:image/jpeg;base64,", "")
+              .replace("data:image/png;base64,", ""),
+          },
+        });
+
         toast({
           title: "Registro atualizado com sucesso.",
           status: "success",
@@ -135,20 +149,27 @@ export default function Register() {
   }
 
   async function loadRegister(id: number) {
+     setIsLoading(true);
     try {
       const res = await getRegisterById(id);
       const register = res.data as RegisterDTO;
       setRegister(register);
 
-      setFileRegister({ base64: "data:image/jpeg;base64," + register.photo } as FileProps);
+      setFileRegister({
+        base64: "data:image/jpeg;base64," + register.photo,
+      } as FileProps);
+
     } catch (error: any) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    loadRegister(registerId);
-  }, [query]);
+    if (registerId) loadRegister(registerId);
+  }, [registerId]);
+
 
   useEffect(() => {
 
@@ -174,107 +195,113 @@ export default function Register() {
     <Layout>
       <Container maxW="6xl">
         <Heading as="h4" size="sm" mb={5}>
-          Registros
+          Registro
         </Heading>
 
-        <Card w="100%">
-          <CardBody>
-            <form onSubmit={handleSubmit(handleForm)}>
-              <Stack spacing={4} w="100%">
-                <Center>
-                  {fileRegister.base64 ? (
-                    <ImageBase
-                      borderRadius="full"
-                      boxSize="100px"
-                      src={fileRegister.base64}
-                      alt="Photo Register"
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Card w="100%">
+            <CardBody>
+              <form onSubmit={handleSubmit(handleForm)}>
+                <Stack spacing={4} w="100%">
+                  <Center>
+                    {fileRegister.base64 ? (
+                      <ImageBase
+                        borderRadius="full"
+                        boxSize="100px"
+                        src={fileRegister.base64}
+                        alt="Photo Register"
+                      />
+                    ) : (
+                      <Image
+                        src={
+                          colorMode == "dark"
+                            ? avatarDarkImage
+                            : avatarlightImage
+                        }
+                        width={100}
+                        alt="Brand Image"
+                      />
+                    )}
+                  </Center>
+
+                  <FileBase64 multiple={true} onDone={handleFile} />
+
+                  <HStack>
+                    <Controller
+                      control={control}
+                      name="cell"
+                      render={({ field: { onChange, value } }) => (
+                        <VStack w="100%" alignItems="left">
+                          <Text as="b">Celular</Text>
+                          <Input
+                            size="md"
+                            placeholder="Celular"
+                            errorMessage={errors.cell?.message}
+                            onChange={onChange}
+                            as={InputMask}
+                            mask="(**) *****-****"
+                            value={value || ""}
+                          />
+                        </VStack>
+                      )}
                     />
-                  ) : (
-                    <Image
-                      src={
-                        colorMode == "dark" ? avatarDarkImage : avatarlightImage
-                      }
-                      width={100}
-                      alt="Brand Image"
+                  </HStack>
+                  <HStack>
+                    <Controller
+                      control={control}
+                      name="others"
+                      render={({ field: { onChange, value } }) => (
+                        <VStack w="100%" alignItems="left">
+                          <Text as="b">Outros Valores</Text>
+                          <Input
+                            size="md"
+                            placeholder="Outros Valores"
+                            errorMessage={errors.others?.message}
+                            onChange={onChange}
+                            as={MaskedInput}
+                            mask={realMask}
+                            value={value || ""}
+                          />
+                        </VStack>
+                      )}
                     />
-                  )}
-                </Center>
 
-                <FileBase64 multiple={true} onDone={handleFile} />
-
-                <HStack>
-                  <Controller
-                    control={control}
-                    name="cell"
-                    render={({ field: { onChange, value } }) => (
-                      <VStack w="100%" alignItems="left">
-                        <Text as="b">Celular</Text>
-                        <Input
-                          size="md"
-                          placeholder="Celular"
-                          errorMessage={errors.cell?.message}
-                          onChange={onChange}
-                          as={InputMask}
-                          mask="(**) *****-****"
-                          value={value || ""}
-                        />
-                      </VStack>
-                    )}
+                    <Controller
+                      control={control}
+                      name="salary"
+                      render={({ field: { onChange, value } }) => (
+                        <VStack w="100%" alignItems="left">
+                          <Text as="b">Salário</Text>
+                          <Input
+                            size="md"
+                            placeholder="Salário"
+                            errorMessage={errors.salary?.message}
+                            onChange={onChange}
+                            as={MaskedInput}
+                            mask={realMask}
+                            value={value || ""}
+                          />
+                        </VStack>
+                      )}
+                    />
+                  </HStack>
+                </Stack>
+                <Flex justifyContent="flex-end" mt={5}>
+                  <Button
+                    w="100px"
+                    color="primary"
+                    size="md"
+                    title="Salvar"
+                    type="submit"
+                    isLoading={isSubmitting}
                   />
-                </HStack>
-                <HStack>
-                  <Controller
-                    control={control}
-                    name="others"
-                    render={({ field: { onChange, value } }) => (
-                      <VStack w="100%" alignItems="left">
-                        <Text as="b">Outros Valores</Text>
-                        <Input
-                          size="md"
-                          placeholder="Outros Valores"
-                          errorMessage={errors.others?.message}
-                          onChange={onChange}
-                          as={MaskedInput}
-                          mask={realMask}
-                          value={value || ""}
-                        />
-                      </VStack>
-                    )}
-                  />
-
-                  <Controller
-                    control={control}
-                    name="salary"
-                    render={({ field: { onChange, value } }) => (
-                      <VStack w="100%" alignItems="left">
-                        <Text as="b">Salário</Text>
-                        <Input
-                          size="md"
-                          placeholder="Salário"
-                          errorMessage={errors.salary?.message}
-                          onChange={onChange}
-                          as={MaskedInput}
-                          mask={realMask}
-                          value={value || ""}
-                        />
-                      </VStack>
-                    )}
-                  />
-                </HStack>
-              </Stack>
-              <Flex justifyContent="flex-end" mt={5}>
-                <Button
-                  w="100px"
-                  color="primary"
-                  size="md"
-                  title="Salvar"
-                  type="submit"
-                  isLoading={isSubmitting}
-                />
-              </Flex>
-            </form>
-          </CardBody>
-        </Card>
+                </Flex>
+              </form>
+            </CardBody>
+          </Card>
+        )}
       </Container>
     </Layout>
   );

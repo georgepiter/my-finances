@@ -13,8 +13,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <NavbarTop />
-      <main >{children}</main>
-
+        <main >{children}</main>
       <Footer />
     </>
   );

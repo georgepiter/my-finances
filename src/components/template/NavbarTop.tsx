@@ -18,7 +18,10 @@ import {
 } from "@chakra-ui/react";
 
 import { FiMenu, FiSettings, FiLogOut, FiLock } from "react-icons/fi";
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
+
+import { getSession } from "next-auth/react";
+
 import { useRouter } from "next/router";
 
 import avatarDarkImage from "../../assets/_dark/avatar.png";
@@ -28,14 +31,19 @@ import brandImage from "../../assets/brand.png";
 
 import { useEffect, useState } from "react";
 import { getRegisterByUserId } from "@/services/register";
-import { RegisterDTO } from "@/dto/http/RegisterDTO";
+import { UserSession } from "next-auth";
+
+import { useProfile } from "@/hooks/useProfile";
 
 export default function NavbarTop() {
   const { colorMode } = useColorMode();
-  const { data: session } = useSession();
   const router = useRouter();
 
-  const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
+  const [user, setUser] = useState<UserSession>({} as UserSession);
+
+  const [photoProfile, setPhotoProfile] = useState("");
+
+  const { userProfile } = useProfile();
 
   const menuList = [
     {
@@ -84,22 +92,20 @@ export default function NavbarTop() {
     });
   }
 
-  async function loadRegister() {
-    try {
-      if (session) {
-        const res = await getRegisterByUserId(session.user.id);
-        const register = res.data as RegisterDTO;
-        setRegister(register);
-      }
-        
-    } catch (error: any) {
-      console.log(error);
+  async function loadSession() {
+    const session = await getSession();
+    if (session?.user) {
+      setUser(session.user);
     }
   }
 
   useEffect(() => {
-    loadRegister();
+    loadSession();
   }, []);
+
+  useEffect(() => {
+    if (userProfile?.user?.photo) setPhotoProfile(userProfile.user.photo);
+  }, [userProfile?.user?.photo]);
 
   return (
     <>
@@ -120,7 +126,7 @@ export default function NavbarTop() {
             </HStack>
             <ButtonGroup variant="link" spacing="8">
               {menuList.map((item) => {
-                if (session?.user.role == item.role) {
+                if (user.role == item.role) {
                   return (
                     <Button
                       key={item.title}
@@ -146,12 +152,12 @@ export default function NavbarTop() {
               />
               <MenuList>
                 <MenuItem justifyContent="center">
-                  {register.photo ? (
+                  {userProfile?.user?.photo ? (
                     <ImageBase
                       borderRadius="full"
                       w={50}
                       h={50}
-                      src={`data:image/jpeg;base64,${register.photo}`}
+                      src={`data:image/jpeg;base64,${userProfile?.user?.photo}`}
                       alt="Photo Register"
                     />
                   ) : (
@@ -166,7 +172,7 @@ export default function NavbarTop() {
                 </MenuItem>
                 <MenuItem justifyContent="center">
                   <Text fontSize="xl" as="b">
-                    Olá, {session?.user.name}
+                    Olá, {user.name}
                   </Text>
                 </MenuItem>
                 <MenuItem icon={<FiSettings />} onClick={handleSettings}>

@@ -5,6 +5,7 @@ import { SessionProvider, useSession } from "next-auth/react";
 import { theme } from "@/styles";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import { ProfileContextProvider } from "@/contexts/ProfileContext";
 
 interface Props {
   Component: any;
@@ -16,9 +17,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <SSRProvider>
       <SessionProvider session={session}>
-        <ChakraProvider resetCSS theme={theme}>
-          <Component {...pageProps} />
-        </ChakraProvider>
+        <ProfileContextProvider>
+          <ChakraProvider resetCSS theme={theme}>
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </ProfileContextProvider>
       </SessionProvider>
     </SSRProvider>
   );

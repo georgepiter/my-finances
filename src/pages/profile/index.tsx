@@ -109,7 +109,6 @@ export default function Profile() {
     loadRegister();
   }, [session]);
 
-
   return (
     <Layout>
       <Container h="150px">

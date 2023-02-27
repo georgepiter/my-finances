@@ -4,7 +4,7 @@ import { number } from "zod";
 
 declare module "next-auth" {
 
-  interface UserSession {
+  export interface UserSession {
     name: string;
     id: number;
     email: string;

@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -9,11 +9,15 @@ import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import Register from "./register";
 import { useToast } from "@chakra-ui/react";
 import Spinner from "@/components/Spinner";
+import { UserSession } from "next-auth";
+import { useProfile } from "@/hooks/useProfile";
 
 export default function Home() {
-  const { data: session } = useSession();
   const router = useRouter();
   const toast = useToast();
+
+  const { setProfile } = useProfile();
+  const [user, setUser] = useState<UserSession>({} as UserSession);
 
   const [isRegister, setIsRegister] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,15 +27,21 @@ export default function Home() {
     try {
       const res = await getAllRegisterByUserId(userId);
 
-       if (res.status === 200) {
+      if (res.status === 200) {
         const register = res.data as RegisterDTO;
+
+        setProfile({
+          user: {
+            photo: register.photo
+          },
+        });
 
         if (register.registerId) {
           setIsRegister(true);
         } else {
           setIsRegister(false);
         }
-       }
+      }
     } catch (error: any) {
       toast({
         title: error.message,
@@ -43,34 +53,33 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
-    if (!session) {
-      router.push({
-        pathname: "/signIn",
-      });
-    } else {
-      /** Verifica se já existe registro inserido pro usuário logado */
-      loadRegister(session.user.id);
+  async function loadSession() {
+    const session = await getSession();
+    if (session?.user) {
+      setUser(session.user);
     }
-    
-    return () => {};
+  }
+
+  useEffect(() => {
+    loadSession();
   }, []);
 
-  if (session)
+  useEffect(() => {
+    if (user.id)
+      loadRegister(user.id);
+  }, [user.id]);
+
     return (
       <>
-        {session.user.role === "ROLE_ADMIN" ? (
+        {user.role === "ROLE_ADMIN" ? (
           <User />
         ) : isLoading ? (
-          <Spinner mt={50}/>
-        ) : 
-        (isRegister ? (
+          <Spinner mt={50} />
+        ) : isRegister ? (
           <Dashboard />
         ) : (
           <Register />
-        ))
-        
-        }
+        )}
       </>
     );
-};
+}
