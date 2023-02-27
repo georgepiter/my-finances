@@ -43,15 +43,12 @@ import { getDebtDash } from "@/services/debt";
 import { HistoryDTO } from "@/dto/http/HistoryDTO";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { DashDTO } from "@/dto/http/DashDTO";
-import useAuth from "@/hooks/useAuth";
 
 export default function Dashboard() {
   const { colorMode } = useColorMode();
   const toast = useToast();
   const theme = useTheme();
   const cancelRef = useRef<HTMLInputElement>(null);
-
- // const auth = useAuth(true);
 
   const [userId, setUserId] = useState(Number);
 
