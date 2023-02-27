@@ -21,7 +21,7 @@ export default function Home() {
   const [user, setUser] = useState<UserSession>({} as UserSession);
 
   const [isRegister, setIsRegister] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function loadRegister(userId: number) {
     setIsLoading(true);
@@ -76,15 +76,15 @@ export default function Home() {
 
     return (
       <>
-        {user.role === "ROLE_ADMIN" ? (
-          <User />
-        ) : (isLoading ? (
+        {isLoading ? (
           <Spinner mt={50} />
+        ) : user.role === "ROLE_ADMIN" ? (
+          <User />
         ) : isRegister ? (
           <Dashboard />
         ) : (
           <Register />
-        ))}
+        )}
       </>
     );
 }
