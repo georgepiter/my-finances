@@ -506,11 +506,8 @@ export default function Debt() {
           <CardHeader>
             <Heading size="md">
               <Flex justifyContent="space-between">
-                Registrooo
+                Registro
 
-                <Skeleton isLoaded={false} w="90%">
-                  a
-                </Skeleton>
                 {register.registerId && (
                   <IconButton
                     size="md"

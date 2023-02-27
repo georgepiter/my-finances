@@ -11,6 +11,7 @@ import { useToast } from "@chakra-ui/react";
 import Spinner from "@/components/Spinner";
 import { UserSession } from "next-auth";
 import { useProfile } from "@/hooks/useProfile";
+import SignIn from "./signIn";
 
 export default function Home() {
   const router = useRouter();
@@ -57,6 +58,10 @@ export default function Home() {
     const session = await getSession();
     if (session?.user) {
       setUser(session.user);
+    } else {
+       router.push({
+         pathname: "/signIn",
+       });
     }
   }
 
@@ -73,13 +78,13 @@ export default function Home() {
       <>
         {user.role === "ROLE_ADMIN" ? (
           <User />
-        ) : isLoading ? (
+        ) : (isLoading ? (
           <Spinner mt={50} />
         ) : isRegister ? (
           <Dashboard />
         ) : (
           <Register />
-        )}
+        ))}
       </>
     );
 }

@@ -101,11 +101,11 @@ export default NextAuth({
       session.expires = decoded.exp;
       return { ...session, accessToken: token.sub };
     },
-    // async redirect({ url }) {
-    //   if (url.includes("/signIn")) return "/";
-    //   if (!url.includes("/")) return "/signIn";
-    //   return url;
-    // },
+    async redirect({ url }) {
+      if (url.includes("/signIn")) return "/";
+      if (!url.includes("/")) return "/signIn";
+      return url;
+    },
   },
   debug: process.env.NODE_ENV === "development",
   pages: {
