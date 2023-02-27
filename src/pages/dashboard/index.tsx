@@ -23,6 +23,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useToast,
+  Skeleton,
 } from "@chakra-ui/react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -166,6 +167,7 @@ export default function Dashboard() {
             color="green.600"
             title="Entrada"
             value={dash.currentTotalValue ? Number(dash.currentTotalValue) : 0}
+            isLoaded={dash.currentTotalValue != null}
             icon={<MdAttachMoney size={25} />}
           />
 
@@ -173,6 +175,7 @@ export default function Dashboard() {
             color="red.600"
             title="Gastos"
             value={dash.totalDebt ? Number(dash.totalDebt) : 0}
+            isLoaded={dash.totalDebt != null}
             icon={<FiArrowDownCircle size={25} />}
           />
 
@@ -180,6 +183,7 @@ export default function Dashboard() {
             color="blue.600"
             title="Saldo"
             value={dash.totalEntryValue ? Number(dash.totalEntryValue) : 0}
+            isLoaded={dash.totalEntryValue != null}
             icon={<FiCreditCard size={25} />}
           />
         </HStack>

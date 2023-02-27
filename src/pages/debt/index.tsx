@@ -49,6 +49,7 @@ import {
   StatArrow,
   Center,
   useColorMode,
+  Skeleton,
 } from "@chakra-ui/react";
 import { GiPayMoney } from "react-icons/gi";
 import FileBase64 from "react-file-base64";
@@ -506,8 +507,7 @@ export default function Debt() {
             <Heading size="md">
               <Flex justifyContent="space-between">
                 Registro
-
-                {register.registerId && 
+                {register.registerId && (
                   <IconButton
                     size="md"
                     rounded={20}
@@ -519,7 +519,7 @@ export default function Debt() {
                     onClick={handleUpdateRegister}
                     icon={<FiEdit2 />}
                   />
-                }
+                )}
               </Flex>
             </Heading>
           </CardHeader>
@@ -528,11 +528,12 @@ export default function Debt() {
               <HStack justifyContent="space-between" mb={5}>
                 <Text as="b" fontSize="lg">
                   Salário:{" "}
-                  {register.salary &&
-                    new Intl.NumberFormat("pt-br", {
+                  <Skeleton isLoaded={register.salary != null} w="100%">
+                    {new Intl.NumberFormat("pt-br", {
                       style: "currency",
                       currency: "BRL",
                     }).format(Number(register.salary))}
+                  </Skeleton>
                 </Text>
 
                 {isEditOthers ? (
@@ -578,11 +579,15 @@ export default function Debt() {
                 <Stat>
                   <StatLabel>Entradas</StatLabel>
                   <StatNumber>
-                    {debtValue.totalEntryValue &&
-                      new Intl.NumberFormat("pt-br", {
+                    <Skeleton
+                      isLoaded={debtValue.totalEntryValue != null}
+                      w="90%"
+                    >
+                      {new Intl.NumberFormat("pt-br", {
                         style: "currency",
                         currency: "BRL",
                       }).format(Number(debtValue.totalEntryValue))}
+                    </Skeleton>
                   </StatNumber>
                   <StatHelpText>
                     <StatArrow type="increase" />
@@ -593,11 +598,12 @@ export default function Debt() {
                 <Stat>
                   <StatLabel>Saídas</StatLabel>
                   <StatNumber>
-                    {debtValue.totalDebt &&
-                      new Intl.NumberFormat("pt-br", {
+                    <Skeleton isLoaded={debtValue.totalDebt != null} w="90%">
+                      {new Intl.NumberFormat("pt-br", {
                         style: "currency",
                         currency: "BRL",
                       }).format(Number(debtValue.totalDebt))}
+                    </Skeleton>
                   </StatNumber>
                   <StatHelpText>
                     <StatArrow type="decrease" />
@@ -608,12 +614,15 @@ export default function Debt() {
                 <Stat>
                   <StatLabel>Saldo</StatLabel>
                   <StatNumber>
-                    {" "}
-                    {debtValue.currentTotalValue &&
-                      new Intl.NumberFormat("pt-br", {
+                    <Skeleton
+                      isLoaded={debtValue.currentTotalValue != null}
+                      w="90%"
+                    >
+                      {new Intl.NumberFormat("pt-br", {
                         style: "currency",
                         currency: "BRL",
                       }).format(Number(debtValue.currentTotalValue))}
+                    </Skeleton>
                   </StatNumber>
                   <StatHelpText>Saldo Atual</StatHelpText>
                 </Stat>
@@ -621,12 +630,12 @@ export default function Debt() {
                 <Stat>
                   <StatLabel>Total outros valores</StatLabel>
                   <StatNumber>
-                    {" "}
-                    {debtValue.currentTotalValue &&
-                      new Intl.NumberFormat("pt-br", {
+                    <Skeleton isLoaded={register.others != null} w="90%">
+                      {new Intl.NumberFormat("pt-br", {
                         style: "currency",
                         currency: "BRL",
                       }).format(Number(register.others))}
+                    </Skeleton>
                   </StatNumber>
                   <StatHelpText>Total outros valores</StatHelpText>
                 </Stat>

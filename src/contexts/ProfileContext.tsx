@@ -18,7 +18,7 @@ interface ProfileProviderProps {
 export const ProfileContext = createContext({} as ProfileContextDataProps);
 
 export function ProfileContextProvider({ children }: ProfileProviderProps) {
-  const key = `@${process.env.APP_NAME + ":photo"}`;
+  const key = `@${process.env.APP_NAME + ":profile"}`;
 
   const [userProfile, setUserProfile] = useState<UserProps>({} as UserProps);
 
