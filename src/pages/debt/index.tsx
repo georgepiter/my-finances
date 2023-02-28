@@ -507,7 +507,6 @@ export default function Debt() {
             <Heading size="md">
               <Flex justifyContent="space-between">
                 Registro
-
                 {register.registerId && (
                   <IconButton
                     size="md"
@@ -647,7 +646,10 @@ export default function Debt() {
 
         {/* LIST DEBTS */}
         <Box>
-          <HStack display="flex" justifyContent="flex-end">
+          <HStack display="flex" justifyContent="space-between">
+            <Heading as="h4" size="md">
+              Débitos
+            </Heading>
             <Heading as="h4" size="md" mb={10}>
               <IconButton
                 size="md"
@@ -662,6 +664,8 @@ export default function Debt() {
           </HStack>
           {isLoading ? (
             <Spinner />
+          ) : debts.length === 0 ? (
+            <Text>Nenhum registro encontrado.</Text>
           ) : (
             <TableContainer>
               <Table size="sm">
