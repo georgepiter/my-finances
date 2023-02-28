@@ -10,12 +10,13 @@ export async function middleware(req) {
   const session = await getSession({ req: requestForNextAuth });
 
   console.log("session", session);
-   if (session.error &&session.error === "TokenExpiredError") {
+   if (session?.error != undefined && session.error === "TokenExpiredError") {
      const url = req.nextUrl.clone();
      const { pathname, origin } = url;
-   //  if (url.pathname == "/") {
-       return NextResponse.rewrite(`${origin}/signIn`);
-   //  }
+
+    if (["/dashboard", "/debt"].includes(url.pathname)) {
+      return NextResponse.redirect(`${origin}/signIn`);
+    }
    }
   return NextResponse.next();
 }

@@ -68,6 +68,8 @@ export default function Home() {
       } else {
         loadRegister(session.user.id);
       }
+
+    
     } else {
       router.push({
         pathname: "/signIn",

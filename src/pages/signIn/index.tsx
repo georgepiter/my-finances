@@ -23,7 +23,7 @@ import PanelLeftBrand from "@/components/template/PanelLeftBrand";
 import Link from "@/components/Link";
 import Button from "@/components/Button";
 import { Input } from "@/components/Input";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useEffect } from "react";
 
 const signInFormSchema = z.object({
@@ -52,7 +52,6 @@ export default function SignIn() {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const { data: session } = useSession();
   const toast = useToast();
   const router = useRouter();
 
@@ -71,6 +70,10 @@ export default function SignIn() {
           title: res?.error,
           status: "error",
           isClosable: true,
+        });
+      } else {
+        router.push({
+          pathname: "/",
         });
       }
     } catch (error: any) {
@@ -93,15 +96,6 @@ export default function SignIn() {
       pathname: "/remember-password",
     });
   }
-
-  useEffect(() => {
-    if (session) {
-      router.push({
-        pathname: "/",
-      });
-    }
-    return () => {};
-  }, [session]);
 
   return (
     <>
