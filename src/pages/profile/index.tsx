@@ -16,6 +16,8 @@ import {
 import Image from "next/image";
 
 import { useForm, Controller } from "react-hook-form";
+import { useSession } from "next-auth/react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -31,11 +33,14 @@ import Layout from "@/components/template/Layout";
 import bgImage from "../../assets/bg-top.png";
 import avatarDarkImage from "../../assets/_dark/avatar.png";
 import avatarlightImage from "../../assets/_light/avatar.png";
+
 import { resetUser } from "@/services/user";
-import { UserModel } from "@/models/user";
-import { useSession } from "next-auth/react";
-import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { getRegisterByUserId } from "@/services/register";
+
+import { UserModel } from "@/models/user";
+import { RegisterDTO } from "@/dto/http/RegisterDTO";
+
+import { useProfile } from "@/hooks/useProfile";
 
 const passwordFormSchema = z.object({
   newPassword: z
@@ -55,7 +60,8 @@ export default function Profile() {
 
   const { colorMode } = useColorMode();
   const toast = useToast();
-  const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
+
+  const { userProfile } = useProfile();
 
   const {
     control,
@@ -93,21 +99,6 @@ export default function Profile() {
     }
   }
 
-  async function loadRegister() {
-    try {
-      if (session) {
-        const res = await getRegisterByUserId(session.user.id);
-        const register = res.data as RegisterDTO;
-        setRegister(register);
-      }
-    } catch (error: any) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    loadRegister();
-  }, [session]);
 
   return (
     <Layout>
@@ -126,13 +117,12 @@ export default function Profile() {
             height: "auto",
           }}
         >
-
-          {register.photo ? (
+          {userProfile.user?.photo ? (
             <ImageBase
               borderRadius="full"
               w={100}
               h={100}
-              src={`data:image/jpeg;base64,${register.photo}`}
+              src={`data:image/jpeg;base64,${userProfile.user.photo}`}
               alt="Photo Register"
               style={{ position: "absolute", marginTop: "5px" }}
             />
