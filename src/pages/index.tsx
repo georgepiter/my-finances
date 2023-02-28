@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -23,6 +23,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
   async function loadRegister(userId: number) {
+    setIsLoading(true);
 
     try {
       const res = await getAllRegisterByUserId(userId);
@@ -34,13 +35,16 @@ export default function Home() {
           router.push({
             pathname: "/register",
           });
-        } 
-
-        setProfile({
-          user: {
-            photo: register.photo,
-          },
-        });
+        } else {
+          setProfile({
+            user: {
+              photo: register.photo,
+            },
+          });
+          router.push({
+            pathname: "/dashboard",
+          });
+        }
       }
     } catch (error: any) {
       toast({
@@ -54,40 +58,39 @@ export default function Home() {
   }
 
   async function loadSession() {
-    setIsLoading(true);
     const session = await getSession();
+
     if (session?.user.id) {
-      setUser(session.user);
-    } 
+      if (session.user.role === "ROLE_ADMIN") {
+        router.push({
+          pathname: "/user",
+        });
+      } else {
+        loadRegister(session.user.id);
+      }
+    } else {
+      router.push({
+        pathname: "/signIn",
+      });
+    }
   }
 
   useEffect(() => {
     loadSession();
   }, []);
 
-  useEffect(() => {
-    if (user.id) {
-    loadRegister(user.id);
-    }
-     
-  }, [user.id]);
-
-    return (
-      <>
-        {isLoading || !user.id ? (
-          <Spinner
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          />
-        ) : user.role === "ROLE_ADMIN" ? (
-          <User />
-        ) : (
-          <Dashboard />
-        )}
-      </>
-    );
+  return (
+    <>
+      {isLoading && (
+        <Spinner
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      ) }
+    </>
+  );
 }

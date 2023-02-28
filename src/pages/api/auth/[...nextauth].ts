@@ -86,10 +86,7 @@ export default NextAuth({
       console.log("dateNow", dateNow.toLocaleString());
 
       if (dateNow.toLocaleString() > dateExp.toLocaleString()) {
-        console.log("expirou");
         return { ...session, error: "TokenExpiredError" };
-      } else {
-        console.log("n expirou");
       }
 
       session.user.name = decoded.sub;

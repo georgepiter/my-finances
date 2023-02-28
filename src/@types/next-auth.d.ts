@@ -16,6 +16,7 @@ declare module "next-auth" {
     nameApp: string;
     expires: number;
     token: string;
+    error? : string;
   }
 }
 
