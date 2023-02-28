@@ -23,25 +23,24 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
   async function loadRegister(userId: number) {
- 
-    setIsLoading(true);
+
     try {
       const res = await getAllRegisterByUserId(userId);
 
       if (res.status === 200) {
         const register = res.data as RegisterDTO;
 
-        setProfile({
-          user: {
-            photo: register.photo
-          },
-        });
-
-        if (!register.registerId) {
+        if (!register.registerId && user.role != "ROLE_ADMIN") {
           router.push({
-            pathname: "/signIn",
+            pathname: "/register",
           });
         } 
+
+        setProfile({
+          user: {
+            photo: register.photo,
+          },
+        });
       }
     } catch (error: any) {
       toast({
@@ -55,6 +54,7 @@ export default function Home() {
   }
 
   async function loadSession() {
+    setIsLoading(true);
     const session = await getSession();
     if (session?.user.id) {
       setUser(session.user);
@@ -67,7 +67,6 @@ export default function Home() {
 
   useEffect(() => {
     if (user.id) {
-    console.log("user.id", user.id);
     loadRegister(user.id);
     }
      
@@ -75,7 +74,7 @@ export default function Home() {
 
     return (
       <>
-        {isLoading ? (
+        {isLoading || !user.id ? (
           <Spinner
             style={{
               position: "fixed",
