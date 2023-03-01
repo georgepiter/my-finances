@@ -44,18 +44,24 @@ export default NextAuth({
     strategy: "jwt",
   },
   jwt: {
-    encode: ({ secret, token }) => {
-      const encodedToken = jwt.sign(token!, secret, {
-        algorithm: process.env.NEXTAUTH_SECRET,
-      });
-      return encodedToken;
+    async encode({ secret, token }) {
+      return jwt.sign(token, secret);
     },
-    decode: async ({ secret, token }) => {
-      const decodedToken = jwt.verify(token!, secret, {
-        algorithms: [process.env.NEXTAUTH_SECRET],
-      });
-      return decodedToken as JWT;
+    async decode({ secret, token }) {
+      return jwt.verify(token, secret);
     },
+    // encode: ({ secret, token }) => {
+    //   const encodedToken = jwt.sign(token!, secret, {
+    //     algorithm: process.env.NEXTAUTH_SECRET,
+    //   });
+    //   return encodedToken;
+    // },
+    // decode: async ({ secret, token }) => {
+    //   const decodedToken = jwt.verify(token!, secret, {
+    //     algorithms: [process.env.NEXTAUTH_SECRET],
+    //   });
+    //   return decodedToken as JWT;
+    // },
   },
   callbacks: {
     async signIn({ account }) {
