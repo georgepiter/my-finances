@@ -26,6 +26,11 @@ export const verifyAuth = async (token: string) => {
     const dateNow = new Date();
     const dateExp = new Date(result.iat * 1000 + 10 * 60000);
 
+
+    console.log("dateNow", dateNow);
+    console.log("dateExp", dateExp);
+
+
     if (dateNow.toLocaleString() > dateExp.toLocaleString()) {
        return false;
     }

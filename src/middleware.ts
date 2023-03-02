@@ -3,15 +3,8 @@ import { getToken } from "next-auth/jwt";
 
 import { verifyAuth } from "./libs/auth";
 
-
-import { jwtVerify, SignJWT } from "jose";
-
-
-
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("next-auth.session-token")?.value;
-
-
   const verifiedToken =
     token && (await verifyAuth(token).catch((err) => {
       console.log(err);
@@ -23,7 +16,6 @@ export default async function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
-
 
 export const config = {
   matcher: [
