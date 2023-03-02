@@ -82,10 +82,6 @@ export default NextAuth({
 
       const decoded = jwt.decode(token.sub, process.env.JWT_SECRET);
 
-    //  const verifiedToken = await verifyAuth(token.sub);
-
-
-
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
       session.user.role = decoded.role;
