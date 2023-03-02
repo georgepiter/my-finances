@@ -485,10 +485,14 @@ export default function Debt() {
   useEffect(() => {
     loadSession();
     loadCategories();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (userId) loadRegister(userId);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   useEffect(() => {
@@ -497,6 +501,8 @@ export default function Debt() {
       debt.categoryId != undefined ? debt.categoryId.toString() : undefined;
 
     reset(debt);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debt]);
 
   return (

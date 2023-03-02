@@ -15,8 +15,8 @@ declare module "next-auth" {
     user: UserSession;
     nameApp: string;
     expires: number;
-    token: string;
-    error? : string;
+    accessToken: string;
+    error?: string;
   }
 }
 

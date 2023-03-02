@@ -27,8 +27,8 @@ api.interceptors.request.use(
 
     config.headers = config.headers ?? {};
 
-    if (session?.token) {
-      config.headers["Authorization"] = "Bearer " + session.token;
+    if (session?.accessToken) {
+      config.headers["Authorization"] = "Bearer " + session.accessToken;
     }
     return Promise.resolve(config);
   },

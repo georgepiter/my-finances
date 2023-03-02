@@ -43,7 +43,7 @@ export function ProfileContextProvider({ children }: ProfileProviderProps) {
       }
     }
     loadStorageDate();
-  }, []);
+  }, [key]);
 
 
    return (

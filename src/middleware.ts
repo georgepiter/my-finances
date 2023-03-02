@@ -1,27 +1,35 @@
-import { getSession } from "next-auth/react";
+import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-import { NextRequest, NextResponse } from "next/server";
-
-export async function middleware(req: NextRequest) {
-  const requestForNextAuth = {
-    headers: {
-      cookie: (await req.headers.get("cookie")) || "",
-    },
-  };
-  const session = await getSession({ req: requestForNextAuth } as any);
-
-  console.log("session", session);
+import { verifyAuth } from "./libs/auth";
 
 
-if (session?.error != undefined && session.error === "TokenExpiredError") {
-  return NextResponse.rewrite(new URL("/signIn", req.url));
-}
+import { jwtVerify, SignJWT } from "jose";
 
+
+
+export default async function middleware(req: NextRequest) {
+  const token = req.cookies.get("next-auth.session-token")?.value;
+
+
+  const verifiedToken =
+    token && (await verifyAuth(token).catch((err) => {
+      console.log(err);
+    }));
+
+  if (!verifiedToken) {
+    return NextResponse.rewrite(new URL("/signIn", req.url));
+  }
 
   return NextResponse.next();
 }
 
+
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/debt/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/admin/:path*",
+    "/debt/:path*",
+    "/register/:path*",
+  ],
 };

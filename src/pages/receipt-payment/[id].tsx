@@ -65,6 +65,8 @@ export default function ReceiptPayment() {
 
   useEffect(() => {
     if (query.id) loadDebt();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.id]);
 
   useEffect(() => {

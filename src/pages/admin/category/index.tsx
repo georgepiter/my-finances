@@ -218,10 +218,14 @@ export default function Category() {
 
    useEffect(() => {
      reset(category);
+
+     // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [category]);
 
    useEffect(() => {
      loadCategories();
+
+     // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
   return (

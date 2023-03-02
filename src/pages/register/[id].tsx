@@ -172,7 +172,6 @@ export default function Register() {
 
 
   useEffect(() => {
-
     register.others =
       register.others != undefined
         ? new Intl.NumberFormat("pt-br", {
@@ -182,14 +181,17 @@ export default function Register() {
         : undefined;
 
     register.salary =
-      register.salary != undefined ? 
-       new Intl.NumberFormat("pt-br", {
+      register.salary != undefined
+        ? new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
-          }).format(Number(register.salary)) : undefined;
+          }).format(Number(register.salary))
+        : undefined;
 
-     reset(register);
-   }, [register]);
+    reset(register);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [register]);
 
   return (
     <Layout>

@@ -60,12 +60,14 @@ export default function Home() {
   async function loadSession() {
     const session = await getSession();
 
-    if (session?.user.id) {
+    if (session) {
       if (session.user.role === "ROLE_ADMIN") {
         router.push({
           pathname: "/user",
         });
       } else {
+        console.log("loadRegister");
+
         loadRegister(session.user.id);
       }
 
@@ -79,6 +81,8 @@ export default function Home() {
 
   useEffect(() => {
     loadSession();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

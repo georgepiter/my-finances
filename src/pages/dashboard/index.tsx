@@ -154,6 +154,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (userId) loadRegister(userId);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   return (

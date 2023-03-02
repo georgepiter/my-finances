@@ -1,6 +1,5 @@
 import { auth } from "@/services/auth";
 import NextAuth from "next-auth";
-import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 let jwt = require("jsonwebtoken");
@@ -39,7 +38,7 @@ export default NextAuth({
     }),
     // ...add more providers
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.JWT_SECRET,
   session: {
     strategy: "jwt",
   },
@@ -52,13 +51,13 @@ export default NextAuth({
     },
     // encode: ({ secret, token }) => {
     //   const encodedToken = jwt.sign(token!, secret, {
-    //     algorithm: process.env.NEXTAUTH_SECRET,
+    //     algorithm: process.env.JWT_SECRET,
     //   });
     //   return encodedToken;
     // },
     // decode: async ({ secret, token }) => {
     //   const decodedToken = jwt.verify(token!, secret, {
-    //     algorithms: [process.env.NEXTAUTH_SECRET],
+    //     algorithms: [process.env.JWT_SECRET],
     //   });
     //   return decodedToken as JWT;
     // },
@@ -80,26 +79,12 @@ export default NextAuth({
         throw new Error("Sessão inválida.");
       }
 
-      const decoded = jwt.decode(token.sub, process.env.NEXTAUTH_SECRET);
-      const dateExp = new Date(decoded.exp * 1000);
-      const dateNow = new Date();
-
-      // const dateNow = Date.now();
-
-      console.log("decoded.exp", decoded.exp);
-
-      console.log("dateExp", dateExp.toLocaleString());
-      console.log("dateNow", dateNow.toLocaleString());
-
-      if (dateNow.toLocaleString() > dateExp.toLocaleString()) {
-        return { ...session, error: "TokenExpiredError" };
-      }
-
+      const decoded = jwt.decode(token.sub, process.env.JWT_SECRET);
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
       session.user.role = decoded.role;
       session.user.email = decoded.email;
-      session.token = token.sub;
+      session.accessToken = token.sub;
       session.nameApp = decoded.nameApp;
       session.expires = decoded.exp;
       return { ...session, accessToken: token.sub };
