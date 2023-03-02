@@ -23,6 +23,8 @@ export const verifyAuth = async (token: string) => {
 
     const result = verified.payload as UserJwtPayload;
 
+    return result;
+
     const dateNow = new Date();
     const dateExp = new Date(result.iat * 1000 + 10 * 60000);
 
