@@ -31,7 +31,7 @@ export default function Home() {
       if (res.status === 200) {
         const register = res.data as RegisterDTO;
 
-        if (!register.registerId && user.role != "ROLE_ADMIN") {
+        if (!register.registerId) {
           router.push({
             pathname: "/register",
           });
@@ -73,6 +73,8 @@ export default function Home() {
 
     
     } else {
+
+      console.log("signIn");
       router.push({
         pathname: "/signIn",
       });
