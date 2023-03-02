@@ -5,14 +5,14 @@ import { verifyAuth } from "./libs/auth";
 
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("next-auth.session-token")?.value;
-  const verifiedToken =
-    token && (await verifyAuth(token).catch((err) => {
-      console.log(err);
-    }));
+  // const verifiedToken =
+  //   token && (await verifyAuth(token).catch((err) => {
+  //     console.log(err);
+  //   }));
 
-  if (!verifiedToken) {
-    return NextResponse.rewrite(new URL("/signIn", req.url));
-  }
+  // if (!verifiedToken) {
+  //   return NextResponse.rewrite(new URL("/signIn", req.url));
+  // }
 
   return NextResponse.next();
 }
