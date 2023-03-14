@@ -277,7 +277,7 @@ export default function Category() {
                           >
                             <Text color="gray.700">Ações</Text>
                           </MenuButton>
-                          <MenuList>
+                          <MenuList minWidth="150px">
                             <MenuItem
                               onClick={() =>
                                 handleEditCategory(category.categoryId)

@@ -23,6 +23,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useToast,
+  IconButton as IconButtonBase,
 } from "@chakra-ui/react";
 import { FiPlus, FiTrash2 } from "react-icons/fi";
 
@@ -35,7 +36,7 @@ import { useRegister } from "@/hooks/useRegister";
 import { deleteHistory, getAllHistoryByRegister } from "@/services/history";
 import Spinner from "@/components/Spinner";
 import { HistoryDTO } from "@/dto/http/HistoryDTO";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 export default function History() {
 
@@ -155,13 +156,12 @@ export default function History() {
                       <Td>
                         <Menu>
                           <MenuButton
+                            rounded={20}
                             bg="gray.50"
-                            as={ButtonBase}
-                            rightIcon={<ChevronDownIcon />}
-                          >
-                            <Text color="gray.700">Ações</Text>
-                          </MenuButton>
-                          <MenuList>
+                            as={IconButtonBase}
+                            icon={<HamburgerIcon />}
+                          />
+                          <MenuList minWidth="150px">
                             <MenuItem
                               onClick={() =>
                                 handleConfirm(h.financialHistoryId)

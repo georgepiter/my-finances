@@ -40,6 +40,7 @@ import {
   Center,
   useColorMode,
   Skeleton,
+  IconButton as IconButtonBase,
 } from "@chakra-ui/react";
 import { GiPayMoney } from "react-icons/gi";
 import FileBase64 from "react-file-base64";
@@ -51,9 +52,9 @@ import {
   FiPlus,
   FiTrash2,
   FiDownload,
-  FiEdit,
+  FiEdit
 } from "react-icons/fi";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -743,13 +744,12 @@ export default function Debt() {
                       <Td>
                         <Menu>
                           <MenuButton
+                            rounded={20}
                             bg="gray.50"
-                            as={ButtonBase}
-                            rightIcon={<ChevronDownIcon />}
-                          >
-                            <Text color="gray.700">Ações</Text>
-                          </MenuButton>
-                          <MenuList>
+                            as={IconButtonBase}
+                            icon={<HamburgerIcon />}
+                          />
+                          <MenuList minWidth="150px">
                             <MenuItem onClick={() => handleEdit(debt.debtId)}>
                               <HStack flex={1} justifyContent="space-between">
                                 <Text>Editar</Text>
