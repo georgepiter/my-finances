@@ -34,6 +34,7 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
+  useColorMode,
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -67,6 +68,8 @@ type FormDataProps = z.infer<typeof insertFormSchema>;
 export default function Category() {
   const router = useRouter();
   const toast = useToast();
+
+  const { colorMode } = useColorMode();
 
   const [categories, setCategories] = useState<CategoryDTO[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -271,7 +274,7 @@ export default function Category() {
                       <Td>
                         <Menu>
                           <MenuButton
-                            bg="gray.50"
+                            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
                             as={ButtonBase}
                             rightIcon={<ChevronDownIcon />}
                           >

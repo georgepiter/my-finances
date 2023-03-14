@@ -36,6 +36,7 @@ import {
   AlertDialogFooter,
   Tag,
   Badge,
+  useColorMode,
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -47,7 +48,7 @@ import { z } from "zod";
 import MaskedInput from "react-text-mask";
 import emailMask from "text-mask-addons/dist/emailMask";
 
-import { FiEdit2, FiPlus, FiTrash2, FiEyeOff, FiEye, FiFileText } from "react-icons/fi";
+import { FiPlus, FiTrash2, FiEyeOff, FiEye, FiFileText } from "react-icons/fi";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -94,6 +95,8 @@ type FormDataProps = z.infer<typeof insertFormSchema>;
 export default function User() {
   const router = useRouter();
   const toast = useToast();
+
+  const { colorMode } = useColorMode();
 
   const [ users, setUsers ] = useState<UserDTO[]>([]);
   const [ isLoading, setIsLoading ] = useState(false);
@@ -376,7 +379,7 @@ export default function User() {
                       <Td>
                         <Menu>
                           <MenuButton
-                            bg="gray.50"
+                            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
                             as={ButtonBase}
                             rightIcon={<ChevronDownIcon />}
                           >

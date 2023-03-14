@@ -42,6 +42,8 @@ export default function History() {
 
   const toast = useToast();
 
+  const { colorMode } = useColorMode();
+
   const [isLoading, setIsLoading] = useState(false);
   const { registerBase } = useRegister();
 
@@ -157,7 +159,7 @@ export default function History() {
                         <Menu>
                           <MenuButton
                             rounded={20}
-                            bg="gray.50"
+                            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
                             as={IconButtonBase}
                             icon={<HamburgerIcon />}
                           />

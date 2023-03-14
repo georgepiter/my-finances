@@ -131,6 +131,8 @@ export default function Debt() {
   const [debts, setDebts] = useState<DebtDTO[]>([]);
   const toast = useToast();
 
+  const { colorMode } = useColorMode();
+
   const { registerBase, setRegister } = useRegister();
 
   const [userId, setUserId] = useState(Number);
@@ -745,7 +747,7 @@ export default function Debt() {
                         <Menu>
                           <MenuButton
                             rounded={20}
-                            bg="gray.50"
+                            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
                             as={IconButtonBase}
                             icon={<HamburgerIcon />}
                           />
