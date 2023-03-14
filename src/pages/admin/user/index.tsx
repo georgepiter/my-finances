@@ -315,7 +315,7 @@ export default function User() {
   return (
     <Layout>
       {/* LIST USERS */}
-      <Container maxW="6xl">
+      <Container maxW="6xl" mt={10}>
         <Heading as="h4" size="md" mb={5}>
           Usuários
         </Heading>

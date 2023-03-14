@@ -32,6 +32,10 @@ import brandImage from "../../assets/brand.png";
 
 import { useProfile } from "@/hooks/useProfile";
 
+import logoDark from "../../assets/_dark/logo.png";
+import logoLight from "../../assets/_light/logo.png";
+
+
 export default function NavbarTop() {
   const { colorMode } = useColorMode();
   const router = useRouter();
@@ -62,6 +66,11 @@ export default function NavbarTop() {
       title: "Categorias",
       route: "admin/category",
       role: "ROLE_ADMIN",
+    },
+    {
+      title: "Históricos",
+      route: "history",
+      role: "ROLE_MANAGER",
     },
   ];
 
@@ -106,20 +115,19 @@ export default function NavbarTop() {
 
   return (
     <>
-      <Box as="section" pb={{ base: "12", md: "24" }}>
-        <Box as="nav" bg={colorMode == "dark" ? "black" : "white"}>
-          <Flex justify="space-between" flex="1" p={3}>
+      <Box as="section">
+        <Box
+          as="nav"
+          bg={colorMode == "dark" ? "black" : "white"}
+          boxShadow="md"
+        >
+          <Flex justify="space-between" flex="1" p={1}>
             <HStack>
               <Image
-                src={brandImage}
+                src={colorMode == "dark" ? logoLight : logoDark}
                 alt="Brand Image"
-                width={30}
-                height={30}
-                priority // lazy ,eager
-                style={{ marginRight: "10px" }}
+                style={{ height: "auto", width: "90px" }}
               />
-
-              <Text as="b">controlZ</Text>
             </HStack>
             <ButtonGroup variant="link" spacing="8">
               {menuList.map((item) => {
@@ -137,6 +145,7 @@ export default function NavbarTop() {
             </ButtonGroup>
             <Menu>
               <MenuButton
+                mt={2}
                 as={IconButton}
                 aria-label="Options"
                 icon={

@@ -22,7 +22,6 @@ export function ProfileContextProvider({ children }: ProfileProviderProps) {
 
   const [userProfile, setUserProfile] = useState<UserProps>({} as UserProps);
 
-
   async function setProfile(profile: UserProps) {
     try {
       await localStorage.setItem(key, JSON.stringify(profile));

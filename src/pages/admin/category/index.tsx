@@ -231,7 +231,7 @@ export default function Category() {
   return (
     <Layout>
       {/* LIST CATEGORIES */}
-      <Container maxW="6xl">
+      <Container maxW="6xl" mt={10}>
         <Heading as="h4" size="md" mb={5}>
           Categorias
         </Heading>

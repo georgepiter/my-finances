@@ -39,6 +39,8 @@ import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { RegisterModel } from "@/models/register";
 import Spinner from "@/components/Spinner";
 import { useProfile } from "@/hooks/useProfile";
+import { useRegister } from "@/hooks/useRegister";
+import { RegisterProps } from "@/contexts/RegisterContext";
 
 interface FileProps {
   name?: string;
@@ -65,6 +67,8 @@ export default function Register() {
 
   const toast = useToast();
 
+  const { registerBase, setRegister } = useRegister();
+
   const { query } = useRouter();
   const registerId = Number(query.id);
 
@@ -79,7 +83,7 @@ export default function Register() {
     {} as FileProps
   );
 
-  const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
+  const [registerLoad, setRegisterLoad] = useState<RegisterDTO>({} as RegisterDTO);
 
   const {
     control,
@@ -118,6 +122,13 @@ export default function Register() {
           },
         });
 
+        const registerBaseNew = {
+          registerId: register.registerId,
+          salary: Number(register.salary),
+          others: Number(register.others),
+        } as RegisterProps;
+        setRegister(registerBaseNew);
+
         toast({
           title: "Registro atualizado com sucesso.",
           status: "success",
@@ -152,11 +163,11 @@ export default function Register() {
      setIsLoading(true);
     try {
       const res = await getRegisterById(id);
-      const register = res.data as RegisterDTO;
-      setRegister(register);
+      const registerNew = res.data as RegisterDTO;
+      setRegisterLoad(registerNew);
 
       setFileRegister({
-        base64: "data:image/jpeg;base64," + register.photo,
+        base64: "data:image/jpeg;base64," + registerNew.photo,
       } as FileProps);
 
     } catch (error: any) {
@@ -172,26 +183,26 @@ export default function Register() {
 
 
   useEffect(() => {
-    register.others =
-      register.others != undefined
+    registerLoad.others =
+      registerLoad.others != undefined
         ? new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
-          }).format(Number(register.others))
+          }).format(Number(registerLoad.others))
         : undefined;
 
-    register.salary =
-      register.salary != undefined
+    registerLoad.salary =
+      registerLoad.salary != undefined
         ? new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
-          }).format(Number(register.salary))
+          }).format(Number(registerLoad.salary))
         : undefined;
 
-    reset(register);
+    reset(registerLoad);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [register]);
+  }, [registerLoad]);
 
   return (
     <Layout>

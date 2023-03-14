@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import Box from "@/components/Box";
-import Spinner from "@/components/Spinner";
-import Layout from "@/components/template/Layout";
-import { DebtDTO, DebtValuesDTO } from "@/dto/http/DebtDTO";
 import {
   Container,
   Flex,
@@ -31,12 +27,6 @@ import {
   MenuList,
   MenuItem,
   Text,
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogBody,
-  AlertDialogFooter,
   Tag,
   Card,
   CardHeader,
@@ -79,6 +69,10 @@ import { Input } from "@/components/Input";
 import Button from "@/components/Button";
 import Select from "@/components/Select";
 import IconButton from "@/components/IconButton";
+import Box from "@/components/Box";
+import Spinner from "@/components/Spinner";
+import Layout from "@/components/template/Layout";
+import { DebtDTO, DebtValuesDTO } from "@/dto/http/DebtDTO";
 
 import {
   createDebt,
@@ -91,11 +85,14 @@ import {
 import { listAllCategory } from "@/services/category";
 import {
   addOthersByRegisterId,
-  getAllRegisterByUserId,
+  getRegisterByUserId,
 } from "@/services/register";
 
 import { DebtModel, DebtPayModel } from "@/models/debt";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
+import Alert from "@/components/Alert";
+import { useRegister } from "@/hooks/useRegister";
+import { RegisterProps } from "@/contexts/RegisterContext";
 
 const insertFormSchema = z.object({
   debtDescription: z.string({
@@ -133,6 +130,8 @@ export default function Debt() {
   const [debts, setDebts] = useState<DebtDTO[]>([]);
   const toast = useToast();
 
+  const { registerBase, setRegister } = useRegister();
+
   const [userId, setUserId] = useState(Number);
 
   const [isEdit, setIsEdit] = useState(false);
@@ -144,7 +143,6 @@ export default function Debt() {
   );
 
   const [categories, setCategories] = useState<SelectProps[]>([]);
-  const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
   const [fileRegister, setFileRegister] = useState<FileProps>({} as FileProps);
 
   const [isEditOthers, setIsEditOthers] = useState(false);
@@ -208,7 +206,7 @@ export default function Debt() {
         const dataDebt = {
           userId: userId,
           dueDate: data.dueDate,
-          registerId: register.registerId,
+          registerId: registerBase.registerId,
           value: Number(
             data.value.replace("R$", "").replace(".", "").replace(",", ".")
           ),
@@ -229,7 +227,7 @@ export default function Debt() {
         const dataDebt = {
           userId: userId,
           dueDate: data.dueDate,
-          registerId: register.registerId,
+          registerId: registerBase.registerId,
           value: Number(
             data.value.replace("R$", "").replace(".", "").replace(",", ".")
           ),
@@ -249,7 +247,7 @@ export default function Debt() {
 
         onCloseFormModal();
 
-        loadDebts(register.registerId, userId);
+        loadDebts(registerBase.registerId, userId);
       }
 
     } catch (error: any) {
@@ -261,12 +259,14 @@ export default function Debt() {
     event.preventDefault();
     try {
       const dataDebt = {
-        registerId: register.registerId,
+        registerId: registerBase.registerId,
         debtId: debtId,
-        receiptPayment: fileRegister.base64? fileRegister.base64
-          .replace("data:image/jpeg;base64,", "")
-          .replace("data:application/pdf;base64,", "")
-          .replace("data:image/png;base64,", ""): "",
+        receiptPayment: fileRegister.base64
+          ? fileRegister.base64
+              .replace("data:image/jpeg;base64,", "")
+              .replace("data:application/pdf;base64,", "")
+              .replace("data:image/png;base64,", "")
+          : "",
       } as DebtPayModel;
 
       const res = await updateDebtPay(dataDebt);
@@ -279,7 +279,7 @@ export default function Debt() {
         });
 
         onClosePay();
-        loadDebts(register.registerId, userId);
+        loadDebts(registerBase.registerId, userId);
 
       }
     } catch (error: any) {
@@ -331,13 +331,18 @@ export default function Debt() {
 
   async function loadRegister(userId: number) {
     try {
-      const res = await getAllRegisterByUserId(userId);
+      const res = await getRegisterByUserId(userId);
       const register = res.data as RegisterDTO;
 
       if (register) {
-        setRegister(register);
+        const registerBase = {
+          registerId: register.registerId,
+          salary: Number(register.salary),
+          others: Number(register.others),
+        } as RegisterProps;
+        setRegister(registerBase);
 
-        loadDebts(register.registerId, userId);
+        loadDebts(registerBase.registerId, userId);
       }
 
     } catch (error: any) {
@@ -383,7 +388,7 @@ export default function Debt() {
 
   function handleUpdateRegister () {
     router.push({
-      pathname: `/register/${register.registerId}`,
+      pathname: `/register/${registerBase.registerId}`,
     });
   }
 
@@ -414,7 +419,7 @@ export default function Debt() {
           isClosable: true,
         });         
         onCloseConfirm();
-        loadDebts(register.registerId, userId);
+        loadDebts(registerBase.registerId, userId);
       }
     } catch (error: any) {
       toast({
@@ -490,8 +495,9 @@ export default function Debt() {
   }, []);
 
   useEffect(() => {
-    if (userId) loadRegister(userId);
-
+    if (userId) {
+      loadDebts(registerBase.registerId, userId);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
@@ -507,13 +513,13 @@ export default function Debt() {
 
   return (
     <Layout>
-      <Container maxW="6xl">
+      <Container maxW="6xl" mt={10}>
         <Card mb={5}>
           <CardHeader>
             <Heading size="md">
               <Flex justifyContent="space-between">
                 Registro
-                {register.registerId && (
+                {registerBase.registerId && (
                   <IconButton
                     size="md"
                     rounded={20}
@@ -534,11 +540,11 @@ export default function Debt() {
               <HStack justifyContent="space-between" mb={5}>
                 <Text as="b" fontSize="lg">
                   Salário:{" "}
-                  <Skeleton isLoaded={register.salary != null} w="100%">
+                  <Skeleton isLoaded={registerBase.salary != null} w="100%">
                     {new Intl.NumberFormat("pt-br", {
                       style: "currency",
                       currency: "BRL",
-                    }).format(Number(register.salary))}
+                    }).format(Number(registerBase.salary))}
                   </Skeleton>
                 </Text>
 
@@ -636,11 +642,11 @@ export default function Debt() {
                 <Stat>
                   <StatLabel>Total outros valores</StatLabel>
                   <StatNumber>
-                    <Skeleton isLoaded={register.others != null} w="90%">
+                    <Skeleton isLoaded={registerBase.others != null} w="90%">
                       {new Intl.NumberFormat("pt-br", {
                         style: "currency",
                         currency: "BRL",
-                      }).format(Number(register.others))}
+                      }).format(Number(registerBase.others))}
                     </Skeleton>
                   </StatNumber>
                   <StatHelpText>Total outros valores</StatHelpText>
@@ -673,7 +679,7 @@ export default function Debt() {
           ) : debts.length === 0 ? (
             <Text>Nenhum registro encontrado.</Text>
           ) : (
-            <TableContainer>
+            <TableContainer mt={5}>
               <Table size="sm">
                 <Thead>
                   <Tr>
@@ -919,30 +925,16 @@ export default function Debt() {
           </ModalContent>
         </Modal>
 
-        <AlertDialog
+        <Alert
+          title="Deletar Débito"
+          description="Você tem certeza que deseja excluir esse débito?"
+          buttonTitle="Deletar"
           isOpen={isOpenConfirm}
-          leastDestructiveRef={cancelRef}
+          onOpen={onOpenConfirm}
           onClose={onCloseConfirm}
-        >
-          <AlertDialogOverlay>
-            <AlertDialogContent>
-              <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Deletar Débito
-              </AlertDialogHeader>
-
-              <AlertDialogBody>
-                Você tem certeza que deseja excluir esse débito?
-              </AlertDialogBody>
-
-              <AlertDialogFooter>
-                <ButtonBase onClick={onCloseConfirm}>Cancel</ButtonBase>
-                <ButtonBase colorScheme="red" onClick={handleDelete} ml={3}>
-                  Delete
-                </ButtonBase>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
+          onClick={handleDelete}
+          cancelRef={cancelRef}
+        />
       </Container>
     </Layout>
   );

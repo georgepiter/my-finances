@@ -24,7 +24,9 @@ import Link from "@/components/Link";
 import Button from "@/components/Button";
 import { Input } from "@/components/Input";
 import { signIn } from "next-auth/react";
-import { useEffect } from "react";
+
+import logo from "../../assets/_dark/logo.png";
+import Image from "next/image";
 
 const signInFormSchema = z.object({
   username: z
@@ -103,14 +105,18 @@ export default function SignIn() {
         <Container p={20}>
           <Stack spacing={4} alignItems="center" mt={100}>
             <Show below="md">
-              <Text as="b" fontSize="4xl" mb={5}>
-                Finances
-              </Text>
+              <Image
+                src={logo}
+                alt="Brand Image"
+                style={{ height: "auto", width: "70%", marginBottom: "30px" }}
+              />
             </Show>
 
-            <Text as="b" fontSize="3xl" mb={10}>
-              Fazer Login
-            </Text>
+            <Show above="md">
+              <Text as="b" fontSize="4xl" mb={10}>
+                Login
+              </Text>
+            </Show>
 
             <Stack spacing={4} w="100%">
               <form onSubmit={handleSubmit(handleSignIn)}>

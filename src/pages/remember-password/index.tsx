@@ -15,6 +15,9 @@ import Button from "@/components/Button";
 import { forgotUser } from "@/services/user";
 import { UserModel } from "@/models/user";
 
+import logo from "../../assets/_dark/logo.png";
+import Image from "next/image";
+
 const forgotFormSchema = z.object({
   email: z
     .string({
@@ -69,9 +72,11 @@ export default function RememberPassword() {
         <Container p={15}>
           <Stack spacing={4} alignItems="center" mt={100}>
             <Show below="md">
-              <Text as="b" fontSize="4xl" mb={5}>
-                Finances
-              </Text>
+              <Image
+                src={logo}
+                alt="Brand Image"
+                style={{ height: "auto", width: "50%", marginBottom: "30px" }}
+              />
             </Show>
             <Text as="b" fontSize="3xl" mb={10}>
               Esqueceu a senha?

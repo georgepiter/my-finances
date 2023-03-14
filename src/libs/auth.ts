@@ -16,7 +16,7 @@ export const getJwtSecretKey = () => {
 
 export const verifyAuth = async (token: string) => {
 
-  return true;
+  //return true;
 
   
   try {

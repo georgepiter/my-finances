@@ -18,12 +18,12 @@ export const errorHandler = (error: AxiosError) : ErrorProps  => {
     const data = {} as ErrorProps;
 
     data.status = response.status;
-    if (response.status == 404) {
+    if (response.status == 404 ) {
+
       const dataRes = response.data as ErrorProps;
-      data.message = dataRes.message != ""
+      data.message = dataRes.message != "" && dataRes.message
         ? dataRes.message
         : "Erro no Servidor. Entre em contato com o administrador.";
-
     } else {
       const dataRes = response.data as ErrorProps;
       data.message = dataRes.message

@@ -13,6 +13,7 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  Box,
 } from "@chakra-ui/react";
 import Image from "next/image";
 
@@ -31,24 +32,23 @@ export default function Settings() {
     toggleColorMode();
   }
   return (
-    <Layout>
-      <Container h="150px">
-        <Image style={{ position: "absolute", marginTop: "65px" }}  src={bgImage} fill alt="Brand Image" />
-
-        <Container
-          display="flex"
-          justifyContent="center"
-          style={{
-            height: "auto",
-          }}
-        >
+    <>
+      <Layout>
+        <Box bg="primary.500" w="100%" h="250px">
           <Container
-            w="100%"
-            maxW="2xl"
             display="flex"
             justifyContent="center"
-            style={{ position: "absolute", marginTop: "100px" }}
+            style={{
+              height: "auto",
+            }}
           >
+            <Container
+              w="100%"
+              maxW="2xl"
+              display="flex"
+              justifyContent="center"
+              style={{ position: "absolute", marginTop: "100px" }}
+            >
             <VStack w="100%">
               <Text fontSize="2xl" as="b" mb={2} color="gray.50">
                 Configurações
@@ -63,23 +63,30 @@ export default function Settings() {
                     <Divider />
 
                     <FormControl>
-                      <HStack flex={1} justifyContent="space-between" w="100%">
-                        <FormLabel htmlFor="isChecked">Tema Dark:</FormLabel>
-                        <Switch
-                          id="isChecked"
-                          color="primary"
-                          isChecked={isDarkMode}
-                          onChange={handleThemeColor}
-                        />
-                      </HStack>
-                    </FormControl>
-                  </Stack>
-                </CardBody>
-              </Card>
-            </VStack>
+                      <HStack
+                        flex={1}
+                        justifyContent="space-between"
+                        w="100%"
+                        >
+                          <FormLabel htmlFor="isChecked">
+                            Tema Dark:
+                          </FormLabel>
+                          <Switch
+                            id="isChecked"
+                            color="primary"
+                            isChecked={isDarkMode}
+                            onChange={handleThemeColor}
+                          />
+                        </HStack>
+                      </FormControl>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </VStack>
+            </Container>
           </Container>
-        </Container>
-      </Container>
-    </Layout>
+        </Box>
+      </Layout>
+    </>
   );
 }

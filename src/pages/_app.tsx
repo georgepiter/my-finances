@@ -6,6 +6,7 @@ import { theme } from "@/styles";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { ProfileContextProvider } from "@/contexts/ProfileContext";
+import { RegisterContextProvider } from "@/contexts/RegisterContext";
 
 interface Props {
   Component: any;
@@ -18,9 +19,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <SSRProvider>
       <SessionProvider session={session}>
         <ProfileContextProvider>
-          <ChakraProvider resetCSS theme={theme}>
-            <Component {...pageProps} />
-          </ChakraProvider>
+          <RegisterContextProvider>
+            <ChakraProvider resetCSS theme={theme}>
+              <Component {...pageProps} />
+            </ChakraProvider>
+          </RegisterContextProvider>
         </ProfileContextProvider>
       </SessionProvider>
     </SSRProvider>

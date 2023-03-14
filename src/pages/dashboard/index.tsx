@@ -7,7 +7,6 @@ import {
   Text,
   useColorMode,
   useTheme,
-  Button as ButtonBase,
   TableContainer,
   Table,
   Thead,
@@ -16,14 +15,9 @@ import {
   Tbody,
   Td,
   useDisclosure,
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogBody,
-  AlertDialogFooter,
   useToast,
   Skeleton,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -36,13 +30,14 @@ import Box from "@/components/Box";
 import Layout from "@/components/template/Layout";
 import IconButton from "@/components/IconButton";
 
-import { getAllRegisterByUserId } from "@/services/register";
 import { deleteHistory, getAllHistoryByRegister } from "@/services/history";
 import { getDebtDash } from "@/services/debt";
 
 import { HistoryDTO } from "@/dto/http/HistoryDTO";
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { DashDTO } from "@/dto/http/DashDTO";
+import Alert from "@/components/Alert";
+import { useRegister } from "@/hooks/useRegister";
 
 export default function Dashboard() {
   const { colorMode } = useColorMode();
@@ -50,10 +45,11 @@ export default function Dashboard() {
   const theme = useTheme();
   const cancelRef = useRef<HTMLInputElement>(null);
 
+  const { registerBase } = useRegister();
+
   const [userId, setUserId] = useState(Number);
 
   const [history, setHistory] = useState<HistoryDTO[]>([]);
-  const [register, setRegister] = useState<RegisterDTO>({} as RegisterDTO);
 
   const [dash, setDash] = useState<DashDTO>({} as DashDTO);
   const [financialHistoryId, setFinancialHistoryId] = useState<number>(0);
@@ -83,22 +79,6 @@ export default function Dashboard() {
      }
   }
 
-  async function loadRegister(userId: number) {
-    try {
-      const res = await getAllRegisterByUserId(userId);
-      const registerRes = res.data as RegisterDTO;
-
-      setRegister(registerRes);
-
-      if (registerRes) {
-        loadHistory(registerRes.registerId);
-        loadValuesRegister(userId, registerRes.registerId);
-      }
-    } catch (error: any) {
-      console.log(error);
-    }
-  }
-
   async function loadValuesRegister(userId: number, registerId: number) {
     try {
       const res = await getDebtDash(userId, registerId);
@@ -126,7 +106,7 @@ export default function Dashboard() {
 
   async function handleDeleteHistory() {
     try {
-      const res = await deleteHistory(register.registerId, financialHistoryId);
+      const res = await deleteHistory(registerBase.registerId, financialHistoryId);
 
       if (res.status === 200) {
         toast({
@@ -136,7 +116,7 @@ export default function Dashboard() {
         });
 
         onCloseConfirm();
-        loadHistory(register.registerId);
+        loadHistory(registerBase.registerId);
       }
 
     } catch (error: any) {
@@ -153,15 +133,18 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (userId) loadRegister(userId);
+    if (userId) {
+      loadHistory(registerBase.registerId);
+      loadValuesRegister(userId, registerBase.registerId);
+    } 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   return (
     <Layout>
-      <Container maxW="6xl">
-        <HStack p={3} w="100%" spacing={6}>
+      <Container maxW="6xl" mt={10}>
+        <SimpleGrid columns={{ md: 3, sm: 1 }} spacing={2} w="100%" h="100%">
           <CardDashboard
             color="green.600"
             title="Entrada"
@@ -185,7 +168,7 @@ export default function Dashboard() {
             isLoaded={dash.totalEntryValue != null}
             icon={<FiCreditCard size={25} />}
           />
-        </HStack>
+        </SimpleGrid>
 
         <HStack mt={5} spacing={6}>
           <Box title="Histórico">
@@ -254,7 +237,7 @@ export default function Dashboard() {
           <Box title="Saldo Anual">
             <Stack mt={5} w="100%">
               {history.length === 0 ? (
-                <Text mt={5}>Nenhum registro encontrado.</Text>
+                <Text>Nenhum registro encontrado.</Text>
               ) : (
                 <div style={{ width: "100%", height: 300 }}>
                   <ResponsiveContainer>
@@ -286,34 +269,16 @@ export default function Dashboard() {
           </Box>
         </HStack>
 
-        <AlertDialog
+        <Alert
+          title="Deletar Histórico"
+          description="Você tem certeza que deseja excluir esse histórico?"
+          buttonTitle="Deletar"
           isOpen={isOpenConfirm}
-          leastDestructiveRef={cancelRef}
+          onOpen={onOpenConfirm}
           onClose={onCloseConfirm}
-        >
-          <AlertDialogOverlay>
-            <AlertDialogContent>
-              <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Deletar Histórico
-              </AlertDialogHeader>
-
-              <AlertDialogBody>
-                Você tem certeza que deseja excluir esse histórico?
-              </AlertDialogBody>
-
-              <AlertDialogFooter>
-                <ButtonBase onClick={onCloseConfirm}>Cancel</ButtonBase>
-                <ButtonBase
-                  colorScheme="red"
-                  onClick={handleDeleteHistory}
-                  ml={3}
-                >
-                  Delete
-                </ButtonBase>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
+          onClick={handleDeleteHistory}
+          cancelRef={cancelRef}
+        />
       </Container>
     </Layout>
   );
