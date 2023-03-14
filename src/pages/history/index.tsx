@@ -24,6 +24,7 @@ import {
   AlertDialogFooter,
   useToast,
   IconButton as IconButtonBase,
+  useColorMode,
 } from "@chakra-ui/react";
 import { FiPlus, FiTrash2 } from "react-icons/fi";
 
