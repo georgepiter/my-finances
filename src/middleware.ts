@@ -5,7 +5,6 @@ import { verifyAuth } from "./libs/auth";
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("next-auth.session-token")?.value;
 
-
   console.log("token", token);
 
   const verifiedToken =
@@ -17,6 +16,10 @@ export default async function middleware(req: NextRequest) {
   // if (!verifiedToken) {
   //   return NextResponse.rewrite(new URL("/signIn", req.url));
   // }
+
+  if (!token) {
+    return NextResponse.rewrite(new URL("/signIn", req.url));
+  }
 
   return NextResponse.next();
 }
