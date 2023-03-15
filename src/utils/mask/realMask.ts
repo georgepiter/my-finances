@@ -11,7 +11,6 @@ export const realMask = createNumberMask({
   integerLimit: 7,
  // requireDecimal: true,
   allowLeadingZeroes: true,
-  // decimalPad: true
 });
 
 

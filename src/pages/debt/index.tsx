@@ -94,6 +94,7 @@ import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import Alert from "@/components/Alert";
 import { useRegister } from "@/hooks/useRegister";
 import { RegisterProps } from "@/contexts/RegisterContext";
+import { addCentsMarkCurrency } from "@/utils/addCentsMarkCurrency";
 
 const insertFormSchema = z.object({
   debtDescription: z.string({
@@ -480,22 +481,7 @@ export default function Debt() {
 
 
   function handleEditOthers(e: React.ChangeEvent<HTMLInputElement>) {
-    let value = e.target.value;
-
-    const rawValue = value
-      .replace("R$", "")
-      .replaceAll(".", "")
-      .replaceAll(",", ".");
-    
-    let decimalsRegex = /\.([0-9]{1,2})/;
-    let result = decimalsRegex.exec(rawValue);
-    if (result && result[1].length < 2) {
-      value+="0";
-    } else if (!result) {
-      value += ",0";
-      value += "0";
-    }
-    setEditOthers(value);
+    setEditOthers(addCentsMarkCurrency(e.target.value));
   }
 
   async function loadSession() {
@@ -860,7 +846,7 @@ export default function Debt() {
                           onChange={onChange}
                           as={MaskedInput}
                           mask={realMask}
-                          value={value || ""}
+                          value={addCentsMarkCurrency(value) || ""}
                         />
                       )}
                     />

@@ -23,6 +23,7 @@ import avatarlightImage from "../../assets/_light/avatar.png";
 
 import { createRegister } from "@/services/register";
 import { RegisterModel } from "@/models/register";
+import { addCentsMarkCurrency } from "@/utils/addCentsMarkCurrency";
 
 interface FileProps {
   name: string;
@@ -202,6 +203,7 @@ export default function Register() {
                               onChange={onChange}
                               as={MaskedInput}
                               mask={realMask}
+                              value={addCentsMarkCurrency(value) || ""}
                             />
                           )}
                         />
@@ -217,6 +219,7 @@ export default function Register() {
                               onChange={onChange}
                               as={MaskedInput}
                               mask={realMask}
+                              value={addCentsMarkCurrency(value) || ""}
                             />
                           )}
                         />
