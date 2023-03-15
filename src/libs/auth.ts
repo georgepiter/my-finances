@@ -1,4 +1,4 @@
-import { jwtVerify, SignJWT } from 'jose';
+import { jwtVerify } from 'jose';
 
 interface UserJwtPayload {
   jti: string;
@@ -18,7 +18,6 @@ export const verifyAuth = async (token: string) => {
 
   //return true;
 
-  
   try {
     const verified = await jwtVerify(
       token,
@@ -26,15 +25,8 @@ export const verifyAuth = async (token: string) => {
     );
 
     const result = verified.payload as UserJwtPayload;
-
     const dateNow = new Date();
     const dateExp = new Date(result.iat * 1000 + 10 * 60000);
-
-    console.log("result.iat", result.iat);
-
-    console.log("dateNow", dateNow);
-    console.log("dateExp", dateExp);
-
 
     if (dateNow.toLocaleString() > dateExp.toLocaleString()) {
        return false;

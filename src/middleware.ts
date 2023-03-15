@@ -5,6 +5,9 @@ import { verifyAuth } from "./libs/auth";
 export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("next-auth.session-token")?.value;
 
+
+  console.log("token", token);
+
   const verifiedToken =
     token &&
     (await verifyAuth(token).catch((err) => {

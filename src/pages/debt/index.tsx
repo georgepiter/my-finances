@@ -480,7 +480,22 @@ export default function Debt() {
 
 
   function handleEditOthers(e: React.ChangeEvent<HTMLInputElement>) {
-    setEditOthers(e.target.value);
+    let value = e.target.value;
+
+    const rawValue = value
+      .replace("R$", "")
+      .replaceAll(".", "")
+      .replaceAll(",", ".");
+    
+    let decimalsRegex = /\.([0-9]{1,2})/;
+    let result = decimalsRegex.exec(rawValue);
+    if (result && result[1].length < 2) {
+      value+="0";
+    } else if (!result) {
+      value += ",0";
+      value += "0";
+    }
+    setEditOthers(value);
   }
 
   async function loadSession() {
@@ -562,6 +577,7 @@ export default function Debt() {
                         placeholder="Outros Valores"
                         as={MaskedInput}
                         mask={realMask}
+                        value={editOthers}
                         onChange={handleEditOthers}
                       />
                     </form>
