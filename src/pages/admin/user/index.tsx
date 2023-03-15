@@ -37,9 +37,10 @@ import {
   Tag,
   Badge,
   useColorMode,
+  IconButton as IconButtonBase,
 } from "@chakra-ui/react";
 
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -379,12 +380,11 @@ export default function User() {
                       <Td>
                         <Menu>
                           <MenuButton
+                            rounded={20}
                             bg={colorMode == "dark" ? "gray.500" : "gray.50"}
-                            as={ButtonBase}
-                            rightIcon={<ChevronDownIcon />}
-                          >
-                            <Text color="gray.700">Ações</Text>
-                          </MenuButton>
+                            as={IconButtonBase}
+                            icon={<HamburgerIcon />}
+                          />
                           <MenuList minWidth="150px">
                             {/* <MenuItem
                               onClick={() => handleEditUser(user.userId)}

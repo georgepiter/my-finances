@@ -155,7 +155,7 @@ export default function SignIn() {
 
                 <HStack w="100%">
                   <Flex justifyContent="space-between" w="100%">
-                    <Checkbox colorScheme="primary" defaultChecked>
+                    <Checkbox colorScheme="primary" defaultChecked >
                       Lembrar-me
                     </Checkbox>
                     <Link
