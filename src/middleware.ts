@@ -17,7 +17,7 @@ export default async function middleware(req: NextRequest) {
   //   return NextResponse.rewrite(new URL("/signIn", req.url));
   // }
 
-  if (!token) {
+  if (!verifiedToken) {
     return NextResponse.rewrite(new URL("/signIn", req.url));
   }
 
