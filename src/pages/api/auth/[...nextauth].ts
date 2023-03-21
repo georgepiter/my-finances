@@ -2,6 +2,7 @@ import { verifyAuth } from "@/libs/auth";
 import { auth } from "@/services/auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { signOut } from "next-auth/react";
 
 let jwt = require("jsonwebtoken");
 
@@ -81,6 +82,21 @@ export default NextAuth({
       }
 
       const decoded = jwt.decode(token.sub, process.env.JWT_SECRET);
+
+      const dateExp = new Date(decoded.exp * 1000);
+      const dateNow = new Date();
+
+
+      console.log("decoded.exp", decoded.exp);
+
+      console.log("dateExp", dateExp);
+
+      console.log("dateNow", dateNow);
+
+
+      // if (dateNow > dateExp) {
+      //   return { ...session, error: "TokenExpiredError" };
+      // }
 
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
