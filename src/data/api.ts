@@ -11,6 +11,7 @@ const api = axios.create({
     "Content-Type": "application/json;",
     // "Accept-Charset": "utf-8;",
     "Access-Control-Allow-Origin": "*",
+    "ngrok-skip-browser-warning": "true",
   },
 });
 

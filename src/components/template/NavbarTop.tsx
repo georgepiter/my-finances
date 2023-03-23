@@ -28,12 +28,12 @@ import { useRouter } from "next/router";
 
 import avatarDarkImage from "../../assets/_dark/avatar.png";
 import avatarlightImage from "../../assets/_light/avatar.png";
-import brandImage from "../../assets/brand.png";
 
 import { useProfile } from "@/hooks/useProfile";
 
 import logoDark from "../../assets/_dark/logo.png";
 import logoLight from "../../assets/_light/logo.png";
+import useAuth from "@/hooks/useAuth";
 
 
 export default function NavbarTop() {
@@ -45,6 +45,8 @@ export default function NavbarTop() {
   const [photoProfile, setPhotoProfile] = useState("");
 
   const { userProfile } = useProfile();
+
+  const isAuthenticated = useAuth(true);
 
   const menuList = [
     {

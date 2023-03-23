@@ -4,6 +4,8 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { UserSession } from "next-auth";
 
+import { setCookie } from "cookies-next";
+
 import { useToast } from "@chakra-ui/react";
 
 import { RegisterDTO } from "@/dto/http/RegisterDTO";
@@ -74,13 +76,14 @@ export default function Home() {
     const session = await getSession();
 
     if (session) {
+
+      setCookie("role", session.user.role);
+
       if (session.user.role === "ROLE_ADMIN") {
         router.push({
           pathname: "/admin/user",
         });
       } else {
-        console.log("loadRegister");
-
         loadRegister(session.user.id);
       }
     } else {

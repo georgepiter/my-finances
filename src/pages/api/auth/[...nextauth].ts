@@ -1,8 +1,6 @@
-import { verifyAuth } from "@/libs/auth";
-import { auth } from "@/services/auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signOut } from "next-auth/react";
+import { auth } from "@/services/auth";
 
 let jwt = require("jsonwebtoken");
 
@@ -37,8 +35,7 @@ export default NextAuth({
         }
         return null;
       },
-    }),
-    // ...add more providers
+    })
   ],
   secret: process.env.JWT_SECRET,
   session: {
@@ -51,18 +48,6 @@ export default NextAuth({
     async decode({ secret, token }) {
       return jwt.verify(token, secret);
     },
-    // encode: ({ secret, token }) => {
-    //   const encodedToken = jwt.sign(token!, secret, {
-    //     algorithm: process.env.JWT_SECRET,
-    //   });
-    //   return encodedToken;
-    // },
-    // decode: async ({ secret, token }) => {
-    //   const decodedToken = jwt.verify(token!, secret, {
-    //     algorithms: [process.env.JWT_SECRET],
-    //   });
-    //   return decodedToken as JWT;
-    // },
   },
   callbacks: {
     async signIn({ account }) {
@@ -82,21 +67,11 @@ export default NextAuth({
       }
 
       const decoded = jwt.decode(token.sub, process.env.JWT_SECRET);
-
       const dateExp = new Date(decoded.exp * 1000);
       const dateNow = new Date();
-
-
-      console.log("decoded.exp", decoded.exp);
-
-      console.log("dateExp", dateExp);
-
-      console.log("dateNow", dateNow);
-
-
-      // if (dateNow > dateExp) {
-      //   return { ...session, error: "TokenExpiredError" };
-      // }
+      if (dateNow > dateExp) {
+        return { ...session, error: "TokenExpiredError" };
+      }
 
       session.user.name = decoded.sub;
       session.user.id = decoded.userId;
@@ -106,12 +81,7 @@ export default NextAuth({
       session.nameApp = decoded.nameApp;
       session.expires = decoded.exp;
       return { ...session, accessToken: token.sub };
-    },
-    // async redirect({ url }) {
-    //   if (url.includes("/signIn")) return "/";
-    //   if (!url.includes("/")) return "/signIn";
-    //   return url;
-    // },
+    }
   },
   debug: process.env.NODE_ENV === "development",
   pages: {
