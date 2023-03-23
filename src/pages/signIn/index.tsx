@@ -27,6 +27,8 @@ import { signIn } from "next-auth/react";
 
 import logo from "../../assets/_dark/logo.png";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getSignInSettings, setSignInSettings, SignInProps } from "@/services/storage/signInStorage";
 
 const signInFormSchema = z.object({
   username: z
@@ -48,19 +50,28 @@ export default function SignIn() {
   const {
     control,
     handleSubmit,
+    reset,
     register,
+    getValues,
     formState: { errors, isSubmitting, isValid },
   } = useForm<FormDataProps>({
     resolver: zodResolver(signInFormSchema),
   });
 
+  const [rememberMe, setRememberMe] = useState(false);
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
   const toast = useToast();
   const router = useRouter();
 
+  const [loginForm, setLoginForm] = useState<SignInProps>({} as SignInProps);
+
   async function handleSignIn(data: FormDataProps) {
     try {
+      await setOptions();
+
       const res = await signIn("credentials", {
-        //  callbackUrl: "/dashboard",
         redirect: false,
         username: data.username,
         password: data.password,
@@ -99,6 +110,48 @@ export default function SignIn() {
     });
   }
 
+  async function setOptions() {
+    const options: SignInProps = {
+      username: !rememberMe ? "" : getValues("username"),
+      password: !rememberMe ? "" : getValues("password"),
+      rememberMe: rememberMe,
+    };
+    await setSignInSettings(options);
+  }
+
+  async function  handleRememberMe() {
+    setRememberMe((prev) => !prev)
+  }
+
+  useEffect(() => {
+    async function loadSettings() {
+      const configStoraged = await getSignInSettings();
+
+      if (configStoraged) {
+        setRememberMe(configStoraged?.rememberMe);
+        setPassword(configStoraged?.password);
+        setUsername(configStoraged?.username);
+
+        loginForm.rememberMe = configStoraged?.rememberMe;
+        loginForm.username = configStoraged?.username;
+        loginForm.password = configStoraged?.password;
+
+        reset(loginForm);
+      }
+    }
+    loadSettings();
+    
+  }, []);
+
+  useEffect(() => {
+    async function load() {
+      await setOptions();
+    }
+    load();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rememberMe, username, password]);
+
   return (
     <>
       <PanelLeftBrand>
@@ -131,6 +184,7 @@ export default function SignIn() {
                         iconLeft={<FiUser />}
                         errorMessage={errors.username?.message}
                         onChange={onChange}
+                        value={value || ""}
                       />
                     )}
                   />
@@ -148,6 +202,7 @@ export default function SignIn() {
                         iconLeft={<FiLock />}
                         errorMessage={errors.password?.message}
                         onChange={onChange}
+                        value={value || ""}
                       />
                     )}
                   />
@@ -155,7 +210,12 @@ export default function SignIn() {
 
                 <HStack w="100%">
                   <Flex justifyContent="space-between" w="100%">
-                    <Checkbox colorScheme="primary" defaultChecked >
+                    <Checkbox
+                      colorScheme="primary"
+                      defaultChecked={rememberMe}
+                      onChange={handleRememberMe}
+                      isChecked={rememberMe}
+                    >
                       Lembrar-me
                     </Checkbox>
                     <Link
