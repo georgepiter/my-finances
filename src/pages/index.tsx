@@ -79,7 +79,7 @@ export default function Home() {
 
       setCookie("role", session.user.role);
 
-      if (session.user.role === "ROLE_ADMIN") {
+      if (session.user.name === "admin" && session.user.role === "ROLE_ADMIN") {
         router.push({
           pathname: "/admin/user",
         });
