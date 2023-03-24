@@ -1,3 +1,6 @@
+import Image from "next/image";
+import { useRouter } from "next/router";
+
 import { Container, Show, Stack, Text, useToast } from "@chakra-ui/react";
 
 import { FiMail } from "react-icons/fi";
@@ -16,19 +19,18 @@ import { forgotUser } from "@/services/user";
 import { UserModel } from "@/models/user";
 
 import logo from "../../assets/_dark/logo.png";
-import Image from "next/image";
 
 const forgotFormSchema = z.object({
-  email: z
-    .string({
-      required_error: "Digite o E-mail",
-    })
+  email: z.string({
+    required_error: "Digite o E-mail",
+  }),
 });
 
 type FormDataProps = z.infer<typeof forgotFormSchema>;
 
 export default function RememberPassword() {
   const toast = useToast();
+  const router = useRouter();
 
   const {
     control,
@@ -39,12 +41,10 @@ export default function RememberPassword() {
     resolver: zodResolver(forgotFormSchema),
   });
 
-
   async function handleForgot(data: FormDataProps) {
     try {
-
       const register = {
-        email: data.email
+        email: data.email,
       } as UserModel;
 
       const res = await forgotUser(register);
@@ -54,10 +54,12 @@ export default function RememberPassword() {
           status: "success",
           isClosable: true,
         });
+
+        router.push({
+          pathname: "/",
+        });
       }
-
-
-     } catch (error: any) {
+    } catch (error: any) {
       toast({
         title: error.message,
         status: "error",
