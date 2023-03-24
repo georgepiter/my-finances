@@ -24,6 +24,7 @@ import avatarlightImage from "../../assets/_light/avatar.png";
 import { createRegister } from "@/services/register";
 import { RegisterModel } from "@/models/register";
 import { addCentsMarkCurrency } from "@/utils/addCentsMarkCurrency";
+import useAuth from "@/hooks/useAuth";
 
 interface FileProps {
   name: string;
@@ -39,9 +40,7 @@ const formSchema = z.object({
   salary: z.string({
     required_error: "Digite o Salário",
   }),
-  others: z.string({
-    required_error: "Digite Outros Valores",
-  }),
+  others: z.string().optional(),
 });
 
 type FormDataProps = z.infer<typeof formSchema>;
@@ -53,6 +52,8 @@ export default function Register() {
   const router = useRouter();
 
   const [fileRegister, setFileRegister] = useState<FileProps>({} as FileProps);
+
+  const isAuthenticated = useAuth(true);
 
   const {
     control,
@@ -68,15 +69,17 @@ export default function Register() {
       const register = {
         userId: session?.user.id,
         cell: data.cell.replace(/[^0-9]/g, ""),
-        others: Number(
+        others: data.others? Number(
           data.others.replace("R$", "").replace(".", "").replace(",", ".")
-        ),
+        ) : 0,
         salary: Number(
           data.salary.replace("R$", "").replace(".", "").replace(",", ".")
         ),
-        photo: fileRegister.base64? fileRegister.base64
-          .replace("data:image/jpeg;base64,", "")
-          .replace("data:image/png;base64,", "") : "",
+        photo: fileRegister.base64
+          ? fileRegister.base64
+              .replace("data:image/jpeg;base64,", "")
+              .replace("data:image/png;base64,", "")
+          : "",
       } as RegisterModel;
 
       const res = await createRegister(register);
@@ -88,7 +91,7 @@ export default function Register() {
         });
 
         router.push({
-          pathname: "/dashboard",
+          pathname: "/",
         });
       }
 
@@ -180,47 +183,56 @@ export default function Register() {
                         control={control}
                         name="cell"
                         render={({ field: { onChange, value } }) => (
-                          <Input
-                            size="md"
-                            placeholder="Celular"
-                            errorMessage={errors.cell?.message}
-                            onChange={onChange}
-                            as={InputMask}
-                            mask="(**) *****-****"
-                          />
+                          <VStack w="100%" alignItems="left">
+                            <Text as="b">Celular</Text>
+                            <Input
+                              size="md"
+                              placeholder="Celular"
+                              errorMessage={errors.cell?.message}
+                              onChange={onChange}
+                              as={InputMask}
+                              mask="(**) *****-****"
+                            />
+                          </VStack>
                         )}
                       />
 
                       <HStack w="100%" mt={5}>
                         <Controller
                           control={control}
-                          name="others"
+                          name="salary"
                           render={({ field: { onChange, value } }) => (
-                            <Input
-                              size="md"
-                              placeholder="Outros"
-                              errorMessage={errors.others?.message}
-                              onChange={onChange}
-                              as={MaskedInput}
-                              mask={realMask}
-                              value={addCentsMarkCurrency(value) || ""}
-                            />
+                            <VStack w="100%" alignItems="left">
+                              <Text as="b">Salário</Text>
+                              <Input
+                                size="md"
+                                placeholder="Salário"
+                                errorMessage={errors.salary?.message}
+                                onChange={onChange}
+                                as={MaskedInput}
+                                mask={realMask}
+                                value={addCentsMarkCurrency(value) || ""}
+                              />
+                            </VStack>
                           )}
                         />
 
                         <Controller
                           control={control}
-                          name="salary"
+                          name="others"
                           render={({ field: { onChange, value } }) => (
-                            <Input
-                              size="md"
-                              placeholder="Salário"
-                              errorMessage={errors.salary?.message}
-                              onChange={onChange}
-                              as={MaskedInput}
-                              mask={realMask}
-                              value={addCentsMarkCurrency(value) || ""}
-                            />
+                            <VStack w="100%" alignItems="left">
+                              <Text as="b">Outros</Text>
+                              <Input
+                                size="md"
+                                placeholder="Outros"
+                                errorMessage={errors.others?.message}
+                                onChange={onChange}
+                                as={MaskedInput}
+                                mask={realMask}
+                                value={addCentsMarkCurrency(value? value : "0") || ""}
+                              />
+                            </VStack>
                           )}
                         />
                       </HStack>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   Card,
@@ -15,9 +15,7 @@ import {
   HStack,
   Box,
 } from "@chakra-ui/react";
-import Image from "next/image";
 
-import bgImage from "../../assets/bg-top.png";
 import Layout from "@/components/template/Layout";
 
 export default function Settings() {

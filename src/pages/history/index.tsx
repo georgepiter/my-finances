@@ -26,7 +26,7 @@ import {
   IconButton as IconButtonBase,
   useColorMode,
 } from "@chakra-ui/react";
-import { FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 
 import Box from "@/components/Box";
 import IconButton from "@/components/IconButton";
