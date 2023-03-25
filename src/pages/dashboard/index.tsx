@@ -154,8 +154,8 @@ export default function Dashboard() {
           <CardDashboard
             color="green.600"
             title="Entrada"
-            value={dash.currentTotalValue ? Number(dash.currentTotalValue) : 0}
-            isLoaded={dash.currentTotalValue != null}
+            value={dash.totalEntryValue ? Number(dash.totalEntryValue) : 0}
+            isLoaded={dash.totalEntryValue != null}
             icon={<MdAttachMoney size={25} />}
           />
 
@@ -170,8 +170,8 @@ export default function Dashboard() {
           <CardDashboard
             color="blue.600"
             title="Saldo"
-            value={dash.totalEntryValue ? Number(dash.totalEntryValue) : 0}
-            isLoaded={dash.totalEntryValue != null}
+            value={dash.currentTotalValue ? Number(dash.currentTotalValue) : 0}
+            isLoaded={dash.currentTotalValue != null}
             icon={<FiCreditCard size={25} />}
           />
         </SimpleGrid>

@@ -54,7 +54,7 @@ import {
   FiDownload,
   FiEdit
 } from "react-icons/fi";
-import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
 import Link from "next/link";
