@@ -120,13 +120,13 @@ export default function NavbarTop() {
       <Box as="section">
         <Box
           as="nav"
-          bg={colorMode == "dark" ? "black" : "white"}
+          bg={colorMode == "dark" ? "black" : "secondary.400"}
           boxShadow="md"
         >
           <Flex justify="space-between" flex="1" p={1}>
             <HStack>
               <Image
-                src={colorMode == "dark" ? logoLight : logoDark}
+                src={colorMode == "dark" ? logoLight : logoLight}
                 alt="Brand Image"
                 style={{ height: "auto", width: "90px" }}
               />
@@ -136,6 +136,7 @@ export default function NavbarTop() {
                 if (user.role == item.role) {
                   return (
                     <Button
+                      color="white"
                       key={item.title}
                       onClick={() => handleRouteItem(item.route)}
                     >
@@ -151,12 +152,10 @@ export default function NavbarTop() {
                 as={IconButton}
                 aria-label="Options"
                 icon={
-                  <FiMenu
-                    color={colorMode == "dark" ? "gray.50" : "gray.800"}
-                  />
+                  <FiMenu color={colorMode == "dark" ? "gray.50" : "white"} />
                 }
                 variant="outline"
-                borderColor={colorMode == "dark" ? "gray.50" : "gray.800"}
+                borderColor={colorMode == "dark" ? "gray.50" : "white"}
               />
               <MenuList>
                 <MenuItem justifyContent="center">

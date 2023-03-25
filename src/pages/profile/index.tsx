@@ -12,6 +12,7 @@ import {
   useToast,
   Image as ImageBase,
   VStack,
+  Box,
 } from "@chakra-ui/react";
 import Image from "next/image";
 
@@ -102,14 +103,7 @@ export default function Profile() {
 
   return (
     <Layout>
-      <Container h="150px">
-        <Image
-          style={{ position: "absolute", marginTop: "65px" }}
-          src={bgImage}
-          fill
-          alt="Brand Image"
-        />
-
+      <Box bg="primary.500" w="100%" h="250px">
         <Container
           display="flex"
           justifyContent="center"
@@ -120,19 +114,19 @@ export default function Profile() {
           {userProfile.user?.photo ? (
             <ImageBase
               borderRadius="full"
-              w={100}
-              h={100}
+              w={90}
+              h={90}
               src={`data:image/jpeg;base64,${userProfile.user.photo}`}
               alt="Photo Register"
-              style={{ position: "absolute", marginTop: "5px" }}
+              style={{ position: "absolute", marginTop: "10px" }}
             />
           ) : (
             <Image
               src={colorMode == "dark" ? avatarDarkImage : avatarlightImage}
               alt="Avatar Photo"
-              width={100}
-              height={100}
-              style={{ position: "absolute", marginTop: "5px" }}
+              width={90}
+              height={90}
+              style={{ position: "absolute", marginTop: "10px" }}
             />
           )}
 
@@ -206,7 +200,7 @@ export default function Profile() {
             </VStack>
           </Container>
         </Container>
-      </Container>
+      </Box>
     </Layout>
   );
 }

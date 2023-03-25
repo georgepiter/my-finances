@@ -16,7 +16,6 @@ import {
   Td,
   useDisclosure,
   useToast,
-  Skeleton,
   SimpleGrid,
 } from "@chakra-ui/react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -34,18 +33,11 @@ import { deleteHistory, getAllHistoryByRegister } from "@/services/history";
 import { getDebtDash } from "@/services/debt";
 
 import { HistoryDTO } from "@/dto/http/HistoryDTO";
-import { RegisterDTO } from "@/dto/http/RegisterDTO";
 import { DashDTO } from "@/dto/http/DashDTO";
 import Alert from "@/components/Alert";
 import { useRegister } from "@/hooks/useRegister";
-import useAuth from "@/hooks/useAuth";
 
 export default function Dashboard() {
-  const isAuthenticated = useAuth(true);
-
-
-  console.log("isAuthenticated", isAuthenticated);
-
   const { colorMode } = useColorMode();
   const toast = useToast();
   const theme = useTheme();
