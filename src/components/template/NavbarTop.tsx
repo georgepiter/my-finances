@@ -133,7 +133,10 @@ export default function NavbarTop() {
             </HStack>
             <ButtonGroup variant="link" spacing="8">
               {menuList.map((item) => {
-                if (user.role == item.role) {
+                if (
+                  (user.name !== "admin" && item.role === "ROLE_MANAGER") ||
+                  (user.name === "admin" && item.role === user.role)
+                ) {
                   return (
                     <Button
                       color="white"

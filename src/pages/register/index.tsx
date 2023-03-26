@@ -119,137 +119,134 @@ export default function Register() {
   }
 
   return (
-      <Box bg="primary.500" w="100%" h="250px">
+    <Box bg="primary.500" w="100%" h="250px">
+      <Container
+        display="flex"
+        justifyContent="center"
+        style={{
+          height: "auto",
+        }}
+      >
         <Container
+          w="100%"
+          maxW="2xl"
           display="flex"
           justifyContent="center"
-          style={{
-            height: "auto",
-          }}
+          style={{ position: "absolute", marginTop: "100px" }}
         >
-          <Container
-            w="100%"
-            maxW="2xl"
-            display="flex"
-            justifyContent="center"
-            style={{ position: "absolute", marginTop: "100px" }}
-          >
-            <VStack w="100%">
-              <Text fontSize="2xl" as="b" mb={2} color="gray.50">
-                Primeiro acesso
-              </Text>
+          <VStack w="100%">
+            <Text fontSize="2xl" as="b" mb={2} color="gray.50">
+              Primeiro acesso
+            </Text>
 
-              <Card w="100%">
-                <CardBody>
-                  <Stack>
-                    <Text fontSize="xl" as="b">
-                      Registro
-                    </Text>
-                    <Divider />
+            <Card w="100%">
+              <CardBody>
+                <Stack>
+                  <Text fontSize="xl" as="b">
+                    Registro
+                  </Text>
+                  <Divider />
 
-                    <form onSubmit={handleSubmit(handleForm)}>
-                      <Stack spacing={4} w="100%">
-                        <Center>
-                          {fileRegister.base64 ? (
-                            <ImageBase
-                              borderRadius="full"
-                              boxSize="100px"
-                              src={fileRegister.base64}
-                              alt="Photo Register"
+                  <form onSubmit={handleSubmit(handleForm)}>
+                    <Stack spacing={4} w="100%">
+                      <Center>
+                        {fileRegister.base64 ? (
+                          <ImageBase
+                            borderRadius="full"
+                            boxSize="100px"
+                            src={fileRegister.base64}
+                            alt="Photo Register"
+                          />
+                        ) : (
+                          <Image
+                            src={
+                              colorMode == "dark"
+                                ? avatarDarkImage
+                                : avatarlightImage
+                            }
+                            width={100}
+                            alt="Brand Image"
+                          />
+                        )}
+                      </Center>
+
+                      <FileBase64 multiple={true} onDone={handleFile} />
+
+                      <Controller
+                        control={control}
+                        name="cell"
+                        render={({ field: { onChange, value } }) => (
+                          <VStack w="100%" alignItems="left">
+                            <Text as="b">Celular</Text>
+                            <Input
+                              size="md"
+                              placeholder="Celular"
+                              errorMessage={errors.cell?.message}
+                              onChange={onChange}
+                              as={InputMask}
+                              mask="(**) *****-****"
                             />
-                          ) : (
-                            <Image
-                              src={
-                                colorMode == "dark"
-                                  ? avatarDarkImage
-                                  : avatarlightImage
-                              }
-                              width={100}
-                              alt="Brand Image"
-                            />
-                          )}
-                        </Center>
+                          </VStack>
+                        )}
+                      />
 
-                        <FileBase64 multiple={true} onDone={handleFile} />
-
+                      <HStack w="100%" mt={5}>
                         <Controller
                           control={control}
-                          name="cell"
+                          name="salary"
                           render={({ field: { onChange, value } }) => (
                             <VStack w="100%" alignItems="left">
-                              <Text as="b">Celular</Text>
+                              <Text as="b">Salário</Text>
                               <Input
                                 size="md"
-                                placeholder="Celular"
-                                errorMessage={errors.cell?.message}
+                                placeholder="Salário"
+                                errorMessage={errors.salary?.message}
                                 onChange={onChange}
-                                as={InputMask}
-                                mask="(**) *****-****"
+                                as={MaskedInput}
+                                mask={realMask}
+                                value={addCentsMarkCurrency(value) || ""}
                               />
                             </VStack>
                           )}
                         />
 
-                        <HStack w="100%" mt={5}>
-                          <Controller
-                            control={control}
-                            name="salary"
-                            render={({ field: { onChange, value } }) => (
-                              <VStack w="100%" alignItems="left">
-                                <Text as="b">Salário</Text>
-                                <Input
-                                  size="md"
-                                  placeholder="Salário"
-                                  errorMessage={errors.salary?.message}
-                                  onChange={onChange}
-                                  as={MaskedInput}
-                                  mask={realMask}
-                                  value={addCentsMarkCurrency(value) || ""}
-                                />
-                              </VStack>
-                            )}
-                          />
-
-                          <Controller
-                            control={control}
-                            name="others"
-                            render={({ field: { onChange, value } }) => (
-                              <VStack w="100%" alignItems="left">
-                                <Text as="b">Outros</Text>
-                                <Input
-                                  size="md"
-                                  placeholder="Outros"
-                                  errorMessage={errors.others?.message}
-                                  onChange={onChange}
-                                  as={MaskedInput}
-                                  mask={realMask}
-                                  value={
-                                    addCentsMarkCurrency(value ? value : "0") ||
-                                    ""
-                                  }
-                                />
-                              </VStack>
-                            )}
-                          />
-                        </HStack>
-                      </Stack>
-                      <Flex justifyContent="flex-end" mt={5}>
-                        <Button
-                          w="100px"
-                          color="primary"
-                          size="md"
-                          title="Salvar"
-                          type="submit"
-                          isLoading={isSubmitting}
+                        <Controller
+                          control={control}
+                          name="others"
+                          render={({ field: { onChange, value } }) => (
+                            <VStack w="100%" alignItems="left">
+                              <Text as="b">Outros</Text>
+                              <Input
+                                size="md"
+                                placeholder="Outros"
+                                errorMessage={errors.others?.message}
+                                onChange={onChange}
+                                as={MaskedInput}
+                                mask={realMask}
+                                value={addCentsMarkCurrency(value) || ""}
+                              />
+                            </VStack>
+                          )}
                         />
-                      </Flex>
-                    </form>
-                  </Stack>
-                </CardBody>
-              </Card>
-            </VStack>
-          </Container>
+                      </HStack>
+                    </Stack>
+                    <Flex justifyContent="flex-end" mt={5}>
+                      <Button
+                        w="100px"
+                        color="primary"
+                        size="md"
+                        title="Salvar"
+                        type="submit"
+                        isLoading={isSubmitting}
+                      />
+                    </Flex>
+                  </form>
+                </Stack>
+              </CardBody>
+            </Card>
+          </VStack>
         </Container>
-      </Box>
+      </Container>
+    </Box>
   );
 }

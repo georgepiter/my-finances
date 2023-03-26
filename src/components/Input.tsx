@@ -9,10 +9,11 @@ interface Props extends InputProps {
   size: string;
   iconLeft?: React.ReactNode | null;
   errorMessage?: string | null;
+  as?: any | undefined;
 }
 
 export const Input = forwardRef(
-  ({ type = "text", size, isInvalid, errorMessage = null, iconLeft = null, ...rest }: Props, ref) => {
+  ({ type = "text", size, isInvalid, errorMessage = null, iconLeft = null, as=null,...rest }: Props, ref) => {
     const { colorMode } = useColorMode();
     const [showPassword, setShowPassword] = useState(false);
 
@@ -35,6 +36,7 @@ export const Input = forwardRef(
               type={type === "password" && showPassword ? "text" : type}
               placeholder="medium size"
               size={size}
+              as={as}
               {...rest}
               ref={ref}
               isInvalid={invalid}
