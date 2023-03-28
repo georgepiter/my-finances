@@ -481,7 +481,8 @@ export default function Debt() {
 
 
   function handleEditOthers(e: React.ChangeEvent<HTMLInputElement>) {
-    setEditOthers(addCentsMarkCurrency(e.target.value));
+
+    if (e.target.value) setEditOthers(addCentsMarkCurrency(e.target.value));
   }
 
   async function loadSession() {
