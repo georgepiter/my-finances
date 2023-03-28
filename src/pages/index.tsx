@@ -62,11 +62,8 @@ export default function Home() {
         }
       }
     } catch (error: any) {
-      toast({
-        title: error.message,
-        status: "error",
-        isClosable: true,
-      });
+      console.log(error);
+
     } finally {
       setIsLoading(false);
     }
@@ -75,11 +72,12 @@ export default function Home() {
   async function loadSession() {
     const session = await getSession();
 
-    if (session) {
+    if (session && !session.error) {
 
       setCookie("role", session.user.role);
 
-      if (session.user.name === "admin" && session.user.role === "ROLE_ADMIN") {
+      if (
+        (session.user.name === "admin" && session.user.role === "ROLE_ADMIN") ) {
         router.push({
           pathname: "/admin/user",
         });
