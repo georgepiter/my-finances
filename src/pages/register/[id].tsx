@@ -206,11 +206,7 @@ export default function Register() {
 
   return (
     <Layout>
-      <Container maxW="6xl">
-        <Heading as="h4" size="sm" mb={5}>
-          Registro
-        </Heading>
-
+      <Container maxW="6xl" mt={5}>
         {isLoading ? (
           <Spinner />
         ) : (
@@ -264,25 +260,6 @@ export default function Register() {
                   <HStack>
                     <Controller
                       control={control}
-                      name="others"
-                      render={({ field: { onChange, value } }) => (
-                        <VStack w="100%" alignItems="left">
-                          <Text as="b">Outros Valores</Text>
-                          <Input
-                            size="md"
-                            placeholder="Outros Valores"
-                            errorMessage={errors.others?.message}
-                            onChange={onChange}
-                            as={MaskedInput}
-                            mask={realMask}
-                            value={value || ""}
-                          />
-                        </VStack>
-                      )}
-                    />
-
-                    <Controller
-                      control={control}
                       name="salary"
                       render={({ field: { onChange, value } }) => (
                         <VStack w="100%" alignItems="left">
@@ -291,6 +268,24 @@ export default function Register() {
                             size="md"
                             placeholder="Salário"
                             errorMessage={errors.salary?.message}
+                            onChange={onChange}
+                            as={MaskedInput}
+                            mask={realMask}
+                            value={value || ""}
+                          />
+                        </VStack>
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="others"
+                      render={({ field: { onChange, value } }) => (
+                        <VStack w="100%" alignItems="left">
+                          <Text as="b">Outros Valores</Text>
+                          <Input
+                            size="md"
+                            placeholder="Outros Valores"
+                            errorMessage={errors.others?.message}
                             onChange={onChange}
                             as={MaskedInput}
                             mask={realMask}
