@@ -56,7 +56,7 @@ export default function Register() {
   const isAuthenticated = useAuth(true);
 
   const {
-    control,
+    control, 
     handleSubmit,
     reset,
     formState: { errors, isSubmitting, isValid },

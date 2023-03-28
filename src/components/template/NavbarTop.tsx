@@ -120,7 +120,7 @@ export default function NavbarTop() {
       <Box as="section">
         <Box
           as="nav"
-          bg={colorMode == "dark" ? "black" : "secondary.400"}
+          bg={colorMode == "dark" ? "black" : "gray.900"}
           boxShadow="md"
         >
           <Flex justify="space-between" flex="1" p={1}>
