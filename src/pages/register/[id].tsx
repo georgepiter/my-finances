@@ -6,7 +6,6 @@ import {
   Center,
   Container,
   Flex,
-  Heading,
   HStack,
   Stack,
   useColorMode,
@@ -41,6 +40,7 @@ import Spinner from "@/components/Spinner";
 import { useProfile } from "@/hooks/useProfile";
 import { useRegister } from "@/hooks/useRegister";
 import { RegisterProps } from "@/contexts/RegisterContext";
+import { addCentsMarkCurrency } from "@/utils/addCentsMarkCurrency";
 
 interface FileProps {
   name?: string;
@@ -271,7 +271,7 @@ export default function Register() {
                             onChange={onChange}
                             as={MaskedInput}
                             mask={realMask}
-                            value={value || ""}
+                            value={addCentsMarkCurrency(value) || ""}
                           />
                         </VStack>
                       )}
@@ -289,7 +289,7 @@ export default function Register() {
                             onChange={onChange}
                             as={MaskedInput}
                             mask={realMask}
-                            value={value || ""}
+                            value={addCentsMarkCurrency(value) || ""}
                           />
                         </VStack>
                       )}
