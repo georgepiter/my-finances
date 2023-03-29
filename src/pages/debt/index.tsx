@@ -718,8 +718,7 @@ export default function Debt() {
                       <Td>
                         <Center>
                           {debt.receiptPayment &&
-                          debt.debtId &&
-                          debt.status === "Pago" ? (
+                          debt.debtId  ? (
                             <Link
                               href={{
                                 pathname: `/receipt-payment/${debt.debtId}`,
