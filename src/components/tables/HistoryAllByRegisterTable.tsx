@@ -28,7 +28,7 @@ import Alert from "@/components/Alert";
 import IconButton from "@/components/IconButton";
 import Box from "@/components/Box"; 
 
-import DataTableBase from "../DataTable";
+import DataTableBase from "../DataTableBase";
 
 interface Props {
   registerId: number;
@@ -93,7 +93,6 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
         ),
     },
   ];
-
 
   async function loadHistory(registerId: number) {
     try {

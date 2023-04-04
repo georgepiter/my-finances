@@ -52,7 +52,6 @@ import {
   FiPlus,
   FiTrash2,
   FiDownload,
-  FiEdit
 } from "react-icons/fi";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
@@ -73,6 +72,8 @@ import IconButton from "@/components/IconButton";
 import Box from "@/components/Box";
 import Spinner from "@/components/Spinner";
 import Layout from "@/components/template/Layout";
+import DataTableBase from "@/components/DataTableBase";
+
 import { DebtDTO, DebtValuesDTO } from "@/dto/http/DebtDTO";
 
 import {
@@ -187,6 +188,100 @@ export default function Debt() {
     setDebt({} as DebtDTO);
     onOpenFormModal();
   }
+
+  const columns = [
+    {
+      name: "Descrição",
+      selector: (row: any) => row.debtDescription,
+    },
+    {
+      name: "Valor",
+      selector: (row: any) =>
+        new Intl.NumberFormat("pt-br", {
+          style: "currency",
+          currency: "BRL",
+        }).format(Number(row.value)),
+    },
+    {
+      name: "Data Vencimento",
+      selector: (row: any) => new Date(row.dueDate).toLocaleDateString(),
+    },
+    {
+      name: "Data Pagamento",
+      selector: (row: any) =>
+        row.paymentDate ? new Date(row.paymentDate).toLocaleDateString() : "-",
+    },
+    {
+      name: "Comprovante",
+      selector: (row: any) => (
+        <Center>
+          {row.receiptPayment && row.debtId ? (
+            <Link
+              href={{
+                pathname: `/receipt-payment/${row.debtId}`,
+              }}
+              legacyBehavior
+            >
+              <a target="_blank">
+                <FiDownload />
+              </a>
+            </Link>
+          ) : (
+            "-"
+          )}
+        </Center>
+      ),
+    },
+    {
+      name: "Status",
+      selector: (row: any) => (
+        <Tag
+          variant="solid"
+          colorScheme={
+            row.status == "Aguardando Pagamento" ? "orange" : "green"
+          }
+        >
+          {row.status}
+        </Tag>
+      ),
+    },
+    {
+      name: "Ações",
+      selector: (row: any) => (
+        <Menu>
+          <MenuButton
+            rounded={20}
+            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
+            as={IconButtonBase}
+            icon={<HamburgerIcon />}
+          />
+          <MenuList minWidth="150px">
+            <MenuItem onClick={() => handleEdit(debt.debtId)}>
+              <HStack flex={1} justifyContent="space-between">
+                <Text>Editar</Text>
+                <FiEdit2 />
+              </HStack>
+            </MenuItem>
+            <MenuItem onClick={() => handleConfirm(debt.debtId)}>
+              <HStack flex={1} justifyContent="space-between">
+                <Text>Excluir</Text>
+                <FiTrash2 />
+              </HStack>
+            </MenuItem>
+
+            {debt.status !== "Pago" && (
+              <MenuItem onClick={() => handlePay(debt.debtId)}>
+                <HStack flex={1} justifyContent="space-between">
+                  <Text>Pagar</Text>
+                  <GiPayMoney />
+                </HStack>
+              </MenuItem>
+            )}
+          </MenuList>
+        </Menu>
+      ),
+    },
+  ];
 
   function handleFile(files: any) {
     if (files[0].file.size > 3000000) {
@@ -681,112 +776,7 @@ export default function Debt() {
               />
             </Heading>
           </HStack>
-          {isLoading ? (
-            <Spinner />
-          ) : debts.length === 0 ? (
-            <Text>Nenhum registro encontrado.</Text>
-          ) : (
-            <TableContainer mt={5}>
-              <Table size="sm">
-                <Thead>
-                  <Tr>
-                    <Th>Descrição</Th>
-                    <Th>Valor</Th>
-                    <Th>Data Vencimento</Th>
-                    <Th>Data Pagamento</Th>
-                    <Th textAlign="center">Comprovante</Th>
-                    <Th>Status</Th>
-                    <Th>Ações</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {debts.map((debt) => (
-                    <Tr key={debt.debtId}>
-                      <Td>{debt.debtDescription}</Td>
-                      <Td>
-                        {new Intl.NumberFormat("pt-br", {
-                          style: "currency",
-                          currency: "BRL",
-                        }).format(Number(debt.value))}
-                      </Td>
-                      <Td>{new Date(debt.dueDate).toLocaleDateString()}</Td>
-                      <Td>
-                        {debt.paymentDate
-                          ? new Date(debt.paymentDate).toLocaleDateString()
-                          : "-"}
-                      </Td>
-                      <Td>
-                        <Center>
-                          {debt.receiptPayment &&
-                          debt.debtId  ? (
-                            <Link
-                              href={{
-                                pathname: `/receipt-payment/${debt.debtId}`,
-                              }}
-                              legacyBehavior
-                            >
-                              <a target="_blank">
-                                <FiDownload />
-                              </a>
-                            </Link>
-                          ) : (
-                            "-"
-                          )}
-                        </Center>
-                      </Td>
-                      <Td>
-                        <Tag
-                          variant="solid"
-                          colorScheme={
-                            debt.status == "Aguardando Pagamento"
-                              ? "orange"
-                              : "green"
-                          }
-                        >
-                          {debt.status}
-                        </Tag>
-                      </Td>
-                      <Td>
-                        <Menu>
-                          <MenuButton
-                            rounded={20}
-                            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
-                            as={IconButtonBase}
-                            icon={<HamburgerIcon />}
-                          />
-                          <MenuList minWidth="150px">
-                            <MenuItem onClick={() => handleEdit(debt.debtId)}>
-                              <HStack flex={1} justifyContent="space-between">
-                                <Text>Editar</Text>
-                                <FiEdit2 />
-                              </HStack>
-                            </MenuItem>
-                            <MenuItem
-                              onClick={() => handleConfirm(debt.debtId)}
-                            >
-                              <HStack flex={1} justifyContent="space-between">
-                                <Text>Excluir</Text>
-                                <FiTrash2 />
-                              </HStack>
-                            </MenuItem>
-
-                            {debt.status !== "Pago" && (
-                              <MenuItem onClick={() => handlePay(debt.debtId)}>
-                                <HStack flex={1} justifyContent="space-between">
-                                  <Text>Pagar</Text>
-                                  <GiPayMoney />
-                                </HStack>
-                              </MenuItem>
-                            )}
-                          </MenuList>
-                        </Menu>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          )}
+          <DataTableBase columns={columns} data={debts} title="" />
         </Box>
         {/* LIST DEBTS */}
 

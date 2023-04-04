@@ -4,10 +4,10 @@ import DataTable,{ TableColumn } from "react-data-table-component";
 interface Props {
   columns: TableColumn<any>[];
   data: any[];
-  title: string;
+  title?: string;
 }
 
-export default function DataTableBase({ columns, data, title }: Props) {
+export default function DataTableBase({ columns, data, title = "" }: Props) {
   const { colorMode } = useColorMode();
   const theme = useTheme();
 

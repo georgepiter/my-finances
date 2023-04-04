@@ -27,7 +27,7 @@ import { FiTrash2 } from "react-icons/fi";
 
 import { HistoryDTO } from "@/dto/http/HistoryDTO";
 import { deleteHistory, getAllHistoryByRegister } from "@/services/history";
-import DataTableBase from "../DataTable";
+import DataTableBase from "../DataTableBase";
 
 interface Props {
   registerId: number

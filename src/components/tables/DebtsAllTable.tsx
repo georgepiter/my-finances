@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getAllDebtsByRegister } from "@/services/debt";
 import { DebtDTO } from "@/dto/http/DebtDTO";
 
-import DataTableBase from "../DataTable";
+import DataTableBase from "../DataTableBase";
 
 interface Props {
   userId: number;
