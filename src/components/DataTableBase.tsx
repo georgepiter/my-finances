@@ -53,14 +53,14 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
         backgroundColor:
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
       },
-      selectedHighlightStyle: {
-        // use nth-of-type(n) to override other nth selectors
-        "&:nth-of-type(n)": {
-          color: "red",
-          backgroundColor: "red",
-          borderBottomColor: "red",
-        },
-      },
+      // selectedHighlightStyle: {
+      //   // use nth-of-type(n) to override other nth selectors
+      //   "&:nth-of-type(n)": {
+      //     color: "red",
+      //     backgroundColor: "red",
+      //     borderBottomColor: "red",
+      //   },
+      // },
     },
     noData: {
       style: {
@@ -90,20 +90,38 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
         margin: "px",
         cursor: "pointer",
         transition: "0.4s",
-        color: colorMode == "dark" ? theme.colors.gray["900"] : "gray.50",
-        fill: colorMode == "dark" ? theme.colors.gray["900"] : "gray.50",
+        color:
+          colorMode == "dark"
+            ? theme.colors.gray["900"]
+            : theme.colors.gray["300"],
+        fill:
+          colorMode == "dark"
+            ? theme.colors.gray["900"]
+            : theme.colors.gray["300"],
         backgroundColor: "transparent",
         "&:disabled": {
           cursor: "unset",
-          color: colorMode == "dark" ? theme.colors.gray["900"] : "gray.50",
-          fill: colorMode == "dark" ? theme.colors.gray["900"] : "gray.50",
+          color:
+            colorMode == "dark"
+              ? theme.colors.gray["900"]
+              : theme.colors.gray["100"],
+          fill:
+            colorMode == "dark"
+              ? theme.colors.gray["900"]
+              : theme.colors.gray["100"],
         },
         "&:hover:not(:disabled)": {
-          backgroundColor: "red",
+          backgroundColor:
+            colorMode == "dark"
+              ? theme.colors.gray["500"]
+              : theme.colors.gray["50"],
         },
         "&:focus": {
           outline: "none",
-          backgroundColor: "red",
+          backgroundColor:
+            colorMode == "dark"
+              ? theme.colors.gray["500"]
+              : theme.colors.gray["50"],
         },
       },
     },
