@@ -34,3 +34,12 @@ export const getDebtDash = async (userId: number, registerId: number) => {
   );
 };
 
+export const getAllDebtsByRegister = async (
+  registerId: number,
+  date: string
+) => {
+  return await api.get(
+    `${process.env.BASE_URL_AUTH}/debt/allDebts/${registerId}/${date}`
+  );
+};
+

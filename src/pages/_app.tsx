@@ -3,7 +3,6 @@ import { SSRProvider } from "@react-aria/ssr";
 import { SessionProvider, useSession } from "next-auth/react";
 
 import { theme } from "@/styles";
-
 import { ChakraProvider } from "@chakra-ui/react";
 import { ProfileContextProvider } from "@/contexts/ProfileContext";
 import { RegisterContextProvider } from "@/contexts/RegisterContext";

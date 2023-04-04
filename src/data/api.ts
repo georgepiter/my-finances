@@ -1,5 +1,5 @@
 import { errorHandler } from "@/utils/errorHandler";
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { getSession } from "next-auth/react";
 
 import getConfig from "next/config";
