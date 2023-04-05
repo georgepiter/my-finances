@@ -256,21 +256,21 @@ export default function Debt() {
             icon={<HamburgerIcon />}
           />
           <MenuList minWidth="150px">
-            <MenuItem onClick={() => handleEdit(debt.debtId)}>
+            <MenuItem onClick={() => handleEdit(row.debtId)}>
               <HStack flex={1} justifyContent="space-between">
                 <Text>Editar</Text>
                 <FiEdit2 />
               </HStack>
             </MenuItem>
-            <MenuItem onClick={() => handleConfirm(debt.debtId)}>
+            <MenuItem onClick={() => handleConfirm(row.debtId)}>
               <HStack flex={1} justifyContent="space-between">
                 <Text>Excluir</Text>
                 <FiTrash2 />
               </HStack>
             </MenuItem>
 
-            {debt.status !== "Pago" && (
-              <MenuItem onClick={() => handlePay(debt.debtId)}>
+            {row.status !== "Pago" && (
+              <MenuItem onClick={() => handlePay(row.debtId)}>
                 <HStack flex={1} justifyContent="space-between">
                   <Text>Pagar</Text>
                   <GiPayMoney />
