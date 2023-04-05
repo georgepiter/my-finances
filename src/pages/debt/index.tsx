@@ -614,7 +614,7 @@ export default function Debt() {
 
   return (
     <Layout>
-      <Container maxW="6xl" mt={10}>
+      <Container maxW="6xl" mt={10} mb={10}>
         <Card mb={5}>
           <CardHeader>
             <Heading size="md">

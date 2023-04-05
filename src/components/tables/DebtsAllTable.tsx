@@ -1,8 +1,10 @@
-import { useColorMode, Tag } from "@chakra-ui/react";
+import { useColorMode, Tag, HStack, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import { getAllDebtsByRegister } from "@/services/debt";
 import { DebtDTO } from "@/dto/http/DebtDTO";
+import Box from "@/components/Box";
+import { Input } from "@/components/Input";
 
 import DataTableBase from "../DataTableBase";
 
@@ -14,6 +16,7 @@ export default function DebtsAllTable({ userId }: Props) {
   const { colorMode } = useColorMode();
 
   const [debts, setDebts] = useState<DebtDTO[]>([]);
+  const [filterDebt, setFilterDebt] = useState("");
 
   const columns = [
     {
@@ -52,12 +55,10 @@ export default function DebtsAllTable({ userId }: Props) {
     },
   ];
 
-
-  async function loadDebts() {
+  async function loadDebts(date: string) {
     try {
-      const res = await getAllDebtsByRegister(userId, "2023-03");
+      const res = await getAllDebtsByRegister(userId, date);
       if (res.status == 200) {
-        console.log("res", res.data);
         setDebts(res.data);
       }
     } catch (error: any) {
@@ -65,14 +66,43 @@ export default function DebtsAllTable({ userId }: Props) {
     }
   }
 
+  function setFormatDate(d = "") {
+    const dt = d !== "" ? new Date(d) : new Date();
+    const date =
+      dt.getFullYear() + "-" + (dt.getMonth() + 1).toString().padStart(2, "0");
+
+    return date;
+  }
+
   useEffect(() => {
-    loadDebts();
+   
+    loadDebts(setFormatDate());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function handleFilterDebts(e: React.ChangeEvent<HTMLInputElement>) {
+    const date = e.target.value;
+    loadDebts(setFormatDate(date));
+  }
+
   return (
     <>
-      <DataTableBase columns={columns} data={debts} title="Débitos" />
+      <Box>
+        <HStack display="flex" justifyContent="space-between">
+          <Heading as="h4" size="md">
+            Débitos
+          </Heading>
+          <Heading as="h4" size="md" mb={10}>
+            <Input
+              size="sm"
+              placeholder="Selecione a data"
+              type="date"
+              onChange={handleFilterDebts}
+            />
+          </Heading>
+        </HStack>
+        <DataTableBase columns={columns} data={debts} title="" />
+      </Box>
     </>
   );
 }

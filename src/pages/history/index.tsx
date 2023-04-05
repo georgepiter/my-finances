@@ -21,7 +21,7 @@ export default function History() {
         <HistoryTable registerId={registerBase.registerId} />
       </Container>
 
-      <Container maxW="6xl" mt={10}>
+      <Container maxW="6xl" mt={10} mb={10}>
         {session?.user?.id && <DebtsAllTable userId={session.user.id} />}
       </Container>
     </Layout>
