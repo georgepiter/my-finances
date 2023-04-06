@@ -12,7 +12,7 @@ export default function Divider({ ...rest }: DividerProps) {
       <DividerBase
         {...rest}
         mt={2}
-        borderColor={colorMode == "dark" ? "secondary.700" : "secondary.500"}
+        borderColor={colorMode === "dark" ? "secondary.900" : "gray.200"}
       />
     </>
   );
