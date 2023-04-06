@@ -8,12 +8,10 @@ export default function Divider({ ...rest }: DividerProps) {
   const { colorMode } = useColorMode();
 
   return (
-    <>
-      <DividerBase
+    <DividerBase
         {...rest}
-        mt={2}
-        borderColor={colorMode === "dark" ? "secondary.900" : "gray.200"}
-      />
-    </>
+      mt={2}
+      borderColor={colorMode === "dark" ? "secondary.900" : "gray.200"}
+    />
   );
 }
