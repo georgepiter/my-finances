@@ -161,7 +161,7 @@ export default function SignIn() {
               <Image
                 src={logo}
                 alt="Brand Image"
-                style={{ height: "auto", width: "70%", marginBottom: "30px" }}
+                style={{ height: "auto", width: "95%", marginBottom: "30px" }}
               />
             </Show>
 

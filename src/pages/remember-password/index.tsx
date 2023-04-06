@@ -72,15 +72,15 @@ export default function RememberPassword() {
     <>
       <PanelRightBrand>
         <Container p={15}>
-          <Stack spacing={4} alignItems="center" mt={100}>
+          <Stack spacing={4} alignItems="center" mt={90}>
             <Show below="md">
               <Image
                 src={logo}
                 alt="Brand Image"
-                style={{ height: "auto", width: "50%", marginBottom: "30px" }}
+                style={{ height: "auto", width: "60%", marginBottom: "20px" }}
               />
             </Show>
-            <Text as="b" fontSize="3xl" mb={10}>
+            <Text as="b" fontSize="3xl" mb={5}>
               Esqueceu a senha?
             </Text>
 
