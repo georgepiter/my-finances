@@ -22,11 +22,6 @@ import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import InputMask from "react-input-mask";
-import MaskedInput from "react-text-mask";
-import { useEffect, useState } from "react";
-import emailMask from "text-mask-addons/dist/emailMask";
-
 import Button from "@/components/Button";
 import { Input } from "@/components/Input";
 import Layout from "@/components/template/Layout";
