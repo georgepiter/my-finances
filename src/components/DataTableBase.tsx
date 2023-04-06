@@ -23,26 +23,26 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
       },
     },
-    header: {
-      style: {
-        fontSize: "22px",
-        color:
-          colorMode == "dark"
-            ? theme.colors.gray["200"]
-            : theme.colors.gray["800"],
-        backgroundColor:
-          colorMode == "dark" ? theme.colors.gray["800"] : "white",
-        minHeight: "56px",
-        paddingLeft: "16px",
-        paddingRight: "8px",
-      },
-    },
+    // header: {
+    //   style: {
+    //     fontSize: "22px",
+    //     color:
+    //       colorMode == "dark"
+    //         ? theme.colors.gray["200"]
+    //         : theme.colors.gray["800"],
+    //     backgroundColor:
+    //       colorMode == "dark" ? theme.colors.gray["800"] : "white",
+    //     minHeight: "56px",
+    //     paddingLeft: "16px",
+    //     paddingRight: "8px",
+    //   },
+    // },
     headRow: {
       style: {
         fontSize: "16px",
         color:
           colorMode == "dark"
-            ? theme.colors.gray["200"]
+            ? theme.colors.gray["50"]
             : theme.colors.gray["500"],
         backgroundColor:
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
@@ -54,14 +54,6 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
         backgroundColor:
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
       },
-      // selectedHighlightStyle: {
-      //   // use nth-of-type(n) to override other nth selectors
-      //   "&:nth-of-type(n)": {
-      //     color: "red",
-      //     backgroundColor: "red",
-      //     borderBottomColor: "red",
-      //   },
-      // },
     },
     noData: {
       style: {
@@ -70,7 +62,6 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
       },
     },
-
     pagination: {
       style: {
         color:
@@ -89,7 +80,7 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
 
   const paginationOptions = {
     rowsPerPageText: "Página:",
-    rangeSeparatorText: "of",
+    rangeSeparatorText: "de",
   };
 
   return (
