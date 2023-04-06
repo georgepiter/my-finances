@@ -120,7 +120,11 @@ export default function NavbarTop() {
       <Box as="section">
         <Box
           as="nav"
-          bg={colorMode == "dark" ? "gray.800" : "gray.900"}
+          bgGradient={
+            colorMode == "dark"
+              ? "linear(to-l, primary.800, primary.900)"
+              : "linear(to-l, primary.600, primary.700)"
+          }
           boxShadow="md"
         >
           <HStack>

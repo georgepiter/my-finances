@@ -23,7 +23,7 @@ export default function PanelLeftBrand({ children }: Props) {
               <Image
                 src={logo}
                 alt="Brand Image"
-                style={{ height: "auto", width: "95%" }}
+                style={{ height: "auto", width: "90%" }}
               />
               <Stack alignItems="center">
                 {/* <Image

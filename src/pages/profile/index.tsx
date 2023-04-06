@@ -103,7 +103,15 @@ export default function Profile() {
 
   return (
     <Layout>
-      <Box bg="primary.500" w="100%" h="250px">
+      <Box
+        bgGradient={
+          colorMode == "dark"
+            ? "linear(to-l, primary.600, primary.700)"
+            : "linear(to-l, primary.400, primary.500)"
+        }
+        w="100%"
+        h="250px"
+      >
         <Container
           display="flex"
           justifyContent="center"

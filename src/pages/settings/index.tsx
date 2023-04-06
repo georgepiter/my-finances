@@ -32,7 +32,15 @@ export default function Settings() {
   return (
     <>
       <Layout>
-        <Box bg="primary.500" w="100%" h="250px">
+        <Box
+          bgGradient={
+            colorMode == "dark"
+              ? "linear(to-l, primary.600, primary.700)"
+              : "linear(to-l, primary.400, primary.500)"
+          }
+          w="100%"
+          h="250px"
+        >
           <Container
             display="flex"
             justifyContent="center"
@@ -47,28 +55,26 @@ export default function Settings() {
               justifyContent="center"
               style={{ position: "absolute", marginTop: "100px" }}
             >
-            <VStack w="100%">
-              <Text fontSize="2xl" as="b" mb={2} color="gray.50">
-                Configurações
-              </Text>
+              <VStack w="100%">
+                <Text fontSize="2xl" as="b" mb={2} color="gray.50">
+                  Configurações
+                </Text>
 
-              <Card w="100%">
-                <CardBody>
-                  <Stack>
-                    <Text fontSize="xl" as="b">
-                      Gerais
-                    </Text>
-                    <Divider />
+                <Card w="100%">
+                  <CardBody>
+                    <Stack>
+                      <Text fontSize="xl" as="b">
+                        Gerais
+                      </Text>
+                      <Divider />
 
-                    <FormControl>
-                      <HStack
-                        flex={1}
-                        justifyContent="space-between"
-                        w="100%"
+                      <FormControl>
+                        <HStack
+                          flex={1}
+                          justifyContent="space-between"
+                          w="100%"
                         >
-                          <FormLabel htmlFor="isChecked">
-                            Tema Dark:
-                          </FormLabel>
+                          <FormLabel htmlFor="isChecked">Tema Dark:</FormLabel>
                           <Switch
                             id="isChecked"
                             color="primary"
