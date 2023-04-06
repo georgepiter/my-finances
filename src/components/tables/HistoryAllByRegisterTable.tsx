@@ -8,7 +8,6 @@ import {
   Stack,
   Text,
   useTheme,
-  Divider,
   VStack,
   Heading,
   Center
@@ -30,6 +29,7 @@ import { deleteHistory, getAllHistoryByRegister } from "@/services/history";
 import Alert from "@/components/Alert";
 import IconButton from "@/components/IconButton";
 import Box from "@/components/Box"; 
+import Divider from "@/components/Divider";
 
 import DataTableBase from "../DataTableBase";
 

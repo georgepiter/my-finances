@@ -15,23 +15,25 @@ export default function PanelRightBrand({ children }: Props) {
   return (
     <>
       <SimpleGrid columns={{ md: 2, sm: 1 }} spacing={0} w="100%" h="100%">
-        <Box h="calc(100vh)">{children}</Box>
+        <Box mt={20} h="calc(100vh)">
+          {children}
+        </Box>
 
         <Hide below="md">
           <Box bg="primary.500" h="calc(100vh)">
-            <Container p={20}>
-              <Stack spacing={4} alignItems="center" mt={5}>
-                <Link href="/">
-                  <Image
-                    src={logo}
-                    alt="Brand Image"
-                    style={{ height: "auto", width: "90%" }}
-                  />
-                </Link>
+            <Container mt={20}>
+              <Link href="/">
+                <Image
+                  src={logo}
+                  alt="Brand Image"
+                  style={{ height: "auto", width: "90%" }}
+                />
+              </Link>
+              <Stack alignItems="center">
                 <Image
                   src={pig}
                   alt="Pig Image"
-                  style={{ height: "auto", width: "65%", marginTop: "40px" }}
+                  style={{ height: "auto", width: "50%", marginTop: "10px" }}
                 />
               </Stack>
             </Container>

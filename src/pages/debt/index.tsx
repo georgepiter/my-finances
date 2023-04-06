@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
 import {
-  Divider,
   Container,
   Flex,
   Heading,
@@ -74,6 +73,7 @@ import Box from "@/components/Box";
 import Spinner from "@/components/Spinner";
 import Layout from "@/components/template/Layout";
 import DataTableBase from "@/components/DataTableBase";
+import Divider from "@/components/Divider";
 
 import { DebtDTO, DebtValuesDTO } from "@/dto/http/DebtDTO";
 

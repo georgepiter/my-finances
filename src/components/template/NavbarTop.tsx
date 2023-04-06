@@ -120,83 +120,86 @@ export default function NavbarTop() {
       <Box as="section">
         <Box
           as="nav"
-          bg={colorMode == "dark" ? "black" : "gray.900"}
+          bg={colorMode == "dark" ? "gray.800" : "gray.900"}
           boxShadow="md"
         >
-          <Flex justify="space-between" flex="1" p={1}>
-            <HStack>
-              <Image
-                src={colorMode == "dark" ? logoLight : logoLight}
-                alt="Brand Image"
-                style={{ height: "auto", width: "90px" }}
-              />
-            </HStack>
-            <ButtonGroup variant="link" spacing="8">
-              {menuList.map((item) => {
-                if (
-                  (user.name !== "admin" && item.role === "ROLE_MANAGER") ||
-                  (user.name === "admin" && item.role === user.role)
-                ) {
-                  return (
-                    <Button
-                      color="white"
-                      key={item.title}
-                      onClick={() => handleRouteItem(item.route)}
-                    >
-                      {item.title}
-                    </Button>
-                  );
-                }
-              })}
-            </ButtonGroup>
-            <Menu>
-              <MenuButton
-                mt={2}
-                as={IconButton}
-                aria-label="Options"
-                icon={
-                  <FiMenu color={colorMode == "dark" ? "gray.50" : "white"} />
-                }
-                variant="outline"
-                borderColor={colorMode == "dark" ? "gray.50" : "white"}
-              />
-              <MenuList>
-                <MenuItem justifyContent="center">
-                  {userProfile?.user?.photo ? (
-                    <ImageBase
-                      borderRadius="full"
-                      w={50}
-                      h={50}
-                      src={`data:image/jpeg;base64,${userProfile?.user?.photo}`}
-                      alt="Photo Register"
-                    />
-                  ) : (
-                    <Image
-                      src={
-                        colorMode == "dark" ? avatarDarkImage : avatarlightImage
-                      }
-                      width={50}
-                      alt="Brand Image"
-                    />
-                  )}
-                </MenuItem>
-                <MenuItem justifyContent="center">
-                  <Text fontSize="xl" as="b">
-                    Olá, {user.name}
-                  </Text>
-                </MenuItem>
-                <MenuItem icon={<FiSettings />} onClick={handleSettings}>
-                  Configurações
-                </MenuItem>
-                <MenuItem icon={<FiLock />} onClick={handleProfile}>
-                  Alterar Senha
-                </MenuItem>
-                <MenuItem onClick={handleSignOut} icon={<FiLogOut />}>
-                  Sair
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
+          <HStack>
+            <Image
+              src={colorMode == "dark" ? logoLight : logoLight}
+              alt="Brand Image"
+              style={{ height: "auto", width: "135px" }}
+            />
+
+            <Flex justify="flex-end" flex="1" p={2}>
+              <ButtonGroup variant="link" spacing="8" mr={10}>
+                {menuList.map((item) => {
+                  if (
+                    (user.name !== "admin" && item.role === "ROLE_MANAGER") ||
+                    (user.name === "admin" && item.role === user.role)
+                  ) {
+                    return (
+                      <Button
+                        color="white"
+                        key={item.title}
+                        onClick={() => handleRouteItem(item.route)}
+                      >
+                        {item.title}
+                      </Button>
+                    );
+                  }
+                })}
+              </ButtonGroup>
+              <Menu>
+                <MenuButton
+                  mt={2}
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={
+                    <FiMenu color={colorMode == "dark" ? "gray.50" : "white"} />
+                  }
+                  variant="outline"
+                  borderColor={colorMode == "dark" ? "gray.50" : "white"}
+                />
+                <MenuList>
+                  <MenuItem justifyContent="center">
+                    {userProfile?.user?.photo ? (
+                      <ImageBase
+                        borderRadius="full"
+                        w={50}
+                        h={50}
+                        src={`data:image/jpeg;base64,${userProfile?.user?.photo}`}
+                        alt="Photo Register"
+                      />
+                    ) : (
+                      <Image
+                        src={
+                          colorMode == "dark"
+                            ? avatarDarkImage
+                            : avatarlightImage
+                        }
+                        width={50}
+                        alt="Brand Image"
+                      />
+                    )}
+                  </MenuItem>
+                  <MenuItem justifyContent="center">
+                    <Text fontSize="xl" as="b">
+                      Olá, {user.name}
+                    </Text>
+                  </MenuItem>
+                  <MenuItem icon={<FiSettings />} onClick={handleSettings}>
+                    Configurações
+                  </MenuItem>
+                  <MenuItem icon={<FiLock />} onClick={handleProfile}>
+                    Alterar Senha
+                  </MenuItem>
+                  <MenuItem onClick={handleSignOut} icon={<FiLogOut />}>
+                    Sair
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+          </HStack>
         </Box>
       </Box>
     </>

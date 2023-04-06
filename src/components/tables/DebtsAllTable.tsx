@@ -1,10 +1,11 @@
-import { useColorMode, Tag, HStack, Heading, Divider } from "@chakra-ui/react";
+import { useColorMode, Tag, HStack, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import { getAllDebtsByRegister } from "@/services/debt";
 import { DebtDTO } from "@/dto/http/DebtDTO";
 import Box from "@/components/Box";
 import { Input } from "@/components/Input";
+import Divider from "@/components/Divider";
 
 import DataTableBase from "../DataTableBase";
 
@@ -13,8 +14,6 @@ interface Props {
 }
 
 export default function DebtsAllTable({ userId }: Props) {
-  const { colorMode } = useColorMode();
-
   const [debts, setDebts] = useState<DebtDTO[]>([]);
   const [filterDebt, setFilterDebt] = useState("");
 
@@ -101,7 +100,8 @@ export default function DebtsAllTable({ userId }: Props) {
             />
           </Heading>
         </HStack>
-        <Divider mt={2} />
+        <Divider />
+
         <DataTableBase columns={columns} data={debts} title="" />
       </Box>
     </>

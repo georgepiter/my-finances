@@ -15,7 +15,6 @@ import {
   AlertDialogFooter,
   useDisclosure,
   useToast,
-  Divider,
   Heading,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
@@ -23,6 +22,8 @@ import { FiTrash2 } from "react-icons/fi";
 
 import { HistoryDTO } from "@/dto/http/HistoryDTO";
 import IconButton from "@/components/IconButton";
+import Divider from "@/components/Divider";
+
 import { deleteHistory, getAllHistoryByRegister } from "@/services/history";
 import DataTableBase from "../DataTableBase";
 import Box from "../Box";
@@ -34,7 +35,6 @@ interface Props {
 export default function HistoryTable({ registerId }: Props) {
   const toast = useToast();
 
-  const { colorMode } = useColorMode();
   const [historyId, setHistoryId] = useState<number>(0);
   const [history, setHistory] = useState<HistoryDTO[]>([]);
 

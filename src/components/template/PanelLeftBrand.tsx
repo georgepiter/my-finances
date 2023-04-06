@@ -16,17 +16,22 @@ export default function PanelLeftBrand({ children }: Props) {
       <SimpleGrid columns={{ md: 2, sm: 1 }} spacing={0} w="100%" h="100%">
         <Hide below="md">
           <Box bg="primary.500" h="calc(100vh)">
-            <Container p={20}>
-              <Stack spacing={4} alignItems="center" mt={5}>
-                <Image
+            <Container mt={20}>
+              <Image
+                src={logo}
+                alt="Brand Image"
+                style={{ height: "auto", width: "95%" }}
+              />
+              <Stack alignItems="center">
+                {/* <Image
                   src={logo}
                   alt="Brand Image"
-                  style={{ height: "auto", width: "90%" }}
-                />
+                  style={{ height: "auto", width: "100%" }}
+                /> */}
                 <Image
                   src={pig}
                   alt="Brand Image"
-                  style={{ height: "auto", width: "65%", marginTop: "40px" }}
+                  style={{ height: "auto", width: "50%", marginTop: "10px" }}
                 />
               </Stack>
             </Container>
