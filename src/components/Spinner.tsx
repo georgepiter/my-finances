@@ -12,7 +12,7 @@ export default function Spinner({ color = "blue.500", size="lg", ...rest }: Prop
         <SpinnerBase
           thickness="4px"
           speed="0.65s"
-          emptyColor="gray.200"
+          emptyColor="primary.500"
           color={color}
           size={size}
           {...rest}

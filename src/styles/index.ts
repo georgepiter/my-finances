@@ -24,6 +24,8 @@ export const theme = extendTheme({
       500: "#805AD5",
       600: "#6B46C1",
       700: "#553C9A",
+      800: "#44337A",
+      900: "#322659",
     },
 
     secondary: {

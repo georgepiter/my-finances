@@ -9,9 +9,9 @@ export default function Divider({ ...rest }: DividerProps) {
 
   return (
     <DividerBase
-        {...rest}
+      {...rest}
       mt={2}
-      borderColor={colorMode === "dark" ? "secondary.900" : "gray.200"}
+      borderColor={colorMode === "dark" ? "gray.200" : "gray.200"}
     />
   );
 }
