@@ -3,7 +3,6 @@ import {
   Flex,
   Heading,
   HStack,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -59,12 +58,14 @@ import { UserModel } from "@/models/user";
 import Spinner from "@/components/Spinner";
 import Layout from "@/components/template/Layout";
 import Box from "@/components/Box";
+import IconButton from "@/components/IconButton";
 
 import { UserDTO } from "@/dto/http/UserDTO";
 
 import { createUser, listAllUser, deleteUser, updateStatusUser, updateRole } from "@/services/user";
 import { UserStatusDTO } from "@/dto/http/UserStatusDTO";
 import { UserRoleDTO } from "@/dto/http/UserRoleDTO";
+import DataTableBase from "@/components/DataTableBase";
 
 const insertFormSchema = z
   .object({
@@ -320,12 +321,11 @@ export default function User() {
     <Layout>
       {/* LIST USERS */}
       <Container maxW="6xl" mt={10}>
-        <Heading as="h4" size="md" mb={5}>
-          Usuários
-        </Heading>
-
         <Box>
-          <HStack display="flex" justifyContent="flex-end">
+          <HStack display="flex" justifyContent="space-between">
+            <Heading as="h4" size="md">
+              Usuários
+            </Heading>
             <Heading as="h4" size="md" mb={10}>
               <IconButton
                 size="md"
@@ -339,10 +339,12 @@ export default function User() {
             </Heading>
           </HStack>
 
+          {/* <DataTableBase columns={columns} data={users} title="" /> */}
+
           {isLoading ? (
             <Spinner />
           ) : (
-            <TableContainer>
+            <TableContainer my={5}>
               <Table size="sm">
                 <Thead>
                   <Tr>

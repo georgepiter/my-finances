@@ -1,4 +1,4 @@
-import { useColorMode, Tag, HStack, Heading } from "@chakra-ui/react";
+import { useColorMode, Tag, HStack, Heading, Divider } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import { getAllDebtsByRegister } from "@/services/debt";
@@ -44,12 +44,12 @@ export default function DebtsAllTable({ userId }: Props) {
       name: "Status",
       selector: (row: any) => (
         <Tag
+          size="sm"
           variant="solid"
-          colorScheme={
-            row.status == "Aguardando Pagamento" ? "orange" : "green"
-          }
+          borderRadius="full"
+          colorScheme={row.status == "AWAITING_PAYMENT" ? "orange" : "green"}
         >
-          {row.status}
+          {row.status === "AWAITING_PAYMENT" ? "Aguardando Pagamento" : "Pago"}
         </Tag>
       ),
     },
@@ -101,6 +101,7 @@ export default function DebtsAllTable({ userId }: Props) {
             />
           </Heading>
         </HStack>
+        <Divider mt={2} />
         <DataTableBase columns={columns} data={debts} title="" />
       </Box>
     </>

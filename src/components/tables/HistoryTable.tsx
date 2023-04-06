@@ -3,11 +3,6 @@
 
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
-  HStack,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Button as ButtonBase,
   Text,
   IconButton as IconButtonBase,
@@ -20,14 +15,17 @@ import {
   AlertDialogFooter,
   useDisclosure,
   useToast,
-  useTheme,
+  Divider,
+  Heading,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 
 import { HistoryDTO } from "@/dto/http/HistoryDTO";
+import IconButton from "@/components/IconButton";
 import { deleteHistory, getAllHistoryByRegister } from "@/services/history";
 import DataTableBase from "../DataTableBase";
+import Box from "../Box";
 
 interface Props {
   registerId: number
@@ -78,25 +76,19 @@ export default function HistoryTable({ registerId }: Props) {
         }).format(Number(row.totalCredit)),
     },
     {
-      name: "Ações",
-      selector: (row: any) => (
-        <Menu>
-          <MenuButton
-            rounded={20}
-            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
-            as={IconButtonBase}
-            icon={<HamburgerIcon />}
+      name: "Deletar",
+      selector: (row: any) =>
+        row.financialHistoryId && (
+          <IconButton
+            size="md"
+            rounded={25}
+            boxShadow="md"
+            colorScheme="red"
+            aria-label="Delete History"
+            onClick={() => handleConfirm(row.financialHistoryId)}
+            icon={<FiTrash2 />}
           />
-          <MenuList minWidth="150px">
-            <MenuItem onClick={() => handleConfirm(row.financialHistoryId)}>
-              <HStack flex={1} justifyContent="space-between">
-                <Text>Excluir</Text>
-                <FiTrash2 />
-              </HStack>
-            </MenuItem>
-          </MenuList>
-        </Menu>
-      ),
+        ),
     },
   ];
 
@@ -147,7 +139,13 @@ export default function HistoryTable({ registerId }: Props) {
 
   return (
     <>
-      <DataTableBase columns={columns} data={history} title="Histórico" />
+      <Box>
+        <Heading as="h4" size="md">
+          Histórico
+        </Heading>
+        <Divider mt={2} />
+        <DataTableBase columns={columns} data={history} title="" />
+      </Box>
 
       <AlertDialog
         isOpen={isOpenConfirm}

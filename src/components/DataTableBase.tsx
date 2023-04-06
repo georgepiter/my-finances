@@ -1,6 +1,7 @@
 import { useColorMode, useTheme } from "@chakra-ui/react";
 import DataTable,{ TableColumn } from "react-data-table-component";
 
+import classnames from "classnames";
 interface Props {
   columns: TableColumn<any>[];
   data: any[];
@@ -28,7 +29,7 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
         color:
           colorMode == "dark"
             ? theme.colors.gray["200"]
-            : theme.colors.gray["500"],
+            : theme.colors.gray["800"],
         backgroundColor:
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
         minHeight: "56px",
@@ -38,10 +39,10 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
     },
     headRow: {
       style: {
-        fontSize: "15px",
+        fontSize: "16px",
         color:
           colorMode == "dark"
-            ? theme.colors.gray["300"]
+            ? theme.colors.gray["200"]
             : theme.colors.gray["500"],
         backgroundColor:
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
@@ -69,6 +70,7 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
       },
     },
+
     pagination: {
       style: {
         color:
@@ -82,49 +84,12 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
         borderTopStyle: "solid",
         borderTopWidth: "1px",
       },
-      pageButtonsStyle: {
-        borderRadius: "50%",
-        height: "40px",
-        width: "40px",
-        padding: "8px",
-        margin: "px",
-        cursor: "pointer",
-        transition: "0.4s",
-        color:
-          colorMode == "dark"
-            ? theme.colors.gray["900"]
-            : theme.colors.gray["300"],
-        fill:
-          colorMode == "dark"
-            ? theme.colors.gray["900"]
-            : theme.colors.gray["300"],
-        backgroundColor: "transparent",
-        "&:disabled": {
-          cursor: "unset",
-          color:
-            colorMode == "dark"
-              ? theme.colors.gray["900"]
-              : theme.colors.gray["100"],
-          fill:
-            colorMode == "dark"
-              ? theme.colors.gray["900"]
-              : theme.colors.gray["100"],
-        },
-        "&:hover:not(:disabled)": {
-          backgroundColor:
-            colorMode == "dark"
-              ? theme.colors.gray["500"]
-              : theme.colors.gray["50"],
-        },
-        "&:focus": {
-          outline: "none",
-          backgroundColor:
-            colorMode == "dark"
-              ? theme.colors.gray["500"]
-              : theme.colors.gray["50"],
-        },
-      },
     },
+  };
+
+  const paginationOptions = {
+    rowsPerPageText: "Página:",
+    rangeSeparatorText: "of",
   };
 
   return (
@@ -136,6 +101,10 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
       fixedHeaderScrollHeight="300px"
       customStyles={tableCustomStyles}
       noDataComponent="Nenhum registro encontrado."
+      paginationPerPage={5}
+      paginationRowsPerPageOptions={[5, 10, 20]}
+      className={colorMode === "dark" ? "dark" : "light"}
+      paginationComponentOptions={paginationOptions}
     />
   );
 }

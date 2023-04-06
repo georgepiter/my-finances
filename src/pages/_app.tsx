@@ -7,6 +7,9 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { ProfileContextProvider } from "@/contexts/ProfileContext";
 import { RegisterContextProvider } from "@/contexts/RegisterContext";
 
+import "../styles/styles.css";
+
+
 interface Props {
   Component: any;
   pageProps: any

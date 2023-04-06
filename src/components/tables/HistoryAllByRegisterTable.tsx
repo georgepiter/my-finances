@@ -8,7 +8,10 @@ import {
   Stack,
   Text,
   useTheme,
-  VStack
+  Divider,
+  VStack,
+  Heading,
+  Center
 } from "@chakra-ui/react";
 import {
   LineChart,
@@ -154,54 +157,63 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
 
   return (
     <>
-        <DataTableBase columns={columns} data={history} title="Histórico" />
-        <HStack mt={5} spacing={6} mb={10}>
-          <Box title="Saldo Anual">
-            <Stack mt={5} w="100%">
-              {history.length === 0 ? (
+      <Box>
+        <Heading as="h4" size="md">
+          Histórico
+        </Heading>
+        <Divider mt={2} />
+        <DataTableBase columns={columns} data={history} title="" />
+      </Box>
+
+      <HStack mt={5} spacing={6} mb={10}>
+        <Box title="Saldo Anual">
+          <Divider mt={2} />
+          <Stack mt={5} w="100%">
+            {history.length === 0 ? (
+              <Center>
                 <Text>Nenhum registro encontrado.</Text>
-              ) : (
-                <div style={{ width: "100%", height: 300 }}>
-                  <ResponsiveContainer>
-                    <LineChart
-                      data={history}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="period" tickFormatter={dateFormat} />
-                      <YAxis tickFormatter={moneyFormat} />
-                      <Tooltip />
-                      <Legend />
-                      <Line
-                        type="monotone"
-                        dataKey="balanceCredit"
-                        name="Saldo"
-                        stroke={theme.colors.primary["500"]}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              )}
-            </Stack>
-          </Box>
-        </HStack>
+              </Center>
+            ) : (
+              <div style={{ width: "100%", height: 300 }}>
+                <ResponsiveContainer>
+                  <LineChart
+                    data={history}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="period" tickFormatter={dateFormat} />
+                    <YAxis tickFormatter={moneyFormat} />
+                    <Tooltip />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="balanceCredit"
+                      name="Saldo"
+                      stroke={theme.colors.primary["500"]}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+          </Stack>
+        </Box>
+      </HStack>
 
-        <Alert
-          title="Deletar Histórico"
-          description="Você tem certeza que deseja excluir esse histórico?"
-          buttonTitle="Deletar"
-          isOpen={isOpenConfirm}
-          onOpen={onOpenConfirm}
-          onClose={onCloseConfirm}
-          onClick={handleDeleteHistory}
-          cancelRef={cancelRef}
-        />
-
+      <Alert
+        title="Deletar Histórico"
+        description="Você tem certeza que deseja excluir esse histórico?"
+        buttonTitle="Deletar"
+        isOpen={isOpenConfirm}
+        onOpen={onOpenConfirm}
+        onClose={onCloseConfirm}
+        onClick={handleDeleteHistory}
+        cancelRef={cancelRef}
+      />
     </>
   );
 }

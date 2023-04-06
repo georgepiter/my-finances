@@ -3,7 +3,6 @@ import {
   Container,
   Heading,
   HStack,
-  IconButton,
   Menu,
   MenuButton,
   Table,
@@ -56,7 +55,7 @@ import { createCategory, deleteCategory, getCategoryById, listAllCategory, updat
 import { Input } from "@/components/Input";
 import Button from "@/components/Button";
 import { CategoryModel } from "@/models/category";
-
+import IconButton from "@/components/IconButton";
 
 const insertFormSchema = z.object({
   description: z.string({
@@ -236,12 +235,11 @@ export default function Category() {
     <Layout>
       {/* LIST CATEGORIES */}
       <Container maxW="6xl" mt={10}>
-        <Heading as="h4" size="md" mb={5}>
-          Categorias
-        </Heading>
-
         <Box>
-          <HStack display="flex" justifyContent="flex-end">
+          <HStack display="flex" justifyContent="space-between">
+            <Heading as="h4" size="md">
+              Categorias
+            </Heading>
             <Heading as="h4" size="md" mb={10}>
               <IconButton
                 size="md"

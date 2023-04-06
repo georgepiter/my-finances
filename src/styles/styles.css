@@ -1,0 +1,5 @@
+/* Estilos para tema dark */
+.dark + div select {
+  background-color: #505057;
+  color: white;
+}

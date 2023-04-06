@@ -69,7 +69,7 @@ export default function Register() {
 
   const { registerBase, setRegister } = useRegister();
 
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const registerId = Number(query.id);
 
   const { colorMode } = useColorMode();
@@ -128,6 +128,10 @@ export default function Register() {
           others: Number(register.others),
         } as RegisterProps;
         setRegister(registerBaseNew);
+
+        push({
+          pathname: "/debt",
+        });
 
         toast({
           title: "Registro atualizado com sucesso.",

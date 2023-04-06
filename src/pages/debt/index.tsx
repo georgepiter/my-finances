@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import {
+  Divider,
   Container,
   Flex,
   Heading,
@@ -203,11 +204,11 @@ export default function Debt() {
         }).format(Number(row.value)),
     },
     {
-      name: "Data Vencimento",
+      name: "Dt. Vencimento",
       selector: (row: any) => new Date(row.dueDate).toLocaleDateString(),
     },
     {
-      name: "Data Pagamento",
+      name: "Dt. Pagamento",
       selector: (row: any) =>
         row.paymentDate ? new Date(row.paymentDate).toLocaleDateString() : "-",
     },
@@ -236,7 +237,9 @@ export default function Debt() {
       name: "Status",
       selector: (row: any) => (
         <Tag
+          size="sm"
           variant="solid"
+          borderRadius="full"
           colorScheme={
             row.status == "Aguardando Pagamento" ? "orange" : "green"
           }
@@ -615,7 +618,7 @@ export default function Debt() {
   return (
     <Layout>
       <Container maxW="6xl" mt={10} mb={10}>
-        <Card mb={5}>
+        <Card mb={5} bg={colorMode === "dark" ? "gray.800" : "white"}>
           <CardHeader>
             <Heading size="md">
               <Flex justifyContent="space-between">
@@ -635,6 +638,7 @@ export default function Debt() {
                 )}
               </Flex>
             </Heading>
+            <Divider mt={2} />
           </CardHeader>
           <CardBody>
             <Stack>
@@ -691,8 +695,8 @@ export default function Debt() {
 
               <StatGroup>
                 <Stat>
-                  <StatLabel>Entradas</StatLabel>
-                  <StatNumber>
+                  <StatLabel color="green.500">Entradas</StatLabel>
+                  <StatNumber color="green.500">
                     <Skeleton
                       isLoaded={debtValue.totalEntryValue != null}
                       w="90%"
@@ -710,8 +714,8 @@ export default function Debt() {
                 </Stat>
 
                 <Stat>
-                  <StatLabel>Saídas</StatLabel>
-                  <StatNumber>
+                  <StatLabel color="red.400">Saídas</StatLabel>
+                  <StatNumber color="red.400">
                     <Skeleton isLoaded={debtValue.totalDebt != null} w="90%">
                       {new Intl.NumberFormat("pt-br", {
                         style: "currency",
@@ -726,8 +730,8 @@ export default function Debt() {
                 </Stat>
 
                 <Stat>
-                  <StatLabel>Saldo</StatLabel>
-                  <StatNumber>
+                  <StatLabel color="blue.500">Saldo</StatLabel>
+                  <StatNumber color="blue.500">
                     <Skeleton
                       isLoaded={debtValue.currentTotalValue != null}
                       w="90%"
@@ -776,6 +780,7 @@ export default function Debt() {
               />
             </Heading>
           </HStack>
+          <Divider mt={2} />
           <DataTableBase columns={columns} data={debts} title="" />
         </Box>
         {/* LIST DEBTS */}
