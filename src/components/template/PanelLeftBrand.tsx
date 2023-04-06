@@ -15,7 +15,10 @@ export default function PanelLeftBrand({ children }: Props) {
     <>
       <SimpleGrid columns={{ md: 2, sm: 1 }} spacing={0} w="100%" h="100%">
         <Hide below="md">
-          <Box bg="primary.500" h="calc(100vh)">
+          <Box
+            bgGradient="linear(to-l, primary.500, primary.700)"
+            h="calc(100vh)"
+          >
             <Container mt={20}>
               <Image
                 src={logo}

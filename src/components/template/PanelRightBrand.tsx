@@ -20,7 +20,10 @@ export default function PanelRightBrand({ children }: Props) {
         </Box>
 
         <Hide below="md">
-          <Box bg="primary.500" h="calc(100vh)">
+          <Box
+            bgGradient="linear(to-l, primary.500, primary.700)"
+            h="calc(100vh)"
+          >
             <Container mt={20}>
               <Link href="/">
                 <Image

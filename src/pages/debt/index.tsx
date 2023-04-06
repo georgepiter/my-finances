@@ -53,7 +53,7 @@ import {
   FiTrash2,
   FiDownload,
 } from "react-icons/fi";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, MinusIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -213,7 +213,7 @@ export default function Debt() {
         row.paymentDate ? new Date(row.paymentDate).toLocaleDateString() : "-",
     },
     {
-      name: "Comprovante",
+      name: "Anexo",
       selector: (row: any) => (
         <Center>
           {row.receiptPayment && row.debtId ? (
@@ -742,7 +742,10 @@ export default function Debt() {
                       }).format(Number(debtValue.currentTotalValue))}
                     </Skeleton>
                   </StatNumber>
-                  <StatHelpText>Saldo Atual</StatHelpText>
+                  <StatHelpText>
+                    <MinusIcon mr={1} />
+                    Saldo Atual
+                    </StatHelpText>
                 </Stat>
 
                 <Stat>
