@@ -11,7 +11,7 @@ export default function Divider({ ...rest }: DividerProps) {
     <DividerBase
       {...rest}
       mt={2}
-      borderColor={colorMode === "dark" ? "gray.200" : "gray.200"}
+      borderColor={colorMode === "dark" ? "gray.500" : "gray.200"}
     />
   );
 }
