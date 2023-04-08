@@ -235,7 +235,7 @@ export default function Debt() {
     },
     {
       name: "Status",
-     // width: "180px",
+      width?: "180px",
       selector: (row: any) => (
         <Tag
           size="sm"
