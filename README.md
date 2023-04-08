@@ -2,7 +2,7 @@
 
 Link [API](https://github.com/georgepiter/controlz).
 
-Project Frontend.
+Project Frontend [LINK](https://my-finances-app-2.netlify.app/).
 
 ## Technologies
 
