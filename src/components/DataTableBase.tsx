@@ -3,7 +3,7 @@ import DataTable,{ TableColumn } from "react-data-table-component";
 
 import classnames from "classnames";
 interface Props {
-  columns: TableColumn<>[];
+  columns: TableColumn<any>[];
   data: any[];
   title?: string;
 }

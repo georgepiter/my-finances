@@ -644,7 +644,7 @@ export default function Debt() {
           <CardBody>
             <Stack>
               <HStack justifyContent="space-between" mb={5}>
-                <Text as="b" fontSize="lg">
+                <Text as="b" fontSize="lg" color="primary.400">
                   Salário:{" "}
                   <Skeleton isLoaded={registerBase.salary != null} w="100%">
                     {new Intl.NumberFormat("pt-br", {
@@ -746,12 +746,14 @@ export default function Debt() {
                   <StatHelpText>
                     <MinusIcon mr={1} />
                     Saldo Atual
-                    </StatHelpText>
+                  </StatHelpText>
                 </Stat>
 
                 <Stat>
-                  <StatLabel>Total outros valores</StatLabel>
-                  <StatNumber>
+                  <StatLabel color="primary.400">
+                    Total outros valores
+                  </StatLabel>
+                  <StatNumber color="primary.400">
                     <Skeleton isLoaded={registerBase.others != null} w="90%">
                       {new Intl.NumberFormat("pt-br", {
                         style: "currency",
