@@ -9,7 +9,7 @@ interface TableProps extends TableColumn<T> {
 }
 
 interface Props {
-  columns: TableProps;
+  columns: TableProps<any>[];
   data: any[];
   title?: string;
 }
