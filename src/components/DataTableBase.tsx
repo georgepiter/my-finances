@@ -2,7 +2,7 @@ import { useColorMode, useTheme } from "@chakra-ui/react";
 import DataTable,{ TableColumn } from "react-data-table-component";
 
 
-interface TableProps extends TableColumn<T> {
+interface TableProps<T> extends TableColumn<T> {
   name: string;
   selector: (row: T) => any;
   width?: string;
