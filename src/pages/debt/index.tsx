@@ -193,11 +193,11 @@ export default function Debt() {
   const columns = [
     {
       name: "Descrição",
-      selector: (row: any) => row.debtDescription,
+      selector: (row: DebtDTO) => row.debtDescription,
     },
     {
       name: "Valor",
-      selector: (row: any) =>
+      selector: (row: DebtDTO) =>
         new Intl.NumberFormat("pt-br", {
           style: "currency",
           currency: "BRL",
@@ -205,16 +205,16 @@ export default function Debt() {
     },
     {
       name: "Dt. Vencimento",
-      selector: (row: any) => new Date(row.dueDate).toLocaleDateString(),
+      selector: (row: DebtDTO) => new Date(row.dueDate).toLocaleDateString(),
     },
     {
       name: "Dt. Pagamento",
-      selector: (row: any) =>
+      selector: (row: DebtDTO) =>
         row.paymentDate ? new Date(row.paymentDate).toLocaleDateString() : "-",
     },
     {
       name: "Anexo",
-      selector: (row: any) => (
+      selector: (row: DebtDTO) => (
         <Center>
           {row.receiptPayment && row.debtId ? (
             <Link
