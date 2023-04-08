@@ -1,9 +1,15 @@
 import { useColorMode, useTheme } from "@chakra-ui/react";
 import DataTable,{ TableColumn } from "react-data-table-component";
 
-import classnames from "classnames";
+
+interface TableProps extends TableColumn<T> {
+  name: string;
+  selector: (row: T) => any;
+  width?: string;
+}
+
 interface Props {
-  columns: TableColumn<any>[];
+  columns: TableProps;
   data: any[];
   title?: string;
 }
