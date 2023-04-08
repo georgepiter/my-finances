@@ -17,7 +17,6 @@ import { Input } from "@/components/Input";
 import { realMask } from "@/utils/mask/realMask";
 import Button from "@/components/Button";
 
-import bgImage from "../../assets/bg-top.png";
 import avatarDarkImage from "../../assets/_dark/avatar.png";
 import avatarlightImage from "../../assets/_light/avatar.png";
 
@@ -119,7 +118,15 @@ export default function Register() {
   }
 
   return (
-    <Box bg="primary.500" w="100%" h="250px">
+    <Box
+      bgGradient={
+        colorMode == "dark"
+          ? "linear(to-l, primary.600, primary.700)"
+          : "linear(to-l, primary.400, primary.500)"
+      }
+      w="100%"
+      h="250px"
+    >
       <Container
         display="flex"
         justifyContent="center"

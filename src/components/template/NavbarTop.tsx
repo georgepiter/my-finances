@@ -21,6 +21,7 @@ import {
 
 import { FiMenu, FiSettings, FiLogOut, FiLock } from "react-icons/fi";
 
+import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import { UserSession } from "next-auth";
@@ -128,11 +129,13 @@ export default function NavbarTop() {
           boxShadow="md"
         >
           <HStack>
-            <Image
-              src={colorMode == "dark" ? logoLight : logoLight}
-              alt="Brand Image"
-              style={{ height: "auto", width: "135px" }}
-            />
+            <Link href="/">
+              <Image
+                src={colorMode == "dark" ? logoLight : logoLight}
+                alt="Brand Image"
+                style={{ height: "auto", width: "135px" }}
+              />
+            </Link>
 
             <Flex justify="flex-end" flex="1" p={2}>
               <ButtonGroup variant="link" spacing="8" mr={10}>

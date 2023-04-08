@@ -5,13 +5,6 @@ import {
   HStack,
   Menu,
   MenuButton,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
   useToast,
   Button as ButtonBase,
@@ -56,6 +49,8 @@ import { Input } from "@/components/Input";
 import Button from "@/components/Button";
 import { CategoryModel } from "@/models/category";
 import IconButton from "@/components/IconButton";
+import Divider from "@/components/Divider";
+import DataTableBase from "@/components/DataTableBase";
 
 const insertFormSchema = z.object({
   description: z.string({
@@ -108,6 +103,44 @@ export default function Category() {
     setCategory({} as CategoryDTO);
     onOpenFormModal();
   }
+
+   const columns = [
+     {
+       name: "Id",
+       selector: (row: any) => row.categoryId,
+     },
+     {
+       name: "Descrição",
+       selector: (row: any) => row.description,
+     },
+     {
+       name: "Ações",
+       selector: (row: any) => (
+         <Menu>
+           <MenuButton
+             rounded={20}
+             bg={colorMode == "dark" ? "gray.500" : "gray.50"}
+             as={IconButtonBase}
+             icon={<HamburgerIcon />}
+           />
+           <MenuList minWidth="150px">
+             <MenuItem onClick={() => handleEditCategory(row.categoryId)}>
+               <HStack flex={1} justifyContent="space-between">
+                 <Text>Editar</Text>
+                 <FiEdit2 />
+               </HStack>
+             </MenuItem>
+             <MenuItem onClick={() => handleConfirmCategory(row.categoryId)}>
+               <HStack flex={1} justifyContent="space-between">
+                 <Text>Excluir</Text>
+                 <FiTrash2 />
+               </HStack>
+             </MenuItem>
+           </MenuList>
+         </Menu>
+       ),
+     },
+   ];
 
   async function handleEditCategory(id: number) {
     setIsEdit(true);
@@ -252,62 +285,8 @@ export default function Category() {
               />
             </Heading>
           </HStack>
-
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <TableContainer>
-              <Table size="sm">
-                <Thead>
-                  <Tr>
-                    <Th>Id</Th>
-                    <Th>Descrição</Th>
-                    <Th>Ações</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {categories.map((category) => (
-                    <Tr key={category.categoryId}>
-                      <Td>{category.categoryId}</Td>
-                      <Td>{category.description}</Td>
-                      <Td>
-                        <Menu>
-                          <MenuButton
-                            rounded={20}
-                            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
-                            as={IconButtonBase}
-                            icon={<HamburgerIcon />}
-                          />
-                          <MenuList minWidth="150px">
-                            <MenuItem
-                              onClick={() =>
-                                handleEditCategory(category.categoryId)
-                              }
-                            >
-                              <HStack flex={1} justifyContent="space-between">
-                                <Text>Editar</Text>
-                                <FiEdit2 />
-                              </HStack>
-                            </MenuItem>
-                            <MenuItem
-                              onClick={() =>
-                                handleConfirmCategory(category.categoryId)
-                              }
-                            >
-                              <HStack flex={1} justifyContent="space-between">
-                                <Text>Excluir</Text>
-                                <FiTrash2 />
-                              </HStack>
-                            </MenuItem>
-                          </MenuList>
-                        </Menu>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          )}
+          <Divider mt={2} />
+          <DataTableBase columns={columns} data={categories} title="" />
         </Box>
 
         {/* LIST CATEGORIES */}

@@ -16,13 +16,6 @@ import {
   ModalOverlay,
   Spacer,
   Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
   useToast,
   Button as ButtonBase,
@@ -59,6 +52,7 @@ import Spinner from "@/components/Spinner";
 import Layout from "@/components/template/Layout";
 import Box from "@/components/Box";
 import IconButton from "@/components/IconButton";
+import Divider from "@/components/Divider";
 
 import { UserDTO } from "@/dto/http/UserDTO";
 
@@ -111,6 +105,85 @@ export default function User() {
   const [functionConfirm, setFunctionConfirm] = useState("");
 
   const [userChange, setUserChange] = useState<UserDTO>();
+
+   const columns = [
+     {
+       name: "Nome",
+       selector: (row: any) => row.name,
+     },
+     {
+       name: "E-mail",
+       selector: (row: any) => row.email,
+     },
+     {
+       name: "Perfil",
+       selector: (row: any) => (
+         <Tag
+           variant="solid"
+           colorScheme={row.perfil == "ROLE_MANAGER" ? "blue" : "green"}
+         >
+           {row.perfil}
+         </Tag>
+       ),
+     },
+     {
+       name: "Status",
+       selector: (row: any) => (
+         <Badge colorScheme={row.status === "ACTIVE" ? "green" : "red"}>
+           {row.status === "ACTIVE" ? "ATIVO" : "INATIVO"}
+         </Badge>
+       ),
+     },
+     {
+       name: "Ações",
+       selector: (row: any) => (
+         <Menu>
+           <MenuButton
+             rounded={20}
+             bg={colorMode == "dark" ? "gray.500" : "gray.50"}
+             as={IconButtonBase}
+             icon={<HamburgerIcon />}
+           />
+           <MenuList minWidth="150px">
+             {/* <MenuItem
+                              onClick={() => handleEditUser(user.userId)}
+                            >
+                              <HStack flex={1} justifyContent="space-between">
+                                <Text>Editar</Text>
+                                <FiEdit2 />
+                              </HStack>
+                            </MenuItem> */}
+             <MenuItem onClick={() => handleConfirmUser(row.userId, "DELETAR")}>
+               <HStack flex={1} justifyContent="space-between">
+                 <Text>Excluir</Text>
+                 <FiTrash2 />
+               </HStack>
+             </MenuItem>
+
+             {row.name !== "admin" && (
+               <MenuItem
+                 onClick={() => handleConfirmUser(row.userId, "STATUS", row)}
+               >
+                 <HStack flex={1} justifyContent="space-between">
+                   <Text>Alterar Perfil</Text>
+                   <FiFileText />
+                 </HStack>
+               </MenuItem>
+             )}
+
+             <MenuItem
+               onClick={() => handleConfirmUser(row.userId, "ALTERAR", row)}
+             >
+               <HStack flex={1} justifyContent="space-between">
+                 <Text>{row.status === "ACTIVE" ? "Inativar" : "Ativar"}</Text>
+                 {row.status === "ACTIVE" ? <FiEyeOff /> : <FiEye />}
+               </HStack>
+             </MenuItem>
+           </MenuList>
+         </Menu>
+       ),
+     },
+   ];
 
   const {
     control,
@@ -338,115 +411,8 @@ export default function User() {
               />
             </Heading>
           </HStack>
-
-          {/* <DataTableBase columns={columns} data={users} title="" /> */}
-
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <TableContainer my={5}>
-              <Table size="sm">
-                <Thead>
-                  <Tr>
-                    <Th>Nome</Th>
-                    <Th>Email</Th>
-                    <Th>Perfil</Th>
-                    <Th>Status</Th>
-                    <Th>Ações</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {users.map((user) => (
-                    <Tr key={user.userId}>
-                      <Td>{user.name}</Td>
-                      <Td>{user.email}</Td>
-                      <Td>
-                        <Tag
-                          variant="solid"
-                          colorScheme={
-                            user.perfil == "ROLE_MANAGER" ? "blue" : "green"
-                          }
-                        >
-                          {user.perfil}
-                        </Tag>
-                      </Td>
-                      <Td>
-                        <Badge
-                          colorScheme={
-                            user.status === "ACTIVE" ? "green" : "red"
-                          }
-                        >
-                          {user.status === "ACTIVE" ? "ATIVO" : "INATIVO"}
-                        </Badge>
-                      </Td>
-                      <Td>
-                        <Menu>
-                          <MenuButton
-                            rounded={20}
-                            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
-                            as={IconButtonBase}
-                            icon={<HamburgerIcon />}
-                          />
-                          <MenuList minWidth="150px">
-                            {/* <MenuItem
-                              onClick={() => handleEditUser(user.userId)}
-                            >
-                              <HStack flex={1} justifyContent="space-between">
-                                <Text>Editar</Text>
-                                <FiEdit2 />
-                              </HStack>
-                            </MenuItem> */}
-                            <MenuItem
-                              onClick={() =>
-                                handleConfirmUser(user.userId, "DELETAR")
-                              }
-                            >
-                              <HStack flex={1} justifyContent="space-between">
-                                <Text>Excluir</Text>
-                                <FiTrash2 />
-                              </HStack>
-                            </MenuItem>
-
-                            {user.name !== "admin" && (
-                              <MenuItem
-                                onClick={() =>
-                                  handleConfirmUser(user.userId, "STATUS", user)
-                                }
-                              >
-                                <HStack flex={1} justifyContent="space-between">
-                                  <Text>Alterar Perfil</Text>
-                                  <FiFileText />
-                                </HStack>
-                              </MenuItem>
-                            )}
-
-                            <MenuItem
-                              onClick={() =>
-                                handleConfirmUser(user.userId, "ALTERAR", user)
-                              }
-                            >
-                              <HStack flex={1} justifyContent="space-between">
-                                <Text>
-                                  {user.status === "ACTIVE"
-                                    ? "Inativar"
-                                    : "Ativar"}
-                                </Text>
-                                {user.status === "ACTIVE" ? (
-                                  <FiEyeOff />
-                                ) : (
-                                  <FiEye />
-                                )}
-                              </HStack>
-                            </MenuItem>
-                          </MenuList>
-                        </Menu>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          )}
+          <Divider mt={2} />
+          <DataTableBase columns={columns} data={users} title="" />
         </Box>
       </Container>
       {/* LIST USERS */}
