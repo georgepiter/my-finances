@@ -54,11 +54,11 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
   const columns = [
     {
       name: "Período",
-      selector: (row: any) => row.period,
+      selector: (row: HistoryDTO) => row.period,
     },
     {
       name: "Crédito",
-      selector: (row: any) =>
+      selector: (row: HistoryDTO) =>
         new Intl.NumberFormat("pt-br", {
           style: "currency",
           currency: "BRL",
@@ -66,7 +66,7 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
     },
     {
       name: "Débito",
-      selector: (row: any) =>
+      selector: (row: HistoryDTO) =>
         new Intl.NumberFormat("pt-br", {
           style: "currency",
           currency: "BRL",
@@ -74,7 +74,7 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
     },
     {
       name: "Saldo",
-      selector: (row: any) =>
+      selector: (row: HistoryDTO) =>
         new Intl.NumberFormat("pt-br", {
           style: "currency",
           currency: "BRL",
@@ -82,7 +82,7 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
     },
     {
       name: "Deletar",
-      selector: (row: any) =>
+      selector: (row: HistoryDTO) =>
         row.financialHistoryId && (
           <IconButton
             size="md"

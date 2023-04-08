@@ -1,7 +1,15 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import { Container, Show, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Container,
+  Show,
+  Stack,
+  Text,
+  useToast,
+  Flex,
+  Box,
+} from "@chakra-ui/react";
 
 import { FiMail } from "react-icons/fi";
 
@@ -11,6 +19,7 @@ import { z } from "zod";
 
 import MaskedInput from "react-text-mask";
 import emailMask from "text-mask-addons/dist/emailMask";
+import Link from "next/link";
 
 import PanelRightBrand from "@/components/template/PanelRightBrand";
 import { Input } from "@/components/Input";
@@ -74,11 +83,19 @@ export default function RememberPassword() {
         <Container p={15}>
           <Stack spacing={4} alignItems="center" mt={90}>
             <Show below="md">
-              <Image
-                src={logo}
-                alt="Brand Image"
-                style={{ height: "auto", width: "60%", marginBottom: "20px" }}
-              />
+              <Box textAlign="center" w="70%">
+                <Link href="/">
+                  <Image
+                    src={logo}
+                    alt="Brand Image"
+                    style={{
+                      height: "auto",
+                      width: "100%",
+                      marginBottom: "20px",
+                    }}
+                  />
+                </Link>
+              </Box>
             </Show>
             <Text as="b" fontSize="3xl" mb={5}>
               Esqueceu a senha?
