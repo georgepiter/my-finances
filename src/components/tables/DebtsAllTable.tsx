@@ -20,11 +20,11 @@ export default function DebtsAllTable({ userId }: Props) {
   const columns = [
     {
       name: "Descrição",
-      selector: (row: any) => row.debtDescription,
+      selector: (row: DebtDTO) => row.debtDescription,
     },
     {
       name: "Valor",
-      selector: (row: any) =>
+      selector: (row: DebtDTO) =>
         new Intl.NumberFormat("pt-br", {
           style: "currency",
           currency: "BRL",
@@ -32,16 +32,16 @@ export default function DebtsAllTable({ userId }: Props) {
     },
     {
       name: "Data Vencimento",
-      selector: (row: any) => new Date(row.dueDate).toLocaleDateString(),
+      selector: (row: DebtDTO) => new Date(row.dueDate).toLocaleDateString(),
     },
     {
       name: "Data Pagamento",
-      selector: (row: any) =>
+      selector: (row: DebtDTO) =>
         row.paymentDate ? new Date(row.paymentDate).toLocaleDateString() : "-",
     },
     {
       name: "Status",
-      selector: (row: any) => (
+      selector: (row: DebtDTO) => (
         <Tag
           size="sm"
           variant="solid"

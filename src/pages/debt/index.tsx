@@ -236,7 +236,7 @@ export default function Debt() {
     {
       name: "Status",
       width: "180px",
-      selector: (row: any) => (
+      selector: (row: DebtDTO) => (
         <Tag
           size="sm"
           variant="solid"
@@ -251,7 +251,7 @@ export default function Debt() {
     },
     {
       name: "Ações",
-      selector: (row: any) => (
+      selector: (row: DebtDTO) => (
         <Menu>
           <MenuButton
             rounded={20}
