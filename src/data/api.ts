@@ -18,7 +18,6 @@ const api = axios.create({
 /**
  * Interceptor Headers:
  * - Authorization
- * - versao
  *
  * Envia para todas as requests que não seja a de Autenticação
  */
@@ -42,9 +41,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.data) {
-      // if (error.response.status === 403 && !session) {
-      //   window.location.href = `${window.location.origin}/signIn`;
-      // }
       return Promise.reject(errorHandler(error));
     } else {
       return Promise.reject(error);
