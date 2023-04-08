@@ -101,38 +101,40 @@ export default function RememberPassword() {
               Esqueceu a senha?
             </Text>
 
-            <form onSubmit={handleSubmit(handleForgot)}>
-              <Stack spacing={4} w="100%">
-                <Text mb={10} fontSize="md">
-                  Não se lembra da senha? Nós te ajudamos.
-                </Text>
+            <Stack spacing={4} w="70%">
+              <form onSubmit={handleSubmit(handleForgot)}>
+                <Stack spacing={4} w="100%">
+                  <Text mb={10} fontSize="md">
+                    Não se lembra da senha? Nós te ajudamos.
+                  </Text>
 
-                <Controller
-                  control={control}
-                  name="email"
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      control={control}
-                      size="lg"
-                      placeholder="E-mail"
-                      iconLeft={<FiMail />}
-                      errorMessage={errors.email?.message}
-                      onChange={onChange}
-                      as={MaskedInput}
-                      mask={emailMask}
-                    />
-                  )}
-                />
+                  <Controller
+                    control={control}
+                    name="email"
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        control={control}
+                        size="lg"
+                        placeholder="E-mail"
+                        iconLeft={<FiMail />}
+                        errorMessage={errors.email?.message}
+                        onChange={onChange}
+                        as={MaskedInput}
+                        mask={emailMask}
+                      />
+                    )}
+                  />
 
-                <Button
-                  color="primary"
-                  size="lg"
-                  title="Enviar"
-                  type="submit"
-                  isLoading={isSubmitting}
-                />
-              </Stack>
-            </form>
+                  <Button
+                    color="primary"
+                    size="lg"
+                    title="Enviar"
+                    type="submit"
+                    isLoading={isSubmitting}
+                  />
+                </Stack>
+              </form>
+            </Stack>
           </Stack>
         </Container>
       </PanelRightBrand>
