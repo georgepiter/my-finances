@@ -131,10 +131,10 @@ interface DebtsCategory {
   categoryId: number;
   debtList: DebtDTO[];
 }
- interface Category {
-   typeCategory: string;
-   categoryId: number;
- }
+interface Category {
+  typeCategory: string;
+  categoryId: number;
+}
 
 export default function Debt() {
   const router = useRouter();

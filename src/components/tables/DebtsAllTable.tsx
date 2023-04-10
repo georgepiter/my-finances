@@ -31,6 +31,11 @@ interface DebtsCategory {
   debtList: DebtDTO[];
 }
 
+interface Category {
+  typeCategory: string;
+  categoryId: number;
+}
+
 export default function DebtsAllTable({ userId }: Props) {
   const [debts, setDebts] = useState<DebtsCategory[]>([]);
   const [filterDebt, setFilterDebt] = useState("");
