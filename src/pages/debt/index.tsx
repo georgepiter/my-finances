@@ -14,13 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
+  Tab,
   Button as ButtonBase,
   useDisclosure,
   useToast,
@@ -41,6 +35,11 @@ import {
   useColorMode,
   Skeleton,
   IconButton as IconButtonBase,
+  Tabs,
+  TabList,
+  TabIndicator,
+  TabPanels,
+  TabPanel,
 } from "@chakra-ui/react";
 import { GiPayMoney } from "react-icons/gi";
 import FileBase64 from "react-file-base64";
@@ -76,6 +75,7 @@ import DataTableBase from "@/components/DataTableBase";
 import Divider from "@/components/Divider";
 
 import { DebtDTO, DebtValuesDTO } from "@/dto/http/DebtDTO";
+import { CategoryDTO } from "@/dto/http/CategoryDTO";
 
 import {
   createDebt,
@@ -127,11 +127,20 @@ interface FileProps {
   base64: string;
 }
 
+interface DebtsCategory {
+  categoryId: number;
+  debtList: DebtDTO[];
+}
+ interface Category {
+   typeCategory: string;
+   categoryId: number;
+ }
+
 export default function Debt() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [debts, setDebts] = useState<DebtDTO[]>([]);
+  const [debts, setDebts] = useState<DebtsCategory[]>([]);
   const toast = useToast();
 
   const { colorMode } = useColorMode();
@@ -155,6 +164,8 @@ export default function Debt() {
   const [editOthers, setEditOthers] = useState("");
 
   const [isSubmittingEditOthers, setIsSubmittingEditOthers] = useState(false);
+
+  const [categoriesDebt, setCategoriesDebt] = useState<CategoryDTO[]>([]);
 
   const cancelRef = useRef<HTMLInputElement>(null);
   const {
@@ -422,7 +433,10 @@ export default function Debt() {
       const res = await getAllRegisterByRegister(registerId, userId);
 
       if (res.status == 200) {
-        setDebts(res.data.debtList);
+        const categories = getCategories(res.data.debtsCategoryGroupDTO);
+        setCategoriesDebt(categories);
+
+        setDebts(res.data.debtsCategoryGroupDTO);
         setDebtValue(res.data);
       }
     } catch (error: any) {
@@ -430,6 +444,18 @@ export default function Debt() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  function getCategories(categories: Category[]) {
+    const result: CategoryDTO[] = [];
+
+    categories.forEach((category) => {
+      result.push({
+        categoryId: category.categoryId,
+        description: category.typeCategory,
+      });
+    });
+    return result;
   }
 
   async function loadRegister(userId: number) {
@@ -787,7 +813,31 @@ export default function Debt() {
             </Heading>
           </HStack>
           <Divider mt={2} />
-          <DataTableBase columns={columns} data={debts} title="" />
+
+          <Tabs position="relative" variant="unstyled">
+            <TabList>
+              {categoriesDebt.map((category) => (
+                <Tab key={category.categoryId}>{category.description}</Tab>
+              ))}
+            </TabList>
+            <TabIndicator
+              mt="-1.5px"
+              height="2px"
+              bg="secondary.500"
+              borderRadius="1px"
+            />
+            <TabPanels>
+              {debts.map((category) => (
+                <TabPanel key={category.categoryId}>
+                  <DataTableBase
+                    columns={columns}
+                    data={category.debtList}
+                    title=""
+                  />
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </Tabs>
         </Box>
         {/* LIST DEBTS */}
 

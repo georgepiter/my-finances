@@ -1,11 +1,24 @@
-import { useColorMode, Tag, HStack, Heading } from "@chakra-ui/react";
+import {
+  Tag,
+  HStack,
+  Heading,
+  Text,
+  Tab,
+  Tabs,
+  TabList,
+  TabIndicator,
+  TabPanels,
+  TabPanel,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import { getAllDebtsByRegister } from "@/services/debt";
-import { DebtDTO } from "@/dto/http/DebtDTO";
 import Box from "@/components/Box";
 import { Input } from "@/components/Input";
 import Divider from "@/components/Divider";
+
+import { CategoryDTO } from "@/dto/http/CategoryDTO";
+import { DebtDTO } from "@/dto/http/DebtDTO";
 
 import DataTableBase from "../DataTableBase";
 
@@ -13,9 +26,16 @@ interface Props {
   userId: number;
 }
 
+interface DebtsCategory {
+  categoryId: number;
+  debtList: DebtDTO[];
+}
+
 export default function DebtsAllTable({ userId }: Props) {
-  const [debts, setDebts] = useState<DebtDTO[]>([]);
+  const [debts, setDebts] = useState<DebtsCategory[]>([]);
   const [filterDebt, setFilterDebt] = useState("");
+
+  const [categoriesDebt, setCategoriesDebt] = useState<CategoryDTO[]>([]);
 
   const columns = [
     {
@@ -58,12 +78,28 @@ export default function DebtsAllTable({ userId }: Props) {
     try {
       const res = await getAllDebtsByRegister(userId, date);
       if (res.status == 200) {
-        setDebts(res.data);
+        setDebts(res.data.debtsCategoryGroupDTO);
+
+        const categories = getCategories(res.data.debtsCategoryGroupDTO);
+        setCategoriesDebt(categories);
       }
     } catch (error: any) {
       console.log(error);
     }
   }
+
+  function getCategories(categories: Category[]) {
+    const result: CategoryDTO[] = [];
+
+    categories.forEach((category) => {
+      result.push({
+        categoryId: category.categoryId,
+        description: category.typeCategory,
+      });
+    });
+    return result;
+  }
+
 
   function setFormatDate(d = "") {
     const dt = d !== "" ? new Date(d) : new Date();
@@ -102,7 +138,34 @@ export default function DebtsAllTable({ userId }: Props) {
         </HStack>
         <Divider />
 
-        <DataTableBase columns={columns} data={debts} title="" />
+        {debts.length === 0 ? (
+          <Text>Nenhum registro encontrado.</Text>
+        ) : (
+          <Tabs position="relative" variant="unstyled">
+            <TabList>
+              {categoriesDebt.map((category) => (
+                <Tab key={category.categoryId}>{category.description}</Tab>
+              ))}
+            </TabList>
+            <TabIndicator
+              mt="-1.5px"
+              height="2px"
+              bg="secondary.500"
+              borderRadius="1px"
+            />
+            <TabPanels>
+              {debts.map((category) => (
+                <TabPanel key={category.categoryId}>
+                  <DataTableBase
+                    columns={columns}
+                    data={category.debtList}
+                    title=""
+                  />
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </Tabs>
+        )}
       </Box>
     </>
   );

@@ -24,10 +24,6 @@ export const errorHandler = (error: AxiosError) : ErrorProps  => {
       data.message = dataRes.message != "" && dataRes.message
         ? dataRes.message
         : "Erro no Servidor. Entre em contato com o administrador.";
-    } else if (response.status == 400 ) {
-      const dataRes = response.data as ErrorProps;
-      data.message = "Não é possível deletar uma categoria que está sendo utilizada.";
-
     } else {
       const dataRes = response.data as ErrorProps;
 
