@@ -814,18 +814,17 @@ export default function Debt() {
           </HStack>
           <Divider mt={2} />
 
-          <Tabs position="relative" variant="unstyled">
+          <Tabs isFitted variant="unstyled">
             <TabList>
               {categoriesDebt.map((category) => (
-                <Tab key={category.categoryId}>{category.description}</Tab>
+                <Tab
+                  key={category.categoryId}
+                  _selected={{ color: "white", bg: "secondary.500" }}
+                >
+                  <Text as="b">{category.description}</Text>
+                </Tab>
               ))}
             </TabList>
-            <TabIndicator
-              mt="-1.5px"
-              height="2px"
-              bg="secondary.500"
-              borderRadius="1px"
-            />
             <TabPanels>
               {debts.map((category) => (
                 <TabPanel key={category.categoryId}>

@@ -21,7 +21,7 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
   const tableCustomStyles = {
     table: {
       style: {
-        marginBottom: data.length === 1 ? "20px" : "",
+        marginBottom: data.length <= 2 ? "90px" : "",
         color:
           colorMode == "dark"
             ? theme.colors.gray["300"]
@@ -57,7 +57,7 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
     },
     rows: {
       style: {
-        marginBottom: data.length === 1 ? "60px" : "",
+        marginBottom: data.length <= 2 ? "10px" : "",
         color: colorMode == "dark" ? "white" : "black",
         backgroundColor:
           colorMode == "dark" ? theme.colors.gray["800"] : "white",
