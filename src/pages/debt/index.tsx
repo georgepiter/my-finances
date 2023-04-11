@@ -204,7 +204,16 @@ export default function Debt() {
   const columns = [
     {
       name: "Descrição",
-      selector: (row: DebtDTO) => row.debtDescription,
+      selector: (row: DebtDTO) => (
+        <Tag
+          size="lg"
+          variant="solid"
+          borderRadius="full"
+          colorScheme="secondary"
+        >
+          {row.debtDescription}
+        </Tag>
+      ),
     },
     {
       name: "Valor",
@@ -216,6 +225,7 @@ export default function Debt() {
     },
     {
       name: "Dt. Vencimento",
+      width: "150px",
       selector: (row: DebtDTO) => new Date(row.dueDate).toLocaleDateString(),
     },
     {
@@ -246,10 +256,10 @@ export default function Debt() {
     },
     {
       name: "Status",
-      width: "180px",
+      width: "200px",
       selector: (row: DebtDTO) => (
         <Tag
-          size="sm"
+          size="md"
           variant="solid"
           borderRadius="full"
           colorScheme={

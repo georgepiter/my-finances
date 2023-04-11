@@ -45,7 +45,16 @@ export default function DebtsAllTable({ userId }: Props) {
   const columns = [
     {
       name: "Descrição",
-      selector: (row: DebtDTO) => row.debtDescription,
+      selector: (row: DebtDTO) => (
+        <Tag
+          size="lg"
+          variant="solid"
+          borderRadius="full"
+          colorScheme="secondary"
+        >
+          {row.debtDescription}
+        </Tag>
+      ),
     },
     {
       name: "Valor",
@@ -68,7 +77,7 @@ export default function DebtsAllTable({ userId }: Props) {
       name: "Status",
       selector: (row: DebtDTO) => (
         <Tag
-          size="sm"
+          size="md"
           variant="solid"
           borderRadius="full"
           colorScheme={row.status == "AWAITING_PAYMENT" ? "orange" : "green"}
