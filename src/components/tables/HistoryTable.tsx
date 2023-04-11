@@ -16,6 +16,7 @@ import {
   useDisclosure,
   useToast,
   Heading,
+  Tag,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
@@ -49,31 +50,44 @@ export default function HistoryTable({ registerId }: Props) {
   const columns = [
     {
       name: "Período",
-      selector: (row: HistoryDTO) => row.period,
+      selector: (row: HistoryDTO) => (
+        <Tag size="md" variant="solid" borderRadius="full" bg="primary.700">
+          {row.period}
+        </Tag>
+      ),
     },
     {
       name: "Entradas",
-      selector: (row: HistoryDTO) =>
-        new Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(row.balanceCredit)),
+      selector: (row: HistoryDTO) => (
+        <Tag size="md" variant="solid" borderRadius="full" colorScheme="green">
+          {new Intl.NumberFormat("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          }).format(Number(row.balanceCredit))}
+        </Tag>
+      ),
     },
     {
       name: "Débito",
-      selector: (row: HistoryDTO) =>
-        new Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(row.totalDebt)),
+      selector: (row: HistoryDTO) => (
+        <Tag size="md" variant="solid" borderRadius="full" colorScheme="red">
+          {new Intl.NumberFormat("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          }).format(Number(row.totalDebt))}
+        </Tag>
+      ),
     },
     {
       name: "Saldo",
-      selector: (row: HistoryDTO) =>
-        new Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(row.totalCredit)),
+      selector: (row: HistoryDTO) => (
+        <Tag size="md" variant="solid" borderRadius="full" colorScheme="blue">
+          {new Intl.NumberFormat("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          }).format(Number(row.totalCredit))}
+        </Tag>
+      ),
     },
     {
       name: "Deletar",
