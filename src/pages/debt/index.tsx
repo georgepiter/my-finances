@@ -829,7 +829,9 @@ export default function Debt() {
               {categoriesDebt.map((category) => (
                 <Tab
                   key={category.categoryId}
-                  _selected={{ color: "white", bg: "secondary.500" }}
+                  color="white"
+                  bg="gray.600"
+                  _selected={{ color: "white", bg: "primary.500" }}
                 >
                   <Text as="b">{category.description}</Text>
                 </Tab>

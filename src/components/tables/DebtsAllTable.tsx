@@ -160,6 +160,8 @@ export default function DebtsAllTable({ userId }: Props) {
               {categoriesDebt.map((category) => (
                 <Tab
                   key={category.categoryId}
+                  color="white"
+                  bg="gray.600"
                   _selected={{ color: "white", bg: "secondary.500" }}
                 >
                   <Text as="b">{category.description}</Text>
