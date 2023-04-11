@@ -66,7 +66,18 @@ export default function DebtsAllTable({ userId }: Props) {
     },
     {
       name: "Data Vencimento",
-      selector: (row: DebtDTO) => new Date(row.dueDate).toLocaleDateString(),
+      selector: (row: DebtDTO) => (
+        <Tag
+          size="md"
+          variant="solid"
+          borderRadius="full"
+          colorScheme={
+            row.status == "Aguardando Pagamento" ? "orange" : "green"
+          }
+        >
+          {new Date(row.dueDate).toLocaleDateString()}
+        </Tag>
+      ),
     },
     {
       name: "Data Pagamento",

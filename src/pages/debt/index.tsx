@@ -226,7 +226,18 @@ export default function Debt() {
     {
       name: "Dt. Vencimento",
       width: "150px",
-      selector: (row: DebtDTO) => new Date(row.dueDate).toLocaleDateString(),
+      selector: (row: DebtDTO) => (
+        <Tag
+          size="md"
+          variant="solid"
+          borderRadius="full"
+          colorScheme={
+            row.status == "Aguardando Pagamento" ? "orange" : "green"
+          }
+        >
+          {new Date(row.dueDate).toLocaleDateString()}
+        </Tag>
+      ),
     },
     {
       name: "Dt. Pagamento",
