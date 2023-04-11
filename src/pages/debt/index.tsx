@@ -217,11 +217,21 @@ export default function Debt() {
     },
     {
       name: "Valor",
-      selector: (row: DebtDTO) =>
-        new Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(row.value)),
+      selector: (row: DebtDTO) => (
+        <Tag
+          size="md"
+          variant="solid"
+          borderRadius="full"
+          colorScheme={
+            row.status == "Aguardando Pagamento" ? "orange" : "green"
+          }
+        >
+          {new Intl.NumberFormat("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          }).format(Number(row.value))}
+        </Tag>
+      ),
     },
     {
       name: "Dt. Vencimento",
@@ -242,7 +252,18 @@ export default function Debt() {
     {
       name: "Dt. Pagamento",
       selector: (row: DebtDTO) =>
-        row.paymentDate ? new Date(row.paymentDate).toLocaleDateString() : "-",
+        row.paymentDate ? (
+          <Tag
+            size="md"
+            variant="solid"
+            borderRadius="full"
+            colorScheme="green"
+          >
+            {new Date(row.paymentDate).toLocaleDateString()}
+          </Tag>
+        ) : (
+          "-"
+        ),
     },
     {
       name: "Anexo",

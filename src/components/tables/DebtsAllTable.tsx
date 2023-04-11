@@ -58,11 +58,21 @@ export default function DebtsAllTable({ userId }: Props) {
     },
     {
       name: "Valor",
-      selector: (row: DebtDTO) =>
-        new Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(row.value)),
+      selector: (row: DebtDTO) => (
+        <Tag
+          size="md"
+          variant="solid"
+          borderRadius="full"
+          colorScheme={
+            row.status == "Aguardando Pagamento" ? "orange" : "green"
+          }
+        >
+          {new Intl.NumberFormat("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          }).format(Number(row.value))}
+        </Tag>
+      ),
     },
     {
       name: "Data Vencimento",
@@ -80,9 +90,22 @@ export default function DebtsAllTable({ userId }: Props) {
       ),
     },
     {
-      name: "Data Pagamento",
+      name: "Dt. Pagamento",
       selector: (row: DebtDTO) =>
-        row.paymentDate ? new Date(row.paymentDate).toLocaleDateString() : "-",
+        row.paymentDate ? (
+          <Tag
+            size="md"
+            variant="solid"
+            borderRadius="full"
+            colorScheme={
+              row.status == "Aguardando Pagamento" ? "orange" : "green"
+            }
+          >
+            {new Date(row.paymentDate).toLocaleDateString()}
+          </Tag>
+        ) : (
+          "-"
+        ),
     },
     {
       name: "Status",
@@ -91,9 +114,11 @@ export default function DebtsAllTable({ userId }: Props) {
           size="md"
           variant="solid"
           borderRadius="full"
-          colorScheme={row.status == "AWAITING_PAYMENT" ? "orange" : "green"}
+          colorScheme={
+            row.status == "Aguardando Pagamento" ? "orange" : "green"
+          }
         >
-          {row.status === "AWAITING_PAYMENT" ? "Aguardando Pagamento" : "Pago"}
+          {row.status}
         </Tag>
       ),
     },
