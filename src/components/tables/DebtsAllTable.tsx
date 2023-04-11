@@ -46,12 +46,7 @@ export default function DebtsAllTable({ userId }: Props) {
     {
       name: "Descrição",
       selector: (row: DebtDTO) => (
-        <Tag
-          size="lg"
-          variant="solid"
-          borderRadius="full"
-          colorScheme="secondary"
-        >
+        <Tag size="lg" variant="solid" borderRadius="full" bg="primary.700">
           {row.debtDescription}
         </Tag>
       ),
@@ -198,7 +193,7 @@ export default function DebtsAllTable({ userId }: Props) {
                   key={category.categoryId}
                   color="white"
                   bg="gray.600"
-                  _selected={{ color: "white", bg: "secondary.500" }}
+                  _selected={{ color: "white", bg: "primary.700" }}
                 >
                   <Text as="b">{category.description}</Text>
                 </Tab>

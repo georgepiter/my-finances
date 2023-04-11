@@ -10,7 +10,8 @@ import {
   useTheme,
   VStack,
   Heading,
-  Center
+  Center,
+  Tag
 } from "@chakra-ui/react";
 import {
   LineChart,
@@ -54,31 +55,44 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
   const columns = [
     {
       name: "Período",
-      selector: (row: HistoryDTO) => row.period,
+      selector: (row: HistoryDTO) => (
+        <Tag size="md" variant="solid" borderRadius="full" bg="primary.700">
+          {row.period}
+        </Tag>
+      ),
     },
     {
       name: "Crédito",
-      selector: (row: HistoryDTO) =>
-        new Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(row.totalDebt)),
+      selector: (row: HistoryDTO) => (
+        <Tag size="md" variant="solid" borderRadius="full" colorScheme="green">
+          {new Intl.NumberFormat("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          }).format(Number(row.totalDebt))}
+        </Tag>
+      ),
     },
     {
       name: "Débito",
-      selector: (row: HistoryDTO) =>
-        new Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(row.totalDebt)),
+      selector: (row: HistoryDTO) => (
+        <Tag size="md" variant="solid" borderRadius="full" colorScheme="red">
+          {new Intl.NumberFormat("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          }).format(Number(row.totalDebt))}
+        </Tag>
+      ),
     },
     {
       name: "Saldo",
-      selector: (row: HistoryDTO) =>
-        new Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(row.balanceCredit)),
+      selector: (row: HistoryDTO) => (
+        <Tag size="md" variant="solid" borderRadius="full" colorScheme="blue">
+          {new Intl.NumberFormat("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          }).format(Number(row.balanceCredit))}
+        </Tag>
+      ),
     },
     {
       name: "Deletar",

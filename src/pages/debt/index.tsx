@@ -209,7 +209,7 @@ export default function Debt() {
           size="lg"
           variant="solid"
           borderRadius="full"
-          colorScheme="secondary"
+          bg="primary.700"
         >
           {row.debtDescription}
         </Tag>
@@ -862,8 +862,8 @@ export default function Debt() {
                 <Tab
                   key={category.categoryId}
                   color="white"
-                  bg="gray.600"
-                  _selected={{ color: "white", bg: "primary.500" }}
+                  bg={colorMode === "dark" ? "gray.600" : "gray.300"}
+                  _selected={{ color: "white", bg: "primary.700" }}
                 >
                   <Text as="b">{category.description}</Text>
                 </Tab>
