@@ -72,7 +72,7 @@ export default function Dashboard() {
           <CardDashboard
             color="red.600"
             title="Gastos"
-            value={dash.totalDebt ? - Number(dash.totalDebt) : 0}
+            value={dash.totalDebt ? -Number(dash.totalDebt) : 0}
             isLoaded={dash.totalDebt != null}
             icon={<FiArrowDownCircle size={25} />}
           />
@@ -88,7 +88,9 @@ export default function Dashboard() {
       </Container>
 
       <Container maxW="6xl" mt={5}>
-        <HistoryAllByRegisterTable registerId={registerBase.registerId} />
+        {registerBase.registerId && (
+          <HistoryAllByRegisterTable registerId={registerBase.registerId} />
+        )}
       </Container>
     </Layout>
   );
