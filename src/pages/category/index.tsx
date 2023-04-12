@@ -26,6 +26,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useColorMode,
+  Tag,
   IconButton as IconButtonBase,
 } from "@chakra-ui/react";
 
@@ -117,12 +118,13 @@ export default function Category() {
 
   const columns = [
     {
-      name: "Id",
-      selector: (row: any) => row.categoryId,
-    },
-    {
       name: "Descrição",
-      selector: (row: any) => row.description,
+      width: "80%",
+      selector: (row: any) => (
+        <Tag size="md" variant="solid" borderRadius="full" bg="primary.700">
+          {row.description}
+        </Tag>
+      ),
     },
     {
       name: "Ações",
@@ -190,7 +192,7 @@ export default function Category() {
         });
 
         onCloseConfirm();
-        loadCategories();
+        loadCategories(registerBase.registerId);
       }
     } catch (error: any) {
       toast({
@@ -201,10 +203,10 @@ export default function Category() {
     }
   }
 
-  async function loadCategories() {
+  async function loadCategories(registerId: number) {
     setIsLoading(true);
     try {
-      const res = await listAllCategory(registerBase.registerId);
+      const res = await listAllCategory(registerId);
       if (res.data) {
         setCategories(res.data as CategoryDTO[]);
       }
@@ -246,7 +248,7 @@ export default function Category() {
 
         reset();
         onCloseFormModal();
-        loadCategories();
+        loadCategories(registerBase.registerId);
       } else {
         toast({
           title: res.data.message,
@@ -264,16 +266,20 @@ export default function Category() {
   }
 
   useEffect(() => {
+    if (registerBase.registerId) {
+      loadCategories(registerBase.registerId);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [registerBase.registerId]);
+
+  useEffect(() => {
     reset(category);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 
-  useEffect(() => {
-    loadCategories();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  
 
   return (
     <Layout>
