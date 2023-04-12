@@ -14,16 +14,12 @@ import {
   Tag
 } from "@chakra-ui/react";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Legend,
   ResponsiveContainer,
   BarChart,
   Bar,
-  Cell,
 } from "recharts";
 import { FiTrash2 } from "react-icons/fi";
 

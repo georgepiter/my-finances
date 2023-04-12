@@ -4,9 +4,7 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Button as ButtonBase,
-  Text,
   IconButton as IconButtonBase,
-  useColorMode,
   AlertDialog,
   AlertDialogOverlay,
   AlertDialogContent,

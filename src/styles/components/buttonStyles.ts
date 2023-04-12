@@ -2,12 +2,8 @@ import { defineStyleConfig } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 
 export const ButtonStyles = defineStyleConfig({
-  // The styles all button have in common
   baseStyle: {},
-  // Two sizes: sm and md
   sizes: {},
-
-  // Two variants: outline and solid
   variants: {
     primary: (props) => ({
       color: mode("white", "white")(props),
@@ -24,7 +20,6 @@ export const ButtonStyles = defineStyleConfig({
         bg: "secondary.400",
       },
     }),
-  
   },
   defaultProps: {},
 });

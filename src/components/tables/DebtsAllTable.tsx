@@ -6,7 +6,6 @@ import {
   Tab,
   Tabs,
   TabList,
-  TabIndicator,
   TabPanels,
   TabPanel,
 } from "@chakra-ui/react";
