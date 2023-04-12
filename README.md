@@ -31,6 +31,27 @@ npm install
 npm run dev
 ```
 
+## File .env
+Create a new file .env in the root project:
+```sh
+
+APP_NAME=FINANCES
+BASE_URL=
+BASE_URL_API=
+
+# development or products
+NODE_ENV=
+
+BASE_URL_AUTH=/api/v1
+
+NEXTAUTH_URL=http://localhost:3000
+
+# HS512
+JWT_SECRET=
+
+```
+
+
 URL API: http://localhost:3000
 
 # Screenshots
