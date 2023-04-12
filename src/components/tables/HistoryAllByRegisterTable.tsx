@@ -24,6 +24,7 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
+  Cell,
 } from "recharts";
 import { FiTrash2 } from "react-icons/fi";
 
@@ -53,6 +54,9 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
     onOpen: onOpenConfirm,
     onClose: onCloseConfirm,
   } = useDisclosure();
+
+  const barColors = ["red", "blue", "green"];
+
 
   const columns = [
     {
@@ -199,20 +203,35 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
                     margin={{
                       top: 5,
                       right: 30,
-                      left: 50,
+                      left: 70,
                       bottom: 5,
                     }}
                   >
-                    <XAxis dataKey="period" />
-                    <YAxis tickFormatter={moneyFormat} />
-                    
+                    <XAxis dataKey="period" stroke="#bebec2" />
+                    <YAxis tickFormatter={moneyFormat} stroke="#bebec2" />
+
                     <Legend />
+
                     <Bar
+                      dataKey="totalCredit"
+                      fill="#38A169"
+                      // stroke="#000000"
                       name="Crédito"
-                      dataKey="balanceCredit"
-                      fill="#9F7AEA"
                     />
-                    <Bar name="Saldo" dataKey="totalCredit" fill="#76E4F7" />
+
+                    <Bar
+                      dataKey="totalDebt"
+                      fill="#E53E3E"
+                      // stroke="#000000"
+                      name="Débito"
+                    />
+                    <Bar
+                      dataKey="balanceCredit"
+                      fill="#2B6CB0"
+                      // stroke="#000000"
+                      name="Saldo"
+                    />
+
                   </BarChart>
                 </ResponsiveContainer>
               </div>
