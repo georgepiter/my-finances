@@ -1,4 +1,3 @@
-
 import {
   Container,
   Heading,
@@ -27,7 +26,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useColorMode,
-  IconButton as IconButtonBase
+  IconButton as IconButtonBase,
 } from "@chakra-ui/react";
 
 import { HamburgerIcon } from "@chakra-ui/icons";
@@ -44,13 +43,23 @@ import Box from "@/components/Box";
 import Spinner from "@/components/Spinner";
 import Layout from "@/components/template/Layout";
 import { CategoryDTO } from "@/dto/http/CategoryDTO";
-import { createCategory, deleteCategory, getCategoryById, listAllCategory, updateCategory } from "@/services/category";
+import {
+  createCategory,
+  deleteCategory,
+  getCategoryById,
+  listAllCategory,
+  updateCategory,
+} from "@/services/category";
+
 import { Input } from "@/components/Input";
 import Button from "@/components/Button";
 import { CategoryModel } from "@/models/category";
 import IconButton from "@/components/IconButton";
 import Divider from "@/components/Divider";
 import DataTableBase from "@/components/DataTableBase";
+
+import { useRegister } from "@/hooks/useRegister";
+
 
 const insertFormSchema = z.object({
   description: z.string({
@@ -65,6 +74,8 @@ export default function Category() {
   const toast = useToast();
 
   const { colorMode } = useColorMode();
+
+  const { registerBase } = useRegister();
 
   const [categories, setCategories] = useState<CategoryDTO[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -104,43 +115,43 @@ export default function Category() {
     onOpenFormModal();
   }
 
-   const columns = [
-     {
-       name: "Id",
-       selector: (row: any) => row.categoryId,
-     },
-     {
-       name: "Descrição",
-       selector: (row: any) => row.description,
-     },
-     {
-       name: "Ações",
-       selector: (row: any) => (
-         <Menu>
-           <MenuButton
-             rounded={20}
-             bg={colorMode == "dark" ? "gray.500" : "gray.50"}
-             as={IconButtonBase}
-             icon={<HamburgerIcon />}
-           />
-           <MenuList minWidth="150px">
-             <MenuItem onClick={() => handleEditCategory(row.categoryId)}>
-               <HStack flex={1} justifyContent="space-between">
-                 <Text>Editar</Text>
-                 <FiEdit2 />
-               </HStack>
-             </MenuItem>
-             <MenuItem onClick={() => handleConfirmCategory(row.categoryId)}>
-               <HStack flex={1} justifyContent="space-between">
-                 <Text>Excluir</Text>
-                 <FiTrash2 />
-               </HStack>
-             </MenuItem>
-           </MenuList>
-         </Menu>
-       ),
-     },
-   ];
+  const columns = [
+    {
+      name: "Id",
+      selector: (row: any) => row.categoryId,
+    },
+    {
+      name: "Descrição",
+      selector: (row: any) => row.description,
+    },
+    {
+      name: "Ações",
+      selector: (row: any) => (
+        <Menu>
+          <MenuButton
+            rounded={20}
+            bg={colorMode == "dark" ? "gray.500" : "gray.50"}
+            as={IconButtonBase}
+            icon={<HamburgerIcon />}
+          />
+          <MenuList minWidth="150px">
+            <MenuItem onClick={() => handleEditCategory(row.categoryId)}>
+              <HStack flex={1} justifyContent="space-between">
+                <Text>Editar</Text>
+                <FiEdit2 />
+              </HStack>
+            </MenuItem>
+            <MenuItem onClick={() => handleConfirmCategory(row.categoryId)}>
+              <HStack flex={1} justifyContent="space-between">
+                <Text>Excluir</Text>
+                <FiTrash2 />
+              </HStack>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      ),
+    },
+  ];
 
   async function handleEditCategory(id: number) {
     setIsEdit(true);
@@ -169,7 +180,7 @@ export default function Category() {
 
   async function handleDeleteCategory() {
     try {
-      const res = await deleteCategory(categoryId);
+      const res = await deleteCategory(categoryId, registerBase.registerId);
 
       if (res.status === 200) {
         toast({
@@ -193,7 +204,7 @@ export default function Category() {
   async function loadCategories() {
     setIsLoading(true);
     try {
-      const res = await listAllCategory();
+      const res = await listAllCategory(registerBase.registerId);
       if (res.data) {
         setCategories(res.data as CategoryDTO[]);
       }
@@ -214,17 +225,18 @@ export default function Category() {
       if (isEdit) {
         const category: CategoryModel = {
           description: data.description,
-          categoryId: categoryId
+          categoryId: categoryId,
+          registerId: registerBase.registerId
         };
         res = await updateCategory(category);
-
       } else {
         const category: CategoryModel = {
           description: data.description,
+          registerId: registerBase.registerId,
         };
         res = await createCategory(category);
       }
-      
+
       if (res.status === 200) {
         toast({
           title: res.data.message,
@@ -242,7 +254,6 @@ export default function Category() {
           isClosable: true,
         });
       }
-
     } catch (error: any) {
       toast({
         title: error.message,
@@ -252,17 +263,17 @@ export default function Category() {
     }
   }
 
-   useEffect(() => {
-     reset(category);
+  useEffect(() => {
+    reset(category);
 
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [category]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category]);
 
-   useEffect(() => {
-     loadCategories();
+  useEffect(() => {
+    loadCategories();
 
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Layout>

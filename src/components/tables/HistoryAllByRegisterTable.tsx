@@ -22,6 +22,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  BarChart,
+  Bar,
 } from "recharts";
 import { FiTrash2 } from "react-icons/fi";
 
@@ -190,27 +192,28 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
             ) : (
               <div style={{ width: "100%", height: 300 }}>
                 <ResponsiveContainer>
-                  <LineChart
+                  <BarChart
+                    width={500}
+                    height={300}
                     data={history}
                     margin={{
                       top: 5,
                       right: 30,
-                      left: 20,
+                      left: 50,
                       bottom: 5,
                     }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="period" tickFormatter={dateFormat} />
+                    <XAxis dataKey="period" />
                     <YAxis tickFormatter={moneyFormat} />
-                    <Tooltip />
+                    
                     <Legend />
-                    <Line
-                      type="monotone"
+                    <Bar
+                      name="Crédito"
                       dataKey="balanceCredit"
-                      name="Saldo"
-                      stroke={theme.colors.primary["500"]}
+                      fill="#9F7AEA"
                     />
-                  </LineChart>
+                    <Bar name="Saldo" dataKey="totalCredit" fill="#76E4F7" />
+                  </BarChart>
                 </ResponsiveContainer>
               </div>
             )}

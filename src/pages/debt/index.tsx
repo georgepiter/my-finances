@@ -449,7 +449,7 @@ export default function Debt() {
 
   async function loadCategories() {
     try {
-      const res = await listAllCategory();
+      const res = await listAllCategory(registerBase.registerId);
       if (res.status === 200) {
         
         const select = renameSelect(res.data);

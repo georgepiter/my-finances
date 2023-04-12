@@ -66,13 +66,13 @@ export default function NavbarTop() {
       role: "ROLE_ADMIN",
     },
     {
-      title: "Categorias",
-      route: "admin/category",
-      role: "ROLE_ADMIN",
-    },
-    {
       title: "Históricos",
       route: "history",
+      role: "ROLE_MANAGER",
+    },
+    {
+      title: "Categorias",
+      route: "category",
       role: "ROLE_MANAGER",
     },
   ];
