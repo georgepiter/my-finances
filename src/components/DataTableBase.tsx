@@ -46,7 +46,7 @@ export default function DataTableBase({ columns, data, title = "" }: Props) {
     // },
     headRow: {
       style: {
-        fontSize: "16px",
+        fontSize: "17px",
         color:
           colorMode == "dark"
             ? theme.colors.gray["50"]

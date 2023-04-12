@@ -54,14 +54,12 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
     onClose: onCloseConfirm,
   } = useDisclosure();
 
-  const barColors = ["red", "blue", "green"];
-
 
   const columns = [
     {
       name: "Período",
       selector: (row: HistoryDTO) => (
-        <Tag size="md" variant="solid" borderRadius="full" bg="primary.700">
+        <Tag size="lg" variant="solid" borderRadius="full" bg="primary.700">
           {row.period}
         </Tag>
       ),
@@ -69,7 +67,7 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
     {
       name: "Crédito",
       selector: (row: HistoryDTO) => (
-        <Tag size="md" variant="solid" borderRadius="full" colorScheme="green">
+        <Tag size="lg" variant="solid" borderRadius="full" colorScheme="green">
           {new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
@@ -80,7 +78,7 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
     {
       name: "Débito",
       selector: (row: HistoryDTO) => (
-        <Tag size="md" variant="solid" borderRadius="full" colorScheme="red">
+        <Tag size="lg" variant="solid" borderRadius="full" colorScheme="red">
           {new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
@@ -91,7 +89,7 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
     {
       name: "Saldo",
       selector: (row: HistoryDTO) => (
-        <Tag size="md" variant="solid" borderRadius="full" colorScheme="blue">
+        <Tag size="lg" variant="solid" borderRadius="full" colorScheme="blue">
           {new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
