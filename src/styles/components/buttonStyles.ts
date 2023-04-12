@@ -18,7 +18,7 @@ export const ButtonStyles = defineStyleConfig({
     }),
 
     secondary: (props) => ({
-      bg: mode("secondary.600", "secondary.600")(props),
+      bg: mode("primary.600", "secondary.600")(props),
       color: mode("white", "white")(props),
       _hover: {
         bg: "secondary.400",

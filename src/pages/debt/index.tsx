@@ -754,6 +754,7 @@ export default function Debt() {
                       size="sm"
                       rightIcon={<FiPlus />}
                       colorScheme="blue"
+                      color="secondary"
                       onClick={handleUpdateEditOthers}
                       title="Adicionar Outros Valores"
                       isLoading={isSubmittingEditOthers}

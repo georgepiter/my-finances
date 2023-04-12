@@ -8,7 +8,7 @@ interface Props extends ButtonProps {
   color?: string;
 }
 
-export default function Button({ title, color = "secondary", ...rest }: Props) {
+export default function Button({ title, color = "primary", ...rest }: Props) {
   return (
     <>
       <ButtonBase variant={color} {...rest}>{title}</ButtonBase>
