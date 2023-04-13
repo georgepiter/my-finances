@@ -19,7 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import PanelLeftBrand from "@/components/template/PanelLeftBrand";
-// import Input from "@/components/Input";
 import Link from "@/components/Link";
 import Button from "@/components/Button";
 import { Input } from "@/components/Input";

@@ -13,7 +13,6 @@ import "../styles/styles.css";
 interface Props {
   Component: any;
   pageProps: any
-  // any props that come into the component
 }
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: Props) {

@@ -1,9 +1,3 @@
-/**
- * SignIn Service
- * 
- * Armazena os valores da tela de SignIn no Storage
- * 
- */
 export interface SignInProps {
   username: string;
   password: string;

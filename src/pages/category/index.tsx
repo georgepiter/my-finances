@@ -81,7 +81,6 @@ export default function Category() {
   const [categories, setCategories] = useState<CategoryDTO[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  //Edit
   const [isEdit, setIsEdit] = useState(false);
   const [categoryId, setCategoryId] = useState<number>(0);
   const [category, setCategory] = useState<CategoryDTO>({} as CategoryDTO);

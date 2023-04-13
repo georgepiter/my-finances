@@ -35,7 +35,7 @@ export default NextAuth({
         }
         return null;
       },
-    })
+    }),
   ],
   secret: process.env.JWT_SECRET,
   session: {
@@ -67,9 +67,10 @@ export default NextAuth({
       }
 
       const decoded = jwt.decode(token.sub, process.env.JWT_SECRET);
-      const dateExp = new Date(decoded.exp * 1000);
-      const dateNow = new Date();
-      if (dateNow > dateExp) {
+      const dateExp = decoded.exp * 1000;
+      const dateNow = Date.now();
+
+      if (dateNow >= dateExp) {
         return { ...session, error: "TokenExpiredError" };
       }
 
@@ -81,7 +82,7 @@ export default NextAuth({
       session.nameApp = decoded.nameApp;
       session.expires = decoded.exp;
       return { ...session, accessToken: token.sub };
-    }
+    },
   },
   debug: process.env.NODE_ENV === "development",
   pages: {

@@ -9,7 +9,6 @@ export const realMask = createNumberMask({
   decimalSymbol: ",",
   decimalLimit: 2,
   integerLimit: 7,
- // requireDecimal: true,
   allowLeadingZeroes: true,
 });
 

@@ -9,18 +9,11 @@ const api = axios.create({
   baseURL: publicRuntimeConfig.backendUrl,
   headers: {
     "Content-Type": "application/json;",
-    // "Accept-Charset": "utf-8;",
     "Access-Control-Allow-Origin": "*",
     "ngrok-skip-browser-warning": "true",
   },
 });
 
-/**
- * Interceptor Headers:
- * - Authorization
- *
- * Envia para todas as requests que não seja a de Autenticação
- */
 api.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
     const session = await getSession();
