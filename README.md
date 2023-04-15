@@ -1,5 +1,9 @@
 # My Finances :moneybag: :handbag:
 
+
+
+<img src="https://github.com/georgepiter/my-finances/blob/main/doc/finances.gif" alt="alert" width="900" />
+
 Link [API](https://github.com/georgepiter/controlz).
 
 Project Frontend [LINK](https://my-finances-app-2.netlify.app/).
