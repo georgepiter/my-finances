@@ -55,10 +55,5 @@ JWT_SECRET=
 
 ```
 
-
 URL API: http://localhost:3000
 
-# Screenshots
-<p align="center">
-  <img src="https://github.com/karenyov/my-finances/blob/main/app.gif" width="700">
-</p>
