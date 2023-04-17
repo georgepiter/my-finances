@@ -24,9 +24,6 @@ Project Frontend [LINK](https://my-finances-app-2.netlify.app/).
 
 ```sh
 
-# Clone this repository
-git clone <https://github.com/karenyov/my-finances.git>
-
 # cmd in project file
 # install all dependencies
 npm install
