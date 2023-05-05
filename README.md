@@ -1,5 +1,9 @@
 # My Finances :moneybag: :handbag:
 
+
+
+<img src="https://github.com/georgepiter/my-finances/blob/main/doc/finances.gif" alt="alert" width="900" />
+
 Link [API](https://github.com/georgepiter/controlz).
 
 Project Frontend [LINK](https://my-finances-app-2.netlify.app/).
@@ -19,9 +23,6 @@ Project Frontend [LINK](https://my-finances-app-2.netlify.app/).
 > using Git
 
 ```sh
-
-# Clone this repository
-git clone <https://github.com/karenyov/my-finances.git>
 
 # cmd in project file
 # install all dependencies
@@ -51,10 +52,5 @@ JWT_SECRET=
 
 ```
 
-
 URL API: http://localhost:3000
 
-# Screenshots
-<p align="center">
-  <img src="https://github.com/karenyov/my-finances/blob/main/app.gif" width="700">
-</p>
