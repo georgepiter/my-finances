@@ -67,7 +67,7 @@ export default function HistoryAllByRegisterTable({ registerId }: Props) {
           {new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
-          }).format(Number(row.totalDebt))}
+          }).format(Number(row.totalCredit))}
         </Tag>
       ),
     },
