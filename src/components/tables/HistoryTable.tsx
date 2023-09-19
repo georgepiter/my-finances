@@ -61,7 +61,7 @@ export default function HistoryTable({ registerId }: Props) {
           {new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
-          }).format(Number(row.balanceCredit))}
+          }).format(Number(row.totalCredit))}
         </Tag>
       ),
     },
@@ -83,7 +83,7 @@ export default function HistoryTable({ registerId }: Props) {
           {new Intl.NumberFormat("pt-br", {
             style: "currency",
             currency: "BRL",
-          }).format(Number(row.totalCredit))}
+          }).format(Number(row.balanceCredit))}
         </Tag>
       ),
     },
